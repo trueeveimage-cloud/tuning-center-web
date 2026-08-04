@@ -1,9 +1,20 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useState, type ReactNode } from "react";
-import { ArrowRight, Car, Gauge, Loader2, Phone, TrendingUp } from "lucide-react";
-import { getTuningCatalog, estimateTuning } from "@/lib/tuning.functions";
+import { useState, type FormEvent, type ReactNode } from "react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  Car,
+  Gauge,
+  Loader2,
+  Phone,
+  ScanLine,
+  Search,
+  TrendingUp,
+} from "lucide-react";
+import { getTuningCatalog, estimateByRegistration, estimateTuning } from "@/lib/tuning.functions";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -18,6 +29,7 @@ type Stage = "stage1" | "stage2";
 export function TuningCalculator() {
   const catalogFn = useServerFn(getTuningCatalog);
   const estimateFn = useServerFn(estimateTuning);
+  const registrationFn = useServerFn(estimateByRegistration);
   const { data: brands, isLoading } = useQuery({
     queryKey: ["tuning-catalog"],
     queryFn: () => catalogFn(),
@@ -26,15 +38,35 @@ export function TuningCalculator() {
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [engine, setEngine] = useState("");
+  const [registration, setRegistration] = useState("");
   const [stage, setStage] = useState<Stage>("stage1");
   const models = brands?.find((item) => item.name === brand)?.models ?? [];
   const engines = models.find((item) => item.name === model)?.engines ?? [];
-  const mutation = useMutation({
+  const manualMutation = useMutation({
     mutationFn: () => estimateFn({ data: { brand, model, engine, stage } }),
   });
-  const result = mutation.data;
+  const registrationMutation = useMutation({
+    mutationFn: () => registrationFn({ data: { registration, stage } }),
+    onSuccess: (data) => {
+      setBrand(data.match?.brand ?? "");
+      setModel(data.match?.model ?? "");
+      setEngine(data.match?.engine ?? "");
+      manualMutation.reset();
+    },
+  });
+  const result = registrationMutation.data?.estimate ?? manualMutation.data;
 
-  const resetResult = () => mutation.reset();
+  const resetResult = () => {
+    manualMutation.reset();
+    registrationMutation.reset();
+  };
+
+  const searchRegistration = (event: FormEvent) => {
+    event.preventDefault();
+    if (registration.replace(/[^a-zA-Z0-9]/g, "").length >= 6) {
+      registrationMutation.mutate();
+    }
+  };
 
   return (
     <div className="grid overflow-hidden border border-border bg-surface shadow-2xl shadow-black/20 lg:grid-cols-[0.92fr_1.08fr]">
@@ -59,6 +91,66 @@ export function TuningCalculator() {
         </div>
 
         <div className="mt-7 space-y-5">
+          <form
+            onSubmit={searchRegistration}
+            className="border border-primary/25 bg-primary/[0.045] p-4"
+          >
+            <div className="flex items-center gap-2 text-primary">
+              <ScanLine className="size-4" />
+              <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em]">
+                Snabbast: sök med regnummer
+              </span>
+            </div>
+            <div className="mt-3 flex gap-2">
+              <div className="relative min-w-0 flex-1">
+                <span className="absolute inset-y-0 left-0 w-3 bg-[#1c5aa6]" aria-hidden="true" />
+                <Input
+                  aria-label="Registreringsnummer"
+                  autoComplete="off"
+                  inputMode="text"
+                  maxLength={8}
+                  placeholder="ABC 123"
+                  value={registration}
+                  onChange={(event) => {
+                    setRegistration(event.target.value.toUpperCase());
+                    registrationMutation.reset();
+                  }}
+                  className="h-12 rounded-none border-foreground/25 bg-[#f3f1df] pl-6 text-center font-display text-xl uppercase tracking-[0.18em] text-[#171512] placeholder:text-[#171512]/35 focus-visible:ring-primary"
+                />
+              </div>
+              <Button
+                type="submit"
+                className="h-12 shrink-0 rounded-none px-4"
+                disabled={
+                  registration.replace(/[^a-zA-Z0-9]/g, "").length < 6 ||
+                  registrationMutation.isPending
+                }
+              >
+                {registrationMutation.isPending ? <Loader2 className="animate-spin" /> : <Search />}
+                <span className="hidden sm:inline">Sök bilen</span>
+              </Button>
+            </div>
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">
+              Vi använder bara tekniska fordonsuppgifter, aldrig ägaruppgifter.
+            </p>
+          </form>
+
+          {registrationMutation.data && <RegistrationMatch data={registrationMutation.data} />}
+
+          {registrationMutation.isError && (
+            <p className="border-l-2 border-destructive bg-destructive/5 px-3 py-2 text-sm text-destructive">
+              {getErrorMessage(registrationMutation.error)}
+            </p>
+          )}
+
+          <div className="flex items-center gap-3 py-1" aria-hidden="true">
+            <span className="h-px flex-1 bg-border" />
+            <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Eller välj manuellt
+            </span>
+            <span className="h-px flex-1 bg-border" />
+          </div>
+
           <Field label="Märke">
             <Select
               value={brand}
@@ -147,10 +239,10 @@ export function TuningCalculator() {
 
           <Button
             className="h-12 w-full bg-heat font-semibold shadow-heat hover:-translate-y-0.5"
-            disabled={!engine || mutation.isPending}
-            onClick={() => mutation.mutate()}
+            disabled={!engine || manualMutation.isPending}
+            onClick={() => manualMutation.mutate()}
           >
-            {mutation.isPending ? (
+            {manualMutation.isPending ? (
               <>
                 <Loader2 className="animate-spin" /> Beräknar...
               </>
@@ -186,8 +278,8 @@ export function TuningCalculator() {
               <Car className="mx-auto size-14 stroke-1 text-foreground/20" />
               <h3 className="mt-5 text-2xl text-foreground/60">Din potential visas här</h3>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                Välj märke, modell, motor och tuningsteg för att se uppskattad effekt och
-                vridmoment.
+                Sök på registreringsnumret eller välj märke, modell och motor för att se uppskattad
+                effekt och vridmoment.
               </p>
             </div>
           </div>
@@ -232,7 +324,7 @@ export function TuningCalculator() {
             </div>
           </div>
         )}
-        {mutation.isError && (
+        {manualMutation.isError && (
           <p className="relative mt-4 text-sm text-destructive">
             Något gick fel. Försök igen eller ring oss så hjälper vi dig.
           </p>
@@ -240,6 +332,71 @@ export function TuningCalculator() {
       </div>
     </div>
   );
+}
+
+function RegistrationMatch({
+  data,
+}: {
+  data: {
+    vehicle: {
+      registration: string;
+      make: string;
+      model: string;
+      year: number | null;
+      hp: number | null;
+    };
+    match: {
+      brand: string;
+      model: string;
+      engine: string;
+      confidence: "exact" | "suggested";
+    } | null;
+    estimate: unknown;
+  };
+}) {
+  return (
+    <div className="animate-in fade-in slide-in-from-top-1 border border-border bg-background p-4 duration-300">
+      <div className="flex items-start gap-3">
+        <span className="grid size-9 shrink-0 place-items-center bg-primary/12 text-primary">
+          <BadgeCheck className="size-5" />
+        </span>
+        <div className="min-w-0">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+            {data.vehicle.registration} hittad
+          </p>
+          <p className="mt-1 font-semibold text-foreground">
+            {data.vehicle.make} {data.vehicle.model}
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {[
+              data.vehicle.year,
+              data.vehicle.hp ? `${data.vehicle.hp} hk registrerad effekt` : null,
+            ]
+              .filter(Boolean)
+              .join(" · ")}
+          </p>
+          {data.match ? (
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">
+              {data.match.confidence === "exact"
+                ? "Vi hittade en direkt match och har räknat ut bilens potential."
+                : `Närmaste motorvariant är ${data.match.engine}. Kontrollera gärna valet nedan.`}
+            </p>
+          ) : (
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">
+              Bilen hittades, men motorvarianten behöver bekräftas. Välj närmaste variant nedan så
+              räknar vi direkt.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function getErrorMessage(error: unknown) {
+  return error instanceof Error
+    ? error.message
+    : "Registreringsnumret kunde inte sökas. Välj bilen manuellt i stället.";
 }
 
 function Field({ label, children }: { label: string; children: ReactNode }) {

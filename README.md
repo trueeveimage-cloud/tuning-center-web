@@ -1,6 +1,6 @@
 # Tuning Center Web
 
-make a website for 
+make a website for
 
 📞 0790790007
 📩 Tuningcenter59@gmail.com
@@ -33,3 +33,11 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Registration lookup
+
+The tuning calculator identifies Swedish vehicles through Transportstyrelsen's public technical
+vehicle lookup. A Biluppgifter API key can optionally be used as the primary provider by adding
+`BILUPPGIFTER_API_KEY` as a server-side secret in the deployment environment. For local
+development, copy `.dev.vars.example` to `.dev.vars` and add the real key. Never expose the key
+through a `VITE_` environment variable.
