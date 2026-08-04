@@ -82,6 +82,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Tuning Center Örebro" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Tuning Center Örebro" },
+      { name: "twitter:title", content: "Tuning Center Örebro" },
+      { property: "og:description", content: "Motoroptimering och chiptuning i Örebro." },
+      { name: "twitter:description", content: "Motoroptimering och chiptuning i Örebro." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7e447ddf-1eff-44bf-b3cd-112af84ef589/id-preview-67aa871d--76b241b6-8f59-42c7-8637-bdd59f89928a.lovable.app-1785875494256.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7e447ddf-1eff-44bf-b3cd-112af84ef589/id-preview-67aa871d--76b241b6-8f59-42c7-8637-bdd59f89928a.lovable.app-1785875494256.png" },
     ],
     links: [
       {
@@ -94,7 +100,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
 
