@@ -244,7 +244,7 @@ function Index() {
             {services.map((service) => (
               <article
                 key={service.title}
-                className="group relative min-h-72 overflow-hidden border-b border-r border-border bg-surface/50 p-6 transition-colors hover:bg-surface-2/60"
+                className="card-sheen group relative min-h-72 overflow-hidden border-b border-r border-border bg-surface/50 p-6 transition-colors hover:bg-surface-2/60"
               >
                 <span className="font-display text-sm text-muted-foreground">{service.number}</span>
                 <service.icon className="mt-8 size-8 text-primary transition-transform group-hover:-translate-y-1" />
@@ -292,7 +292,7 @@ function Index() {
           </div>
           <div className="mt-10 grid gap-px bg-border md:grid-cols-3">
             {reviews.map((review) => (
-              <figure key={review.name} className="bg-surface p-7">
+              <figure key={review.name} className="card-sheen bg-surface p-7">
                 <div className="flex gap-1 text-primary">
                   {Array.from({ length: 5 }).map((_, index) => (
                     <Star key={index} className="size-4 fill-current" />

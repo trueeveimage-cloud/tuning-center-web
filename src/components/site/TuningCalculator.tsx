@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -70,7 +70,7 @@ export function TuningCalculator() {
   };
 
   return (
-    <div className="grid overflow-hidden border border-border bg-surface shadow-2xl shadow-black/20 lg:grid-cols-[0.92fr_1.08fr]">
+    <div className="card-sheen grid overflow-hidden border border-border bg-surface shadow-2xl shadow-black/20 lg:grid-cols-[0.92fr_1.08fr]">
       <div className="border-b border-border p-6 sm:p-8 lg:border-b-0 lg:border-r">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -444,25 +444,90 @@ function ResultRow({
   gain: number;
 }) {
   const stockWidth = Math.max(55, Math.round((stock / tuned) * 100));
+  const animatedTuned = useAnimatedNumber(tuned, stock);
+  const animatedGain = useAnimatedNumber(gain, 0);
+  const [barReady, setBarReady] = useState(false);
+
+  useEffect(() => {
+    setBarReady(false);
+    let startFrame = 0;
+    const resetFrame = requestAnimationFrame(() => {
+      startFrame = requestAnimationFrame(() => setBarReady(true));
+    });
+    return () => {
+      cancelAnimationFrame(resetFrame);
+      cancelAnimationFrame(startFrame);
+    };
+  }, [stock, tuned]);
+
   return (
-    <div>
+    <div className="group/result">
       <div className="flex items-end justify-between gap-3">
         <span className="text-sm text-muted-foreground">{label}</span>
-        <span className="font-display text-2xl">
+        <span className="font-display text-2xl tabular-nums">
           <span className="text-muted-foreground">{stock}</span>
-          <span className="mx-2 text-foreground/25">→</span>
-          <span className="text-heat">
-            {tuned} {unit}
+          <span
+            className={`mx-2 inline-block text-foreground/25 transition-transform duration-700 ${barReady ? "translate-x-0" : "-translate-x-1"}`}
+          >
+            →
+          </span>
+          <span className={`text-heat result-number ${barReady ? "is-active" : ""}`}>
+            {animatedTuned} {unit}
           </span>
         </span>
       </div>
-      <div className="mt-3 flex h-2 overflow-hidden bg-surface-2">
-        <div className="h-full bg-foreground/25" style={{ width: `${stockWidth}%` }} />
-        <div className="h-full flex-1 bg-heat" />
+      <div className="relative mt-3 flex h-2 overflow-hidden bg-surface-2">
+        <div className="h-full shrink-0 bg-foreground/25" style={{ width: `${stockWidth}%` }} />
+        <div className="relative h-full flex-1 overflow-hidden">
+          <div
+            className="h-full origin-left bg-heat transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{ transform: barReady ? "scaleX(1)" : "scaleX(0)" }}
+          />
+          <span
+            className={`absolute inset-y-0 right-0 w-8 bg-gradient-to-r from-transparent to-white/35 transition-opacity delay-700 duration-300 ${barReady ? "opacity-100" : "opacity-0"}`}
+          />
+        </div>
       </div>
-      <p className="mt-2 text-right text-xs font-semibold uppercase tracking-wider text-primary">
-        +{gain} {unit}
+      <p
+        className={`mt-2 text-right text-xs font-semibold uppercase tracking-wider text-primary transition-all delay-500 duration-500 ${barReady ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"}`}
+      >
+        +{animatedGain} {unit}
       </p>
     </div>
   );
+}
+
+function useAnimatedNumber(target: number, initialValue: number) {
+  const [value, setValue] = useState(initialValue);
+  const currentValue = useRef(initialValue);
+
+  useEffect(() => {
+    const from = currentValue.current;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      currentValue.current = target;
+      setValue(target);
+      return;
+    }
+
+    let frame = 0;
+    let startedAt: number | null = null;
+    const duration = 1300;
+
+    const tick = (time: number) => {
+      startedAt ??= time;
+      const progress = Math.min((time - startedAt) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const nextValue = Math.round(from + (target - from) * eased);
+      currentValue.current = nextValue;
+      setValue(nextValue);
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+
+    setValue(from);
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [target]);
+
+  return value;
 }

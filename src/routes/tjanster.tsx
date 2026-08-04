@@ -126,7 +126,7 @@ function TjansterPage() {
             {services.map((service) => (
               <article
                 key={service.title}
-                className="group relative min-h-80 border-b border-r border-border bg-surface/55 p-7 transition-colors hover:bg-surface-2/55"
+                className="card-sheen group relative min-h-80 overflow-hidden border-b border-r border-border bg-surface/55 p-7 transition-colors hover:bg-surface-2/55"
               >
                 <div className="flex items-start justify-between">
                   <service.icon className="size-8 text-primary" />
