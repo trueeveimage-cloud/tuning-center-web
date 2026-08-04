@@ -1,13 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Phone } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
-import { SITE } from "@/lib/site";
 import { Button } from "@/components/ui/button";
+import { SITE } from "@/lib/site";
 
 const links = [
   { to: "/", label: "Hem" },
   { to: "/tjanster", label: "Tjänster" },
-  { to: "/kalkylator", label: "Tuningkalkylator" },
+  { to: "/kalkylator", label: "Kalkylator" },
   { to: "/kontakt", label: "Kontakt" },
 ] as const;
 
@@ -15,60 +15,85 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="h-7 w-1.5 rounded-full bg-heat" />
-          <span className="font-display text-xl leading-none tracking-wide">
-            Tuning Center <span className="text-heat">Örebro</span>
+    <header className="sticky top-0 z-50 border-b border-white/8 bg-background/88 backdrop-blur-xl">
+      <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        <Link
+          to="/"
+          className="group flex items-center gap-3"
+          aria-label={`${SITE.name}, startsida`}
+        >
+          <span className="relative grid size-9 place-items-center border border-primary/50 bg-primary/10">
+            <span className="h-5 w-1.5 -skew-x-12 bg-heat transition-transform group-hover:scale-y-110" />
+          </span>
+          <span className="font-display text-xl leading-none tracking-[0.04em] sm:text-2xl">
+            Tuning Center <span className="text-primary">Örebro</span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-7 md:flex">
-          {links.map((l) => (
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Huvudnavigation">
+          {links.map((link) => (
             <Link
-              key={l.to}
-              to={l.to}
-              className="text-sm font-medium uppercase tracking-wide text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "text-foreground" }}
-              activeOptions={{ exact: l.to === "/" }}
+              key={link.to}
+              to={link.to}
+              className="relative px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground"
+              activeProps={{
+                className:
+                  "text-foreground after:absolute after:inset-x-4 after:-bottom-[1.1rem] after:h-0.5 after:bg-primary",
+              }}
+              activeOptions={{ exact: link.to === "/" }}
             >
-              {l.label}
+              {link.label}
             </Link>
           ))}
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild size="sm" className="hidden bg-heat text-primary-foreground sm:inline-flex">
+          <Button
+            asChild
+            size="sm"
+            className="hidden bg-heat font-semibold shadow-heat sm:inline-flex"
+          >
             <a href={`tel:${SITE.phone}`}>
-              <Phone className="mr-1 size-4" /> {SITE.phoneDisplay}
+              <Phone /> {SITE.phoneDisplay}
             </a>
           </Button>
           <button
             type="button"
-            aria-label="Meny"
-            onClick={() => setOpen((v) => !v)}
-            className="inline-flex size-9 items-center justify-center rounded-md border border-border md:hidden"
+            aria-label={open ? "Stäng meny" : "Öppna meny"}
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+            className="inline-flex size-10 items-center justify-center border border-border bg-surface text-foreground md:hidden"
           >
-            <Menu className="size-5" />
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
       </div>
 
       {open && (
-        <nav className="border-t border-border bg-surface px-4 py-3 md:hidden">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              onClick={() => setOpen(false)}
-              className="block py-2 text-sm uppercase tracking-wide text-muted-foreground"
-              activeProps={{ className: "text-foreground" }}
-              activeOptions={{ exact: l.to === "/" }}
-            >
-              {l.label}
-            </Link>
-          ))}
+        <nav
+          className="animate-in slide-in-from-top-2 border-t border-border bg-surface px-4 py-4 duration-300 md:hidden"
+          aria-label="Mobilnavigation"
+        >
+          <div className="mx-auto max-w-7xl">
+            {links.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-between border-b border-border/60 py-3 font-display text-xl uppercase tracking-wide text-muted-foreground"
+                activeProps={{ className: "text-primary" }}
+                activeOptions={{ exact: link.to === "/" }}
+              >
+                {link.label}
+                <span className="text-sm">↗</span>
+              </Link>
+            ))}
+            <Button asChild className="mt-4 w-full bg-heat font-semibold">
+              <a href={`tel:${SITE.phone}`}>
+                <Phone /> Ring {SITE.phoneDisplay}
+              </a>
+            </Button>
+          </div>
         </nav>
       )}
     </header>

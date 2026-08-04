@@ -1,32 +1,64 @@
-import { Instagram, Facebook, Mail, Phone, MapPin } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ArrowUpRight, Instagram, Facebook, Mail, Phone, MapPin } from "lucide-react";
 import { SITE } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-3">
+    <footer className="border-t border-border bg-[#12110f]">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <h3 className="text-lg">Tuning Center Örebro</h3>
-          <p className="mt-2 max-w-xs text-sm text-muted-foreground">
-            Motoroptimering, chiptuning och prestandaservice för bensin- och dieselbilar.
+          <div className="flex items-center gap-3">
+            <span className="h-8 w-1.5 -skew-x-12 bg-heat" />
+            <h2 className="text-2xl">
+              Tuning Center <span className="text-primary">Örebro</span>
+            </h2>
+          </div>
+          <p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground">
+            Skräddarsydd motoroptimering för mer effekt, bättre respons och en körkänsla som märks
+            direkt.
           </p>
+          <Link
+            to="/kalkylator"
+            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-primary hover:text-foreground"
+          >
+            Testa din bil <ArrowUpRight className="size-4" />
+          </Link>
         </div>
-        <div className="space-y-2 text-sm">
-          <h4 className="text-base">Kontakt</h4>
-          <a className="flex items-center gap-2 text-muted-foreground hover:text-foreground" href={`tel:${SITE.phone}`}>
+
+        <div className="space-y-3 text-sm">
+          <h3 className="text-base">Kontakt</h3>
+          <a
+            className="flex items-center gap-3 text-muted-foreground hover:text-foreground"
+            href={`tel:${SITE.phone}`}
+          >
             <Phone className="size-4 text-primary" /> {SITE.phoneDisplay}
           </a>
-          <a className="flex items-center gap-2 text-muted-foreground hover:text-foreground" href={`mailto:${SITE.email}`}>
+          <a
+            className="flex items-center gap-3 text-muted-foreground hover:text-foreground"
+            href={`mailto:${SITE.email}`}
+          >
             <Mail className="size-4 text-primary" /> {SITE.email}
           </a>
-          <p className="flex items-center gap-2 text-muted-foreground">
-            <MapPin className="size-4 text-primary" /> Örebro, Sverige
-          </p>
-        </div>
-        <div className="space-y-2 text-sm">
-          <h4 className="text-base">Följ oss</h4>
           <a
-            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+            className="flex items-start gap-3 text-muted-foreground hover:text-foreground"
+            href={SITE.mapUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <MapPin className="mt-0.5 size-4 text-primary" />
+            <span>
+              {SITE.address}
+              <br />
+              {SITE.postalCity}
+            </span>
+          </a>
+          <p className="text-xs text-muted-foreground">Mån–fre 07–20 · Lör 09–18</p>
+        </div>
+
+        <div className="space-y-3 text-sm">
+          <h3 className="text-base">Följ verkstaden</h3>
+          <a
+            className="flex items-center gap-3 text-muted-foreground hover:text-foreground"
             href={SITE.instagram}
             target="_blank"
             rel="noreferrer"
@@ -34,7 +66,7 @@ export function Footer() {
             <Instagram className="size-4 text-primary" /> {SITE.instagramHandle}
           </a>
           <a
-            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+            className="flex items-center gap-3 text-muted-foreground hover:text-foreground"
             href={SITE.facebook}
             target="_blank"
             rel="noreferrer"
@@ -43,8 +75,13 @@ export function Footer() {
           </a>
         </div>
       </div>
-      <div className="border-t border-border py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Tuning Center Örebro. Alla rättigheter förbehållna.
+      <div className="border-t border-white/8">
+        <div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-2 px-4 py-5 text-xs text-muted-foreground sm:px-6">
+          <span>
+            © {new Date().getFullYear()} {SITE.name}
+          </span>
+          <span>Motoroptimering i Kumla</span>
+        </div>
       </div>
     </footer>
   );

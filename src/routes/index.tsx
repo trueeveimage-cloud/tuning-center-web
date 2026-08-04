@@ -1,15 +1,31 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Gauge, Wrench, Fuel, ShieldCheck, Star, Instagram, Facebook, Phone } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Facebook,
+  Fuel,
+  Gauge,
+  Instagram,
+  Phone,
+  ShieldCheck,
+  Star,
+  Wrench,
+  Zap,
+} from "lucide-react";
 import heroImg from "@/assets/hero-tuning.jpg";
+import workshopBmw from "@/assets/workshop-bmw.png";
+import workshopMercedes from "@/assets/workshop-mercedes.webp";
+import workshopVan from "@/assets/workshop-service-van.webp";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { ParallaxHeroImage } from "@/components/site/ParallaxHeroImage";
 import { TuningCalculator } from "@/components/site/TuningCalculator";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
-const title = "Tuning Center Örebro — Motoroptimering & Chiptuning";
+const title = "Tuning Center Örebro | Motoroptimering & chiptuning";
 const description =
-  "Professionell motoroptimering, chiptuning och prestandaservice i Örebro. Räkna ut din effektökning direkt med vår tuningkalkylator.";
+  "Professionell motoroptimering, bilservice och programmering i Kumla nära Örebro. Räkna ut din effektökning direkt med vår tuningkalkylator.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,138 +42,297 @@ export const Route = createFileRoute("/")({
 });
 
 const services = [
-  { icon: Gauge, title: "Motoroptimering", text: "Steg 1 & steg 2 med mjukvara anpassad efter din bil och körstil." },
-  { icon: Fuel, title: "Bränslebesparing", text: "Ekonomifiler som sänker förbrukningen på lastbilar och personbilar." },
-  { icon: Wrench, title: "Felkodsläsning", text: "Diagnos, felsökning och radering av felkoder på plats i Örebro." },
-  { icon: ShieldCheck, title: "DPF / EGR-service", text: "Rengöring och åtgärder för partikelfilter och avgasåterföring." },
+  {
+    icon: Gauge,
+    number: "01",
+    title: "Motoroptimering",
+    text: "Steg 1, 2 och 3 med mjukvara anpassad efter din bil, hårdvara och körstil.",
+  },
+  {
+    icon: Fuel,
+    number: "02",
+    title: "Bränslebesparing",
+    text: "Ekonomifiler med fokus på lägre förbrukning för personbilar och tunga fordon.",
+  },
+  {
+    icon: Wrench,
+    number: "03",
+    title: "Diagnos",
+    text: "Professionell felkodsläsning, felsökning och tydlig genomgång av bilens status.",
+  },
+  {
+    icon: ShieldCheck,
+    number: "04",
+    title: "DPF / EGR-service",
+    text: "Felsökning och service av partikelfilter och avgasåterföring.",
+  },
 ];
 
 const reviews = [
-  { name: "Marcus L.", text: "Otroligt nöjd med steg 1 på min Golf. Märkbar skillnad direkt och grym service.", stars: 5 },
-  { name: "Sanna K.", text: "Snabb bokning, tydlig förklaring och bra pris. Rekommenderas varmt!", stars: 5 },
-  { name: "Ali H.", text: "Bästa stället i Örebro för tuning. Bilen går som en helt annan bil nu.", stars: 5 },
+  {
+    name: "POSKIS",
+    text: "Kan starkt rekommendera att åka hit om man har problem med bilens system! Gick knappt 24 timmar ifrån att man ringde till att problemet var löst. Väldigt serviceminded och kompetent!",
+  },
+  {
+    name: "Stefan Wahlstrom",
+    text: "Bra service, snabbt svar, bra kunskap på området, fick tips på saker att hålla koll på, uppskattas, trevlig kille kan verkligen rekommendera.",
+  },
+  {
+    name: "Dimitrios Tsikourlis",
+    text: "Öppen och transparent gällande min optimering och vad jag kunde förvänta mig. Det kändes tryggt och jag är tok nöjd över mitt besök. Kommer återkomma!",
+  },
+];
+
+const workshopPhotos = [
+  {
+    src: workshopBmw,
+    alt: "BMW efter arbete hos Tuning Center i Kumla",
+    className: "md:col-span-2 md:row-span-2",
+  },
+  { src: workshopMercedes, alt: "Mercedes i Tuning Centers verkstad", className: "" },
+  { src: workshopVan, alt: "Servicebil inne i Tuning Centers verkstad", className: "" },
 ];
 
 function Index() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
       <main>
-        <section className="relative isolate overflow-hidden">
-          <img
-            src={heroImg}
-            alt="Tunad sportbil i verkstad hos Tuning Center Örebro"
-            width={1920}
-            height={1088}
-            className="absolute inset-0 -z-10 size-full object-cover opacity-45"
-          />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-background via-background/70 to-background/30" />
-          <div className="mx-auto max-w-6xl px-4 py-28 md:py-40">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">Örebro</p>
-            <h1 className="mt-4 max-w-3xl text-5xl leading-[0.95] md:text-7xl">
-              Mer effekt. <span className="text-heat">Bättre körkänsla.</span>
-            </h1>
-            <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-              Vi optimerar bensin- och dieselbilar med skräddarsydd mjukvara. Räkna ut din
-              effektökning på sekunder och boka tid direkt.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="bg-heat text-primary-foreground shadow-heat">
-                <Link to="/kalkylator">Testa tuningkalkylatorn</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <a href={`tel:${SITE.phone}`}>
-                  <Phone className="mr-2 size-4" /> {SITE.phoneDisplay}
-                </a>
-              </Button>
+        <section className="relative isolate min-h-[calc(100svh-4.5rem)] overflow-hidden">
+          <ParallaxHeroImage src={heroImg} alt="Sportbil i verkstad hos Tuning Center Örebro" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(20,18,15,.98)_0%,rgba(20,18,15,.84)_43%,rgba(20,18,15,.25)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-background to-transparent" />
+          <div className="absolute -right-24 top-10 -z-10 h-[32rem] w-[10rem] rotate-12 bg-primary/10 blur-3xl" />
+
+          <div className="mx-auto flex min-h-[calc(100svh-4.5rem)] max-w-7xl items-center px-4 py-20 sm:px-6">
+            <div className="max-w-3xl reveal-up">
+              <p className="section-kicker">
+                <span className="h-px w-8 bg-primary" /> Motoroptimering i Kumla
+              </p>
+              <h1 className="mt-5 text-[clamp(3.5rem,9vw,7.5rem)] leading-[0.82] tracking-[-0.025em]">
+                Släpp loss
+                <br />
+                <span className="text-heat">din motor.</span>
+              </h1>
+              <p className="mt-7 max-w-xl text-base leading-7 text-foreground/70 sm:text-lg">
+                Skräddarsydd optimering för mer effekt, högre vridmoment och skarpare respons.
+                Utvecklad för din bil, utförd lokalt i Kumla.
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Button
+                  asChild
+                  size="lg"
+                  className="h-12 bg-heat px-7 font-semibold shadow-heat hover:-translate-y-0.5"
+                >
+                  <Link to="/kalkylator">
+                    Räkna på din bil <ArrowRight />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="h-12 border-white/20 bg-black/20 px-7 backdrop-blur hover:-translate-y-0.5"
+                >
+                  <a href={`tel:${SITE.phone}`}>
+                    <Phone /> {SITE.phoneDisplay}
+                  </a>
+                </Button>
+              </div>
+              <div className="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-xs uppercase tracking-wider text-foreground/60">
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="size-4 text-primary" /> Anpassad mjukvara
+                </span>
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="size-4 text-primary" /> Tydliga besked
+                </span>
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="size-4 text-primary" /> Lokal service
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute bottom-0 right-0 hidden border-l border-t border-white/10 bg-background/75 backdrop-blur md:block">
+            <div className="flex items-center gap-5 px-8 py-5">
+              <span className="font-display text-4xl text-primary">5.0</span>
+              <span className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                Kundernas
+                <br />
+                snittbetyg
+              </span>
             </div>
           </div>
         </section>
 
-        <section className="border-y border-border bg-surface">
-          <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-border px-4 md:grid-cols-4">
+        <section className="scroll-reveal border-y border-border bg-surface">
+          <div className="mx-auto grid max-w-7xl grid-cols-2 px-4 sm:px-6 lg:grid-cols-4">
             {[
               ["1000+", "Optimerade bilar"],
-              ["+25%", "Snitt effektökning"],
-              ["5.0", "Snittbetyg"],
-              ["1 dag", "Vanlig leveranstid"],
-            ].map(([v, l]) => (
-              <div key={l} className="px-4 py-8 text-center">
-                <p className="font-display text-3xl text-heat">{v}</p>
-                <p className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">{l}</p>
+              ["+25%", "Typisk effektökning"],
+              ["Steg 1–2", "Individuell tuning"],
+              ["Kumla", "Lokal verkstad"],
+            ].map(([value, label], index) => (
+              <div
+                key={label}
+                className={`relative px-3 py-7 sm:px-6 ${index > 0 ? "border-l border-border" : ""}`}
+              >
+                <p className="font-display text-3xl text-foreground sm:text-4xl">{value}</p>
+                <p className="mt-1 text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
+                  {label}
+                </p>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="mx-auto max-w-6xl px-4 py-20">
-          <h2 className="text-3xl md:text-4xl">Våra tjänster</h2>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map((s) => (
-              <div key={s.title} className="rounded-xl border border-border bg-surface p-6 transition-colors hover:border-primary/60">
-                <s.icon className="size-6 text-primary" />
-                <h3 className="mt-4 text-lg">{s.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{s.text}</p>
+        <section className="scroll-reveal border-y border-border bg-surface">
+          <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6">
+            <div className="grid items-end gap-6 lg:grid-cols-[1fr_0.8fr]">
+              <div>
+                <p className="section-kicker">
+                  <span className="h-px w-8 bg-primary" /> Från verkstadsgolvet
+                </p>
+                <h2 className="mt-3 text-4xl leading-none sm:text-5xl">
+                  Riktiga bilar.
+                  <br />
+                  <span className="text-heat">Riktigt arbete.</span>
+                </h2>
               </div>
-            ))}
+              <p className="max-w-xl leading-7 text-muted-foreground">
+                Besök oss på {SITE.address} i Kumla. Här arbetar vi med allt från bromsar och
+                elsystem till programmering och motoroptimering steg 1–3.
+              </p>
+            </div>
+            <div className="mt-10 grid auto-rows-[16rem] gap-3 md:grid-cols-3 md:auto-rows-[18rem]">
+              {workshopPhotos.map((photo) => (
+                <figure
+                  key={photo.src}
+                  className={`group relative overflow-hidden border border-border bg-background ${photo.className}`}
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    loading="lazy"
+                    className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-70" />
+                </figure>
+              ))}
+            </div>
           </div>
-          <Button asChild variant="link" className="mt-4 px-0 text-primary">
-            <Link to="/tjanster">Se alla tjänster →</Link>
-          </Button>
         </section>
 
-        <section className="grid-lines border-y border-border">
-          <div className="mx-auto max-w-6xl px-4 py-20">
-            <h2 className="text-3xl md:text-4xl">Räkna ut din effekt</h2>
-            <p className="mt-2 max-w-xl text-muted-foreground">
-              Välj bil och steg — vi visar uppskattad effekt och vridmoment efter optimering.
-            </p>
-            <div className="mt-8">
+        <section className="scroll-reveal mx-auto max-w-7xl px-4 py-24 sm:px-6">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="section-kicker">
+                <span className="h-px w-8 bg-primary" /> Vad vi gör
+              </p>
+              <h2 className="mt-3 text-4xl leading-none sm:text-5xl">
+                Prestanda med <span className="text-muted-foreground">precision.</span>
+              </h2>
+            </div>
+            <Button asChild variant="link" className="px-0 text-primary">
+              <Link to="/tjanster">
+                Utforska alla tjänster <ArrowRight />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="mt-10 grid border-l border-t border-border sm:grid-cols-2 lg:grid-cols-4">
+            {services.map((service) => (
+              <article
+                key={service.title}
+                className="group relative min-h-72 overflow-hidden border-b border-r border-border bg-surface/50 p-6 transition-colors hover:bg-surface-2/60"
+              >
+                <span className="font-display text-sm text-muted-foreground">{service.number}</span>
+                <service.icon className="mt-8 size-8 text-primary transition-transform group-hover:-translate-y-1" />
+                <h3 className="mt-6 text-2xl">{service.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{service.text}</p>
+                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-heat transition-all duration-300 group-hover:w-full" />
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="scroll-reveal grid-lines relative overflow-hidden border-y border-border bg-[#181613]">
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/45 to-background/90" />
+          <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6">
+            <div className="max-w-2xl">
+              <p className="section-kicker">
+                <Zap className="size-4" /> Direkt uppskattning
+              </p>
+              <h2 className="mt-3 text-4xl leading-none sm:text-5xl">
+                Hur mycket finns <span className="text-heat">under huven?</span>
+              </h2>
+              <p className="mt-4 text-muted-foreground">
+                Välj bil, motor och tuningsteg. Du får en snabb uppskattning av möjlig effekt och
+                vridmoment.
+              </p>
+            </div>
+            <div className="mt-10">
               <TuningCalculator />
             </div>
           </div>
         </section>
 
-        <section className="mx-auto max-w-6xl px-4 py-20">
-          <h2 className="text-3xl md:text-4xl">Recensioner</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {reviews.map((r) => (
-              <figure key={r.name} className="rounded-xl border border-border bg-surface p-6">
-                <div className="flex gap-0.5 text-primary">
-                  {Array.from({ length: r.stars }).map((_, i) => (
-                    <Star key={i} className="size-4 fill-current" />
+        <section className="scroll-reveal mx-auto max-w-7xl px-4 py-24 sm:px-6">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="section-kicker">
+                <span className="h-px w-8 bg-primary" /> Kundernas ord
+              </p>
+              <h2 className="mt-3 text-4xl sm:text-5xl">Resultat som märks.</h2>
+            </div>
+            <div className="hidden items-center gap-2 sm:flex">
+              <Star className="size-5 fill-primary text-primary" />
+              <span className="font-display text-2xl">5.0</span>
+            </div>
+          </div>
+          <div className="mt-10 grid gap-px bg-border md:grid-cols-3">
+            {reviews.map((review) => (
+              <figure key={review.name} className="bg-surface p-7">
+                <div className="flex gap-1 text-primary">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star key={index} className="size-4 fill-current" />
                   ))}
                 </div>
-                <blockquote className="mt-4 text-sm text-muted-foreground">“{r.text}”</blockquote>
-                <figcaption className="mt-4 text-sm font-semibold">{r.name}</figcaption>
+                <blockquote className="mt-6 text-base leading-7 text-foreground/80">
+                  “{review.text}”
+                </blockquote>
+                <figcaption className="mt-6 border-t border-border pt-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  {review.name} · Google-recension
+                </figcaption>
               </figure>
             ))}
           </div>
         </section>
 
-        <section className="border-t border-border bg-surface">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-6 px-4 py-14">
+        <section className="scroll-reveal border-t border-border bg-surface">
+          <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_auto]">
             <div>
-              <h2 className="text-3xl">Följ bygget på sociala medier</h2>
-              <p className="mt-2 text-muted-foreground">Dagliga uppdateringar från verkstaden.</p>
+              <p className="section-kicker">Bakom kulisserna</p>
+              <h2 className="mt-3 text-4xl sm:text-5xl">Följ det senaste från verkstaden.</h2>
+              <p className="mt-3 text-muted-foreground">
+                Projekt, resultat och uppdateringar direkt från Tuning Center Örebro.
+              </p>
             </div>
-            <div className="flex gap-3">
-              <Button asChild size="lg" className="bg-heat text-primary-foreground">
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="lg" className="h-12 bg-heat px-7">
                 <a href={SITE.instagram} target="_blank" rel="noreferrer">
-                  <Instagram className="mr-2 size-4" /> Instagram
+                  <Instagram /> Instagram
                 </a>
               </Button>
-              <Button asChild size="lg" variant="outline">
+              <Button asChild size="lg" variant="outline" className="h-12 px-7">
                 <a href={SITE.facebook} target="_blank" rel="noreferrer">
-                  <Facebook className="mr-2 size-4" /> Facebook
+                  <Facebook /> Facebook
                 </a>
               </Button>
             </div>
           </div>
         </section>
       </main>
-
       <Footer />
     </div>
   );
