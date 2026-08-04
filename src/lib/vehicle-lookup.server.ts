@@ -1,4 +1,12 @@
-import { BRANDS, calculateTuning, type Brand, type Model, type Stage } from "./tuning-data";
+import {
+  BRANDS,
+  calculateTuning,
+  type Brand,
+  type Engine,
+  type Fuel,
+  type Model,
+  type Stage,
+} from "./tuning-data";
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -8,6 +16,11 @@ export type RegistrationVehicle = {
   model: string;
   year: number | null;
   hp: number | null;
+  fuel: Fuel | "electric" | "other" | null;
+  fuelLabel: string | null;
+  displacementCc: number | null;
+  transmission: string | null;
+  vehicleType: string | null;
 };
 
 const TRANSPORTSTYRELSEN_URL =
@@ -32,6 +45,14 @@ function asNumber(value: unknown): number | null {
   if (typeof value === "number" && Number.isFinite(value)) return value;
   if (typeof value === "string" && value.trim() && Number.isFinite(Number(value))) {
     return Number(value);
+  }
+  return null;
+}
+
+function firstValue(record: UnknownRecord, keys: string[]) {
+  for (const key of keys) {
+    const value = record[key];
+    if (value !== undefined && value !== null && value !== "") return value;
   }
   return null;
 }
@@ -72,6 +93,33 @@ function normalize(value: string) {
 function normalizeBrand(value: string) {
   const normalized = normalize(value);
   return BRAND_ALIASES[normalized.replaceAll(" ", "")] ?? normalized;
+}
+
+function parseFuel(value: string | null): RegistrationVehicle["fuel"] {
+  if (!value) return null;
+  const fuel = normalize(value);
+  if (fuel.includes("diesel")) return "diesel";
+  if (
+    fuel.includes("bensin") ||
+    fuel.includes("petrol") ||
+    fuel.includes("gasoline") ||
+    fuel.includes("etanol") ||
+    fuel.includes("e85") ||
+    fuel.includes("fordonsgas") ||
+    fuel.includes("lpg")
+  ) {
+    return "bensin";
+  }
+  if (fuel.includes("el") || fuel.includes("electric")) return "electric";
+  return "other";
+}
+
+function parseFirstNumber(value: string | null) {
+  const match = value
+    ?.replace(/\s/g, "")
+    .match(/([\d,.]+)/)?.[1]
+    ?.replace(",", ".");
+  return match && Number.isFinite(Number(match)) ? Number(match) : null;
 }
 
 function findBrand(make: string) {
@@ -153,6 +201,8 @@ async function lookupTransportstyrelsen(registration: string): Promise<Registrat
   const model = extractTechnicalValue(html, "Handelsbeteckning");
   const yearText = extractTechnicalValue(html, "Fordonsår");
   const powerText = extractTechnicalValue(html, "Motoreffekt");
+  const fuelLabel = extractTechnicalValue(html, "Drivmedel");
+  const displacementText = extractTechnicalValue(html, "Slagvolym");
   const year = yearText?.match(/\b(?:19|20)\d{2}\b/)?.[0];
   const powerKw = powerText?.match(/([\d,.]+)\s*kW/i)?.[1]?.replace(",", ".");
 
@@ -166,6 +216,11 @@ async function lookupTransportstyrelsen(registration: string): Promise<Registrat
     model,
     year: year ? Number(year) : null,
     hp: powerKw ? Math.round(Number(powerKw) * 1.35962) : null,
+    fuel: parseFuel(fuelLabel),
+    fuelLabel,
+    displacementCc: parseFirstNumber(displacementText),
+    transmission: extractTechnicalValue(html, "Växellåda"),
+    vehicleType: extractTechnicalValue(html, "Fordonsslag"),
   };
 }
 
@@ -197,7 +252,11 @@ async function lookupBiluppgifter(
 
   if (!make || !model) throw new Error("Biluppgifter response was incomplete");
 
-  const powerKw = asNumber(technical.power_kw_1);
+  const powerKw = asNumber(firstValue(technical, ["power_kw_1", "power_kw", "engine_power_kw"]));
+  const fuelLabel = asString(
+    firstValue(technical, ["fuel_1", "fuel", "fuel_type", "primary_fuel"]) ??
+      firstValue(basic, ["fuel", "fuel_type"]),
+  );
   return {
     registration: asString(attributes.regno) ?? registration,
     make,
@@ -207,6 +266,68 @@ async function lookupBiluppgifter(
       asNumber(technical.power_hp_1) ??
       asNumber(technical.power_hp) ??
       (powerKw ? Math.round(powerKw * 1.35962) : null),
+    fuel: parseFuel(fuelLabel),
+    fuelLabel,
+    displacementCc: asNumber(
+      firstValue(technical, [
+        "cylinder_volume",
+        "engine_volume",
+        "displacement",
+        "displacement_cc",
+        "volume",
+      ]),
+    ),
+    transmission: asString(firstValue(technical, ["gearbox", "transmission", "transmission_type"])),
+    vehicleType: asString(firstValue(basic, ["vehicle_type", "vehicle_category", "type"])),
+  };
+}
+
+function roundToFive(value: number) {
+  return Math.round(value / 5) * 5;
+}
+
+function inferTurbo(vehicle: RegistrationVehicle, fuel: Fuel) {
+  if (fuel === "diesel") return true;
+  const description = normalize(`${vehicle.make} ${vehicle.model}`);
+  const turboMarkers = [
+    "turbo",
+    "tbi",
+    "tsi",
+    "tfsi",
+    "tce",
+    "gdi",
+    "ecoboost",
+    "kompressor",
+    "compressor",
+  ];
+  if (turboMarkers.some((marker) => description.includes(marker))) return true;
+  if (vehicle.hp && vehicle.displacementCc) {
+    return vehicle.hp / (vehicle.displacementCc / 1000) >= 95;
+  }
+  return (vehicle.year ?? 0) >= 2015;
+}
+
+function estimateStockTorque(vehicle: RegistrationVehicle, fuel: Fuel, turbo: boolean) {
+  const hp = vehicle.hp ?? 0;
+  const displacementLitres = (vehicle.displacementCc ?? 0) / 1000;
+  if (fuel === "diesel") {
+    return roundToFive(Math.max(hp * 2.15, displacementLitres * 170));
+  }
+  if (turbo) return roundToFive(Math.max(hp * 1.4, displacementLitres * 150));
+  return roundToFive(Math.max(hp * 1.05, displacementLitres * 105));
+}
+
+function buildRegistryEngine(vehicle: RegistrationVehicle): Engine | null {
+  if (!vehicle.hp || (vehicle.fuel !== "diesel" && vehicle.fuel !== "bensin")) return null;
+  const turbo = inferTurbo(vehicle, vehicle.fuel);
+  const size = vehicle.displacementCc ? `${(vehicle.displacementCc / 1000).toFixed(1)} ` : "";
+  const fuelName = vehicle.fuel === "diesel" ? "Diesel" : "Bensin";
+  return {
+    name: `${size}${fuelName} · ${vehicle.hp} hk`,
+    fuel: vehicle.fuel,
+    turbo,
+    hp: vehicle.hp,
+    nm: estimateStockTorque(vehicle, vehicle.fuel, turbo),
   };
 }
 
@@ -225,23 +346,38 @@ export async function lookupAndEstimateRegistration(registration: string, stage:
   }
 
   const match = matchCatalog(vehicle);
-  if (!match) return { vehicle, match: null, estimate: null };
+  const registryEngine = buildRegistryEngine(vehicle);
+
+  if (!registryEngine) {
+    const reason =
+      vehicle.fuel === "electric"
+        ? "Elbilar kräver en separat effektanalys och kan inte beräknas med motoroptimeringens stegmodell."
+        : "Fordonets effekt eller drivmedel saknas i fordonsregistret. Ring oss så identifierar vi motorn direkt.";
+    return { vehicle, match: null, estimate: null, reason };
+  }
+
+  const exactCatalogMatch = match?.confidence === "exact";
+  const engine = exactCatalogMatch ? match.engine : registryEngine;
 
   return {
     vehicle,
-    match: {
-      brand: match.brand.name,
-      model: match.model.name,
-      engine: match.engine.name,
-      confidence: match.confidence,
-    },
+    match: match
+      ? {
+          brand: match.brand.name,
+          model: match.model.name,
+          engine: match.engine.name,
+          confidence: match.confidence,
+        }
+      : null,
     estimate: {
-      brand: match.brand.name,
-      model: match.model.name,
-      engine: match.engine.name,
-      fuel: match.engine.fuel,
+      brand: vehicle.make,
+      model: vehicle.model,
+      engine: exactCatalogMatch ? match.engine.name : registryEngine.name,
+      fuel: engine.fuel,
       stage,
-      ...calculateTuning(match.engine, stage),
+      source: exactCatalogMatch ? ("catalog" as const) : ("registry" as const),
+      ...calculateTuning(engine, stage),
     },
+    reason: null,
   };
 }

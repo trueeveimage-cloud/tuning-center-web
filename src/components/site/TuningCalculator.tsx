@@ -46,7 +46,8 @@ export function TuningCalculator() {
     mutationFn: () => estimateFn({ data: { brand, model, engine, stage } }),
   });
   const registrationMutation = useMutation({
-    mutationFn: () => registrationFn({ data: { registration, stage } }),
+    mutationFn: (selectedStage: Stage = stage) =>
+      registrationFn({ data: { registration, stage: selectedStage } }),
     onSuccess: (data) => {
       setBrand(data.match?.brand ?? "");
       setModel(data.match?.model ?? "");
@@ -64,7 +65,7 @@ export function TuningCalculator() {
   const searchRegistration = (event: FormEvent) => {
     event.preventDefault();
     if (registration.replace(/[^a-zA-Z0-9]/g, "").length >= 6) {
-      registrationMutation.mutate();
+      registrationMutation.mutate(stage);
     }
   };
 
@@ -98,7 +99,7 @@ export function TuningCalculator() {
             <div className="flex items-center gap-2 text-primary">
               <ScanLine className="size-4" />
               <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em]">
-                Snabbast: sök med regnummer
+                Automatisk motorsökning
               </span>
             </div>
             <div className="mt-3 flex gap-2">
@@ -131,7 +132,8 @@ export function TuningCalculator() {
               </Button>
             </div>
             <p className="mt-2 text-xs leading-5 text-muted-foreground">
-              Vi använder bara tekniska fordonsuppgifter, aldrig ägaruppgifter.
+              Skriv regnumret så identifierar vi bil, motor och registrerad effekt automatiskt. Vi
+              använder aldrig ägaruppgifter.
             </p>
           </form>
 
@@ -227,7 +229,12 @@ export function TuningCalculator() {
                   type="button"
                   onClick={() => {
                     setStage(item);
-                    resetResult();
+                    manualMutation.reset();
+                    if (registrationMutation.data) {
+                      registrationMutation.mutate(item);
+                    } else {
+                      registrationMutation.reset();
+                    }
                   }}
                   className={`h-11 border text-sm font-semibold uppercase tracking-wider ${stage === item ? "border-primary bg-primary/12 text-primary" : "border-border bg-background text-muted-foreground hover:border-foreground/30 hover:text-foreground"}`}
                 >
@@ -309,8 +316,9 @@ export function TuningCalculator() {
             </div>
             <div className="mt-auto pt-8">
               <p className="text-xs leading-5 text-muted-foreground">
-                Värdena är uppskattningar. Exakt resultat beror på bilens skick, motorvariant och
-                utrustning.
+                Värdena är uppskattningar. För registerberäknade motorer uppskattas vridmomentet
+                från motortyp, slagvolym och registrerad effekt. Exakt resultat bekräftas alltid av
+                verkstaden.
               </p>
               <Button
                 asChild
@@ -344,6 +352,11 @@ function RegistrationMatch({
       model: string;
       year: number | null;
       hp: number | null;
+      fuel: "diesel" | "bensin" | "electric" | "other" | null;
+      fuelLabel: string | null;
+      displacementCc: number | null;
+      transmission: string | null;
+      vehicleType: string | null;
     };
     match: {
       brand: string;
@@ -352,6 +365,7 @@ function RegistrationMatch({
       confidence: "exact" | "suggested";
     } | null;
     estimate: unknown;
+    reason: string | null;
   };
 }) {
   return (
@@ -370,6 +384,10 @@ function RegistrationMatch({
           <p className="mt-1 text-xs text-muted-foreground">
             {[
               data.vehicle.year,
+              data.vehicle.displacementCc
+                ? `${(data.vehicle.displacementCc / 1000).toFixed(1)} l`
+                : null,
+              data.vehicle.fuelLabel,
               data.vehicle.hp ? `${data.vehicle.hp} hk registrerad effekt` : null,
             ]
               .filter(Boolean)
@@ -378,14 +396,16 @@ function RegistrationMatch({
           {data.match ? (
             <p className="mt-2 text-xs leading-5 text-muted-foreground">
               {data.match.confidence === "exact"
-                ? "Vi hittade en direkt match och har räknat ut bilens potential."
-                : `Närmaste motorvariant är ${data.match.engine}. Kontrollera gärna valet nedan.`}
+                ? "Motorvarianten identifierades och bilens potential har räknats ut automatiskt."
+                : "Bilen och motorn har identifierats från fordonsregistret. Resultatet visas direkt."}
+            </p>
+          ) : data.estimate ? (
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">
+              Bilen finns inte i vår manuella lista, men motorn har identifierats från
+              fordonsregistret och resultatet har räknats ut automatiskt.
             </p>
           ) : (
-            <p className="mt-2 text-xs leading-5 text-muted-foreground">
-              Bilen hittades, men motorvarianten behöver bekräftas. Välj närmaste variant nedan så
-              räknar vi direkt.
-            </p>
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">{data.reason}</p>
           )}
         </div>
       </div>
