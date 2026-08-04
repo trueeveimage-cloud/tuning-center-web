@@ -1,14 +1,27 @@
-# Welcome to your Lovable project
+# Tuning Center Web
+
+make a website for 
+
+📞 0790790007
+📩 Tuningcenter59@gmail.com
+📷 Instagram: @tuningcenterorebro
+🔵 Facebook: Tuning Center Örebro
+
+och vi kan bygga en betydligt mer modern, snabbare och professionell hemsida än den ni skickade som exempel.
+
+behöver inte vara så avancerad sida, det ska finnas api (tuningkalkylator) som den sidan , kontakta oss, kopplat till insta och facebook, recensioner osv 
+
+Tuning Center Örebro
 
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/76b241b6-8f59-42c7-8637-bdd59f89928a).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +33,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
