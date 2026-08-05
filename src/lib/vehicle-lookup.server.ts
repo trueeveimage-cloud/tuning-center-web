@@ -130,9 +130,9 @@ function findBrand(make: string) {
 function scoreModel(model: Model, vehicleModel: string) {
   const candidate = normalize(model.name);
   const vehicle = normalize(vehicleModel);
-  const primary = candidate
-    .split(/\s(?:i{1,3}|iv|v|vi|vii|viii|ix|x|mk\d|[a-z]\d{1,3})\b/)[0]
-    .trim();
+  const primary = (
+    candidate.split(/\s(?:i{1,3}|iv|v|vi|vii|viii|ix|x|mk\d|[a-z]\d{1,3})\b/)[0] ?? candidate
+  ).trim();
   const tokens = candidate.split(" ").filter((token) => token.length > 1);
   let score = tokens.reduce((total, token) => total + (vehicle.includes(token) ? 8 : 0), 0);
 
@@ -145,12 +145,13 @@ function findModel(brand: Brand, vehicleModel: string) {
   const ranked = brand.models
     .map((model) => ({ model, score: scoreModel(model, vehicleModel) }))
     .sort((left, right) => right.score - left.score);
-  return ranked[0]?.score > 0 ? ranked[0] : null;
+  const top = ranked[0];
+  return top && top.score > 0 ? top : null;
 }
 
 function findEngine(model: Model, hp: number | null) {
   if (!model.engines.length) return null;
-  if (!hp) return { engine: model.engines[0], difference: null };
+  if (!hp) return { engine: model.engines[0]!, difference: null };
 
   const ranked = model.engines
     .map((engine) => ({ engine, difference: Math.abs(engine.hp - hp) }))
@@ -243,12 +244,12 @@ async function lookupBiluppgifter(
   if (!response.ok) throw new Error("Biluppgifter lookup failed");
 
   const payload = asRecord(await response.json());
-  const data = asRecord(payload.data);
-  const attributes = asRecord(data.attributes);
-  const basic = asRecord(asRecord(data.basic).data);
-  const technical = asRecord(asRecord(data.technical).data);
-  const make = asString(basic.make);
-  const model = asString(basic.model);
+  const data = asRecord(payload['data']);
+  const attributes = asRecord(data['attributes']);
+  const basic = asRecord(asRecord(data['basic'])['data']);
+  const technical = asRecord(asRecord(data['technical'])['data']);
+  const make = asString(basic['make']);
+  const model = asString(basic['model']);
 
   if (!make || !model) throw new Error("Biluppgifter response was incomplete");
 
@@ -258,13 +259,13 @@ async function lookupBiluppgifter(
       firstValue(basic, ["fuel", "fuel_type"]),
   );
   return {
-    registration: asString(attributes.regno) ?? registration,
+    registration: asString(attributes['regno']) ?? registration,
     make,
     model,
-    year: asNumber(basic.model_year) ?? asNumber(basic.vehicle_year),
+    year: asNumber(basic['model_year']) ?? asNumber(basic['vehicle_year']),
     hp:
-      asNumber(technical.power_hp_1) ??
-      asNumber(technical.power_hp) ??
+      asNumber(technical['power_hp_1']) ??
+      asNumber(technical['power_hp']) ??
       (powerKw ? Math.round(powerKw * 1.35962) : null),
     fuel: parseFuel(fuelLabel),
     fuelLabel,
@@ -332,7 +333,7 @@ function buildRegistryEngine(vehicle: RegistrationVehicle): Engine | null {
 }
 
 export async function lookupAndEstimateRegistration(registration: string, stage: Stage) {
-  const apiKey = process.env.BILUPPGIFTER_API_KEY?.trim();
+  const apiKey = process.env['BILUPPGIFTER_API_KEY']?.trim();
   let vehicle: RegistrationVehicle;
 
   if (apiKey) {
