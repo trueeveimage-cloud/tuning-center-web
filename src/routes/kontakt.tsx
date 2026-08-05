@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Clock3, Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Button } from "@/components/ui/button";
@@ -24,11 +26,37 @@ export const Route = createFileRoute("/kontakt")({
 });
 
 function KontaktPage() {
-  const openEmail = (form: HTMLFormElement) => {
-    const data = new FormData(form);
-    const body = `Namn: ${data.get("namn")}\nTelefon: ${data.get("telefon")}\nBil: ${data.get("bil")}\n\n${data.get("meddelande")}`;
-    window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent("Förfrågan från hemsidan")}&body=${encodeURIComponent(body)}`;
+  const [sent, setSent] = useState(false);
+
+  const buildMessage = (data: FormData) =>
+    `Namn: ${data.get("namn")}\nTelefon: ${data.get("telefon")}\nBil: ${data.get("bil") || "-"}\n\n${data.get("meddelande") || ""}`.trim();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const body = buildMessage(new FormData(form));
+    const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent("Förfrågan från hemsidan")}&body=${encodeURIComponent(body)}`;
+
+    const link = document.createElement("a");
+    link.href = mailto;
+    link.rel = "noopener";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setSent(true);
+    toast.success("Din förfrågan är förberedd", {
+      description: "Skicka mejlet i ditt e-postprogram – eller kopiera texten nedan.",
+      action: {
+        label: "Kopiera",
+        onClick: () => {
+          navigator.clipboard?.writeText(`${body}\n\nTill: ${SITE.email}`);
+          toast.success("Texten är kopierad");
+        },
+      },
+    });
   };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -142,10 +170,8 @@ function KontaktPage() {
           </div>
 
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              openEmail(event.currentTarget);
-            }}
+            onSubmit={handleSubmit}
+
             className="relative border border-border bg-surface p-6 sm:p-8"
           >
             <span className="absolute left-0 top-0 h-1 w-20 bg-heat" />
@@ -188,15 +214,22 @@ function KontaktPage() {
                 />
               </div>
             </div>
-            <Button
-              type="submit"
-              className="mt-6 h-12 w-full bg-heat font-semibold shadow-heat sm:w-auto sm:px-8"
-            >
-              Skapa e-postförfrågan <ArrowRight />
-            </Button>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button type="submit" className="h-12 bg-heat font-semibold shadow-heat sm:px-8">
+                Skicka förfrågan <ArrowRight />
+              </Button>
+              <Button asChild type="button" variant="outline" className="h-12 sm:px-8">
+                <a href={`tel:${SITE.phone}`}>
+                  <Phone /> Ring istället
+                </a>
+              </Button>
+            </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              Knappen öppnar ditt e-postprogram med uppgifterna ifyllda.
+              {sent
+                ? `Öppnades inget e-postprogram? Mejla oss direkt på ${SITE.email} eller ring ${SITE.phoneDisplay}.`
+                : "Knappen öppnar ditt e-postprogram med uppgifterna ifyllda."}
             </p>
+
           </form>
         </section>
       </main>
