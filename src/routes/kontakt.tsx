@@ -170,10 +170,8 @@ function KontaktPage() {
           </div>
 
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              openEmail(event.currentTarget);
-            }}
+            onSubmit={handleSubmit}
+
             className="relative border border-border bg-surface p-6 sm:p-8"
           >
             <span className="absolute left-0 top-0 h-1 w-20 bg-heat" />
