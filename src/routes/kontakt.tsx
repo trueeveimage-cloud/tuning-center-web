@@ -214,15 +214,22 @@ function KontaktPage() {
                 />
               </div>
             </div>
-            <Button
-              type="submit"
-              className="mt-6 h-12 w-full bg-heat font-semibold shadow-heat sm:w-auto sm:px-8"
-            >
-              Skapa e-postförfrågan <ArrowRight />
-            </Button>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button type="submit" className="h-12 bg-heat font-semibold shadow-heat sm:px-8">
+                Skicka förfrågan <ArrowRight />
+              </Button>
+              <Button asChild type="button" variant="outline" className="h-12 sm:px-8">
+                <a href={`tel:${SITE.phone}`}>
+                  <Phone /> Ring istället
+                </a>
+              </Button>
+            </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              Knappen öppnar ditt e-postprogram med uppgifterna ifyllda.
+              {sent
+                ? `Öppnades inget e-postprogram? Mejla oss direkt på ${SITE.email} eller ring ${SITE.phoneDisplay}.`
+                : "Knappen öppnar ditt e-postprogram med uppgifterna ifyllda."}
             </p>
+
           </form>
         </section>
       </main>
