@@ -933,17 +933,25 @@ const GAINS: Record<
   },
 };
 
+function conservativeRange(estimate: number, stock: number) {
+  const min = Math.max(stock, estimate - 15);
+  const max = Math.max(min, estimate - 5);
+  return { min, max };
+}
+
 export function calculateTuning(engine: Engine, stage: Stage) {
   const key = !engine.turbo ? "sug" : engine.fuel === "diesel" ? "dieselTurbo" : "bensinTurbo";
   const gain = GAINS[stage][key];
   const estimatedHp = Math.round((engine.hp * (1 + gain.hp)) / 5) * 5;
   const estimatedNm = Math.round((engine.nm * (1 + gain.nm)) / 5) * 5;
 
-  // Show a conservative range instead of presenting the optimistic ceiling as a promise.
-  const tunedHpMin = Math.max(engine.hp, estimatedHp - 15);
-  const tunedHpMax = Math.max(tunedHpMin, estimatedHp - 5);
-  const tunedNmMin = Math.max(engine.nm, estimatedNm - 25);
-  const tunedNmMax = Math.max(tunedNmMin, estimatedNm - 10);
+  // Every estimate follows the same pattern: the old value becomes old - 15 through old - 5.
+  const hpRange = conservativeRange(estimatedHp, engine.hp);
+  const nmRange = conservativeRange(estimatedNm, engine.nm);
+  const tunedHpMin = hpRange.min;
+  const tunedHpMax = hpRange.max;
+  const tunedNmMin = nmRange.min;
+  const tunedNmMax = nmRange.max;
 
   return {
     stockHp: engine.hp,
