@@ -933,10 +933,9 @@ const GAINS: Record<
   },
 };
 
-function conservativeRange(estimate: number, stock: number) {
-  const min = Math.max(stock, estimate - 15);
-  const max = Math.max(min, estimate - 5);
-  return { min, max };
+function conservativeRange(estimate: number) {
+  const max = estimate - 5;
+  return { min: max - 10, max };
 }
 
 export function calculateTuning(engine: Engine, stage: Stage) {
@@ -946,8 +945,8 @@ export function calculateTuning(engine: Engine, stage: Stage) {
   const estimatedNm = Math.round((engine.nm * (1 + gain.nm)) / 5) * 5;
 
   // Every estimate follows the same pattern: the old value becomes old - 15 through old - 5.
-  const hpRange = conservativeRange(estimatedHp, engine.hp);
-  const nmRange = conservativeRange(estimatedNm, engine.nm);
+  const hpRange = conservativeRange(estimatedHp);
+  const nmRange = conservativeRange(estimatedNm);
   const tunedHpMin = hpRange.min;
   const tunedHpMax = hpRange.max;
   const tunedNmMin = nmRange.min;

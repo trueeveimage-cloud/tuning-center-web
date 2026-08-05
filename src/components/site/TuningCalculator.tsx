@@ -451,7 +451,7 @@ function ResultRow({
   gainMin: number;
   gainMax: number;
 }) {
-  const stockWidth = Math.max(55, Math.round((stock / tunedMax) * 100));
+  const stockWidth = Math.min(100, Math.max(55, Math.round((stock / tunedMax) * 100)));
   const animatedTunedMin = useAnimatedNumber(tunedMin, stock);
   const animatedTunedMax = useAnimatedNumber(tunedMax, stock);
   const animatedGainMin = useAnimatedNumber(gainMin, 0);
@@ -501,7 +501,8 @@ function ResultRow({
       <p
         className={`mt-2 text-right text-xs font-semibold uppercase tracking-wider text-primary transition-all delay-500 duration-500 ${barReady ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"}`}
       >
-        +{animatedGainMin}~{animatedGainMax} {unit}
+        {gainMax > 0 ? "+" : ""}
+        {animatedGainMin}~{animatedGainMax} {unit}
       </p>
     </div>
   );
