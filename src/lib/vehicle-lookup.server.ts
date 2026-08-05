@@ -130,9 +130,9 @@ function findBrand(make: string) {
 function scoreModel(model: Model, vehicleModel: string) {
   const candidate = normalize(model.name);
   const vehicle = normalize(vehicleModel);
-  const primary = candidate
-    .split(/\s(?:i{1,3}|iv|v|vi|vii|viii|ix|x|mk\d|[a-z]\d{1,3})\b/)[0]
-    .trim();
+  const primary = (
+    candidate.split(/\s(?:i{1,3}|iv|v|vi|vii|viii|ix|x|mk\d|[a-z]\d{1,3})\b/)[0] ?? candidate
+  ).trim();
   const tokens = candidate.split(" ").filter((token) => token.length > 1);
   let score = tokens.reduce((total, token) => total + (vehicle.includes(token) ? 8 : 0), 0);
 
@@ -145,12 +145,13 @@ function findModel(brand: Brand, vehicleModel: string) {
   const ranked = brand.models
     .map((model) => ({ model, score: scoreModel(model, vehicleModel) }))
     .sort((left, right) => right.score - left.score);
-  return ranked[0]?.score > 0 ? ranked[0] : null;
+  const top = ranked[0];
+  return top && top.score > 0 ? top : null;
 }
 
 function findEngine(model: Model, hp: number | null) {
   if (!model.engines.length) return null;
-  if (!hp) return { engine: model.engines[0], difference: null };
+  if (!hp) return { engine: model.engines[0]!, difference: null };
 
   const ranked = model.engines
     .map((engine) => ({ engine, difference: Math.abs(engine.hp - hp) }))
