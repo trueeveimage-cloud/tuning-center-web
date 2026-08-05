@@ -24,11 +24,37 @@ export const Route = createFileRoute("/kontakt")({
 });
 
 function KontaktPage() {
-  const openEmail = (form: HTMLFormElement) => {
-    const data = new FormData(form);
-    const body = `Namn: ${data.get("namn")}\nTelefon: ${data.get("telefon")}\nBil: ${data.get("bil")}\n\n${data.get("meddelande")}`;
-    window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent("Förfrågan från hemsidan")}&body=${encodeURIComponent(body)}`;
+  const [sent, setSent] = useState(false);
+
+  const buildMessage = (data: FormData) =>
+    `Namn: ${data.get("namn")}\nTelefon: ${data.get("telefon")}\nBil: ${data.get("bil") || "-"}\n\n${data.get("meddelande") || ""}`.trim();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const body = buildMessage(new FormData(form));
+    const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent("Förfrågan från hemsidan")}&body=${encodeURIComponent(body)}`;
+
+    const link = document.createElement("a");
+    link.href = mailto;
+    link.rel = "noopener";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setSent(true);
+    toast.success("Din förfrågan är förberedd", {
+      description: "Skicka mejlet i ditt e-postprogram – eller kopiera texten nedan.",
+      action: {
+        label: "Kopiera",
+        onClick: () => {
+          navigator.clipboard?.writeText(`${body}\n\nTill: ${SITE.email}`);
+          toast.success("Texten är kopierad");
+        },
+      },
+    });
   };
+
 
   return (
     <div className="min-h-screen bg-background">
