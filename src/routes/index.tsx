@@ -6,6 +6,8 @@ import {
   Fuel,
   Gauge,
   Instagram,
+  Mail,
+  MapPin,
   Phone,
   ShieldCheck,
   Star,
@@ -19,7 +21,7 @@ import workshopVan from "@/assets/workshop-service-van.webp";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ParallaxHeroImage } from "@/components/site/ParallaxHeroImage";
-import { TuningCalculator } from "@/components/site/TuningCalculator";
+import { EffectCalculator } from "@/components/site/EffectCalculator";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
@@ -51,20 +53,20 @@ const services = [
   {
     icon: Fuel,
     number: "02",
-    title: "Bränslebesparing",
-    text: "Ekonomifiler med fokus på lägre förbrukning för personbilar och tunga fordon.",
+    title: "Växellådsoptimering",
+    text: "Optimerade växlingspunkter, snabbare växlingar och bättre samspel med motorn.",
   },
   {
     icon: Wrench,
     number: "03",
-    title: "Diagnos",
-    text: "Professionell felkodsläsning, felsökning och tydlig genomgång av bilens status.",
+    title: "Felsökning & kodning",
+    text: "Diagnos, kodning och programmering av styrenheter med tydlig återkoppling.",
   },
   {
     icon: ShieldCheck,
     number: "04",
-    title: "DPF / EGR-service",
-    text: "Felsökning och service av partikelfilter och avgasåterföring.",
+    title: "VAG & BMW",
+    text: "Märkesspecifik kodning, programmering och FRM-reparation efter bilens behov.",
   },
 ];
 
@@ -267,12 +269,12 @@ function Index() {
                 Hur mycket finns <span className="text-heat">under huven?</span>
               </h2>
               <p className="mt-4 text-muted-foreground">
-                Välj bil, motor och tuningsteg. Du får en snabb uppskattning av möjlig effekt och
-                vridmoment.
+                Sök med registreringsnummer eller välj bil och motor för att se möjlig effekt och
+                vridmoment efter optimering.
               </p>
             </div>
             <div className="mt-10">
-              <TuningCalculator />
+              <EffectCalculator />
             </div>
           </div>
         </section>
@@ -309,6 +311,59 @@ function Index() {
           </div>
         </section>
 
+        <section className="scroll-reveal border-t border-border bg-background">
+          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
+            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+              <div>
+                <p className="section-kicker">
+                  <span className="h-px w-8 bg-primary" /> Kontakta oss
+                </p>
+                <h2 className="mt-3 text-4xl leading-none sm:text-5xl">
+                  Redo att prata
+                  <br />
+                  <span className="text-heat">om din bil?</span>
+                </h2>
+              </div>
+              <div>
+                <p className="max-w-xl leading-7 text-muted-foreground">
+                  Ring, mejla eller besök verkstaden i Kumla. Berätta gärna registreringsnummer och
+                  vad du vill ha hjälp med så kan vi ge ett tydligare svar direkt.
+                </p>
+                <Button
+                  asChild
+                  size="lg"
+                  className="mt-6 h-12 bg-heat px-8 font-semibold shadow-heat"
+                >
+                  <Link to="/kontakt">
+                    Kontakta oss <ArrowRight />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            <div className="mt-10 grid border-l border-t border-border md:grid-cols-3">
+              <ContactCard
+                icon={Phone}
+                label="Telefon"
+                value={SITE.phoneDisplay}
+                href={`tel:${SITE.phone}`}
+              />
+              <ContactCard
+                icon={Mail}
+                label="E-post"
+                value={SITE.email}
+                href={`mailto:${SITE.email}`}
+              />
+              <ContactCard
+                icon={MapPin}
+                label="Besöksadress"
+                value={`${SITE.address}, ${SITE.postalCity}`}
+                href={SITE.mapUrl}
+                external
+              />
+            </div>
+          </div>
+        </section>
+
         <section className="scroll-reveal border-t border-border bg-surface">
           <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_auto]">
             <div>
@@ -335,5 +390,40 @@ function Index() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+function ContactCard({
+  icon: Icon,
+  label,
+  value,
+  href,
+  external = false,
+}: {
+  icon: typeof Phone;
+  label: string;
+  value: string;
+  href: string;
+  external?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noreferrer" : undefined}
+      className="group flex min-h-36 items-center gap-4 border-b border-r border-border bg-surface/45 p-6 hover:bg-surface-2/60"
+    >
+      <span className="grid size-11 shrink-0 place-items-center bg-primary/10 text-primary">
+        <Icon className="size-5" />
+      </span>
+      <span className="min-w-0">
+        <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          {label}
+        </span>
+        <span className="mt-1 block break-words font-semibold group-hover:text-primary">
+          {value}
+        </span>
+      </span>
+    </a>
   );
 }

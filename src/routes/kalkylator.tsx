@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2 } from "lucide-react";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
-import { TuningCalculator } from "@/components/site/TuningCalculator";
+import { EffectCalculator } from "@/components/site/EffectCalculator";
 
-const title = "Tuningkalkylator | Tuning Center Örebro";
+const title = "Beräkna effekt | Tuning Center Örebro";
 const description =
   "Beräkna hästkrafter och vridmoment efter steg 1 eller steg 2 motoroptimering. Välj märke, modell och motor.";
 
@@ -30,7 +30,7 @@ function KalkylatorPage() {
         <section className="grid-lines border-b border-border">
           <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
             <p className="section-kicker">
-              <span className="h-px w-8 bg-primary" /> Tuningkalkylator
+              <span className="h-px w-8 bg-primary" /> Beräkna effekt
             </p>
             <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_0.7fr] lg:items-end">
               <h1 className="text-5xl leading-[0.9] sm:text-7xl">
@@ -40,8 +40,8 @@ function KalkylatorPage() {
               </h1>
               <div>
                 <p className="leading-7 text-muted-foreground">
-                  Välj din bil för en snabb uppskattning. Hittar du inte rätt modell eller motor tar
-                  vi gärna fram siffrorna åt dig.
+                  Sök med registreringsnummer eller välj din bil för att se originaleffekt,
+                  vridmoment och möjlig effekt efter optimering.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-4 text-xs uppercase tracking-wider text-foreground/65">
                   <span className="flex items-center gap-2">
@@ -56,7 +56,7 @@ function KalkylatorPage() {
           </div>
         </section>
         <section className="scroll-reveal mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
-          <TuningCalculator />
+          <EffectCalculator />
         </section>
       </main>
       <Footer />

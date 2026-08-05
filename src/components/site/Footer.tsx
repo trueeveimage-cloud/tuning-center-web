@@ -21,7 +21,7 @@ export function Footer() {
             to="/kalkylator"
             className="mt-6 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-primary hover:text-foreground"
           >
-            Testa din bil <ArrowUpRight className="size-4" />
+            Beräkna effekt <ArrowUpRight className="size-4" />
           </Link>
         </div>
 

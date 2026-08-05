@@ -1,14 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  Disc3,
-  Fuel,
+  Binary,
+  Cable,
+  CircuitBoard,
+  Code2,
   Gauge,
   Settings2,
-  ShieldCheck,
-  Truck,
+  ShieldOff,
   Wrench,
-  Zap,
 } from "lucide-react";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 
 const title = "Tjänster | Bilservice & motoroptimering i Kumla";
 const description =
-  "Bromsar, elsystem, programmering, chiptuning, DPF- och EGR-service samt motoroptimering steg 1–3 i Kumla.";
+  "Motor- och växellådsoptimering, felsökning, kodning, programmering, VAG- och BMW-kodning samt FRM-reparation i Kumla.";
 
 export const Route = createFileRoute("/tjanster")({
   head: () => ({
@@ -36,65 +36,51 @@ const services = [
   {
     icon: Gauge,
     number: "01",
-    title: "Steg 1 optimering",
-    text: "Optimerad mjukvara på originalhårdvara. Mer effekt, bättre gasrespons och en körkänsla som märks direkt.",
-    note: "För originalbilar",
+    title: "Motoroptimering",
+    text: "Individuellt anpassad ECU-optimering för mer effekt, högre vridmoment och bättre respons med fokus på driftsäkerhet.",
+    note: "ECU · Steg 1–3",
   },
   {
     icon: Settings2,
     number: "02",
-    title: "Steg 2 optimering",
-    text: "För bilar med uppgraderad hårdvara, exempelvis downpipe eller intercooler, där vi tar nästa steg i prestanda.",
-    note: "För uppgraderade bilar",
+    title: "Växellådsoptimering",
+    text: "TCU- och DSG-optimering för snabbare växlingar, förbättrade växlingspunkter och bättre samspel med motorns vridmoment.",
+    note: "TCU · DSG",
   },
   {
-    icon: Gauge,
+    icon: Binary,
     number: "03",
-    title: "Steg 3 optimering",
-    text: "Individuellt upplägg för mer omfattande motorbyggen med uppgraderad turbo, bränslesystem och kringutrustning.",
-    note: "För specialbyggen",
+    title: "Felsökning, kodning & programmering",
+    text: "Felkodsläsning, diagnos, kodning och programmering av styrenheter med tydlig genomgång av vad vi hittar.",
+    note: "Diagnos · Mjukvara",
   },
   {
-    icon: Fuel,
+    icon: ShieldOff,
     number: "04",
-    title: "Ekonomifil",
-    text: "Mjukvara med fokus på vridmoment och lägre förbrukning vid normal, blandad körning.",
-    note: "Effektivare vardag",
+    title: "AdBlue / DPF / EGR",
+    text: "Felsökning och mjukvarurelaterade åtgärder. Kontakta oss för bedömning av vad som är tekniskt möjligt och tillåtet för fordonets användningsområde.",
+    note: "Diagnos · Bedömning",
   },
   {
-    icon: ShieldCheck,
+    icon: Code2,
     number: "05",
-    title: "DPF & EGR-service",
-    text: "Felsökning, rengöring och service av partikelfilter och EGR-system.",
-    note: "Diagnos & service",
+    title: "Kodning för VAG",
+    text: "Kodning och anpassning för Volkswagen, Audi, Skoda och SEAT, inklusive aktivering av kompatibla fordonsfunktioner.",
+    note: "VW · Audi · Skoda · SEAT",
   },
   {
-    icon: Wrench,
+    icon: Cable,
     number: "06",
-    title: "Diagnos & felkoder",
-    text: "Läsning och tolkning av felkoder med professionell utrustning och tydlig återkoppling.",
-    note: "Hitta grundorsaken",
+    title: "Kodning för BMW",
+    text: "Märkesspecifik BMW-kodning, programmering och anpassning av kompatibla funktioner och styrenheter.",
+    note: "BMW · MINI",
   },
   {
-    icon: Truck,
+    icon: CircuitBoard,
     number: "07",
-    title: "Lastbil & entreprenad",
-    text: "Optimering av tunga fordon för bättre dragkraft och lägre dieselförbrukning.",
-    note: "Tunga fordon",
-  },
-  {
-    icon: Disc3,
-    number: "08",
-    title: "Bromsservice",
-    text: "Kontroll, felsökning och service av bromssystem för en trygg och konsekvent bromsverkan.",
-    note: "Säkerhet & underhåll",
-  },
-  {
-    icon: Zap,
-    number: "09",
-    title: "Elsystem & programmering",
-    text: "Felsökning av elsystem, styrenheter och fordonsmjukvara samt programmering efter bilens behov.",
-    note: "Elektronik & mjukvara",
+    title: "FRM-reparation",
+    text: "Diagnos och reparation av BMW:s Footwell Module vid fel på belysning, fönsterhissar och relaterade komfortfunktioner.",
+    note: "BMW · Elektronik",
   },
 ];
 
@@ -115,9 +101,30 @@ function TjansterPage() {
               <span className="text-heat">För rätt bil.</span>
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-              Från smidigare vardagskörning till mer målmedveten prestanda. Vi utgår från din bil,
-              dina mål och bilens tekniska förutsättningar.
+              Från motor och växellåda till avancerad diagnos, kodning och styrenhetsreparation. Vi
+              utgår från din bil, dina mål och bilens tekniska förutsättningar.
             </p>
+          </div>
+        </section>
+
+        <section className="scroll-reveal mx-auto max-w-7xl px-4 pb-20 sm:px-6 sm:pb-24">
+          <div className="grid-lines relative overflow-hidden border border-primary/30 bg-surface p-7 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10">
+            <div className="absolute -right-12 top-0 size-40 bg-primary/10 blur-3xl" />
+            <div className="relative">
+              <p className="section-kicker">
+                <Wrench className="size-4" /> Mekaniskt arbete
+              </p>
+              <h2 className="mt-3 text-3xl sm:text-4xl">För mekaniskt arbete, kontakta oss för offert.</h2>
+              <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">
+                Skicka registreringsnummer och en kort beskrivning av arbetet så återkommer vi med
+                bedömning och prisförslag.
+              </p>
+            </div>
+            <Button asChild size="lg" className="relative mt-6 h-12 bg-heat px-8 font-semibold shadow-heat lg:mt-0">
+              <Link to="/kontakt">
+                Kontakta oss <ArrowRight />
+              </Link>
+            </Button>
           </div>
         </section>
 
@@ -146,12 +153,12 @@ function TjansterPage() {
         <section className="scroll-reveal border-y border-border bg-surface">
           <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-7 px-4 py-14 sm:px-6 lg:flex-row lg:items-center">
             <div>
-              <p className="section-kicker">Osäker på vad bilen behöver?</p>
-              <h2 className="mt-2 text-3xl sm:text-4xl">Börja med en snabb uppskattning.</h2>
+              <p className="section-kicker">Nyfiken på bilens potential?</p>
+              <h2 className="mt-2 text-3xl sm:text-4xl">Beräkna möjlig effekt.</h2>
             </div>
             <Button asChild size="lg" className="h-12 bg-heat px-7 font-semibold shadow-heat">
               <Link to="/kalkylator">
-                Öppna kalkylatorn <ArrowRight />
+                Beräkna effekt <ArrowRight />
               </Link>
             </Button>
           </div>

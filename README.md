@@ -41,3 +41,11 @@ vehicle lookup. A Biluppgifter API key can optionally be used as the primary pro
 `BILUPPGIFTER_API_KEY` as a server-side secret in the deployment environment. For local
 development, copy `.dev.vars.example` to `.dev.vars` and add the real key. Never expose the key
 through a `VITE_` environment variable.
+
+## DR-File effect configurator
+
+The calculator can use the licensed DR-File vehicle configurator for provider-verified tuning
+figures. Add Tuning Center's own license as `VITE_DR_FILE_LICENSE` in the build environment, or
+copy `.env.example` to `.env` locally. This license is necessarily public because DR-File embeds it
+in the iframe URL. Without it, the registration-based calculator remains available as a fallback.
+Do not reuse another workshop's DR-File license.

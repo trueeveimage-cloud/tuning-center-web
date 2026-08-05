@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, MessageSquareText, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
@@ -7,7 +7,8 @@ import { SITE } from "@/lib/site";
 const links = [
   { to: "/", label: "Hem" },
   { to: "/tjanster", label: "Tjänster" },
-  { to: "/kalkylator", label: "Kalkylator" },
+  { to: "/om-oss", label: "Om oss" },
+  { to: "/kalkylator", label: "Beräkna effekt" },
   { to: "/kontakt", label: "Kontakt" },
 ] as const;
 
@@ -55,7 +56,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Huvudnavigation">
+        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Huvudnavigation">
           {links.map((link) => (
             <Link
               key={link.to}
@@ -73,21 +74,17 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button
-            asChild
-            size="sm"
-            className="hidden bg-heat font-semibold shadow-heat sm:inline-flex"
-          >
-            <a href={`tel:${SITE.phone}`}>
-              <Phone /> {SITE.phoneDisplay}
-            </a>
+          <Button asChild size="sm" className="hidden bg-heat font-semibold shadow-heat sm:inline-flex">
+            <Link to="/kontakt">
+              <MessageSquareText /> Kontakta oss
+            </Link>
           </Button>
           <button
             type="button"
             aria-label={open ? "Stäng meny" : "Öppna meny"}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
-            className="inline-flex size-10 items-center justify-center border border-border bg-surface text-foreground md:hidden"
+            className="inline-flex size-10 items-center justify-center border border-border bg-surface text-foreground lg:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -96,7 +93,7 @@ export function Header() {
 
       {open && (
         <nav
-          className="animate-in slide-in-from-top-2 border-t border-border bg-surface px-4 py-4 duration-300 md:hidden"
+          className="animate-in slide-in-from-top-2 border-t border-border bg-surface px-4 py-4 duration-300 lg:hidden"
           aria-label="Mobilnavigation"
         >
           <div className="mx-auto max-w-7xl">
@@ -114,9 +111,9 @@ export function Header() {
               </Link>
             ))}
             <Button asChild className="mt-4 w-full bg-heat font-semibold">
-              <a href={`tel:${SITE.phone}`}>
-                <Phone /> Ring {SITE.phoneDisplay}
-              </a>
+              <Link to="/kontakt">
+                <MessageSquareText /> Kontakta oss
+              </Link>
             </Button>
           </div>
         </nav>
