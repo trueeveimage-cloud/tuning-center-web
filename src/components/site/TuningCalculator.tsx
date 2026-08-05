@@ -303,15 +303,19 @@ export function TuningCalculator() {
                 label="Effekt"
                 unit="hk"
                 stock={result.stockHp}
-                tuned={result.tunedHp}
-                gain={result.gainHp}
+                tunedMin={result.tunedHpMin}
+                tunedMax={result.tunedHpMax}
+                gainMin={result.gainHpMin}
+                gainMax={result.gainHpMax}
               />
               <ResultRow
                 label="Vridmoment"
                 unit="Nm"
                 stock={result.stockNm}
-                tuned={result.tunedNm}
-                gain={result.gainNm}
+                tunedMin={result.tunedNmMin}
+                tunedMax={result.tunedNmMax}
+                gainMin={result.gainNmMin}
+                gainMax={result.gainNmMax}
               />
             </div>
             <div className="mt-auto pt-8">
@@ -434,18 +438,24 @@ function ResultRow({
   label,
   unit,
   stock,
-  tuned,
-  gain,
+  tunedMin,
+  tunedMax,
+  gainMin,
+  gainMax,
 }: {
   label: string;
   unit: string;
   stock: number;
-  tuned: number;
-  gain: number;
+  tunedMin: number;
+  tunedMax: number;
+  gainMin: number;
+  gainMax: number;
 }) {
-  const stockWidth = Math.max(55, Math.round((stock / tuned) * 100));
-  const animatedTuned = useAnimatedNumber(tuned, stock);
-  const animatedGain = useAnimatedNumber(gain, 0);
+  const stockWidth = Math.max(55, Math.round((stock / tunedMax) * 100));
+  const animatedTunedMin = useAnimatedNumber(tunedMin, stock);
+  const animatedTunedMax = useAnimatedNumber(tunedMax, stock);
+  const animatedGainMin = useAnimatedNumber(gainMin, 0);
+  const animatedGainMax = useAnimatedNumber(gainMax, 0);
   const [barReady, setBarReady] = useState(false);
 
   useEffect(() => {
@@ -458,7 +468,7 @@ function ResultRow({
       cancelAnimationFrame(resetFrame);
       cancelAnimationFrame(startFrame);
     };
-  }, [stock, tuned]);
+  }, [stock, tunedMin, tunedMax]);
 
   return (
     <div className="group/result">
@@ -472,7 +482,7 @@ function ResultRow({
             →
           </span>
           <span className={`text-heat result-number ${barReady ? "is-active" : ""}`}>
-            {animatedTuned} {unit}
+            {animatedTunedMin}~{animatedTunedMax} {unit}
           </span>
         </span>
       </div>
@@ -491,7 +501,7 @@ function ResultRow({
       <p
         className={`mt-2 text-right text-xs font-semibold uppercase tracking-wider text-primary transition-all delay-500 duration-500 ${barReady ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"}`}
       >
-        +{animatedGain} {unit}
+        +{animatedGainMin}~{animatedGainMax} {unit}
       </p>
     </div>
   );

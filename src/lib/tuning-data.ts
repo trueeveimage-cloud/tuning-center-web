@@ -936,15 +936,29 @@ const GAINS: Record<
 export function calculateTuning(engine: Engine, stage: Stage) {
   const key = !engine.turbo ? "sug" : engine.fuel === "diesel" ? "dieselTurbo" : "bensinTurbo";
   const gain = GAINS[stage][key];
-  const hp = Math.round((engine.hp * (1 + gain.hp)) / 5) * 5;
-  const nm = Math.round((engine.nm * (1 + gain.nm)) / 5) * 5;
+  const estimatedHp = Math.round((engine.hp * (1 + gain.hp)) / 5) * 5;
+  const estimatedNm = Math.round((engine.nm * (1 + gain.nm)) / 5) * 5;
+
+  // Show a conservative range instead of presenting the optimistic ceiling as a promise.
+  const tunedHpMin = Math.max(engine.hp, estimatedHp - 15);
+  const tunedHpMax = Math.max(tunedHpMin, estimatedHp - 5);
+  const tunedNmMin = Math.max(engine.nm, estimatedNm - 25);
+  const tunedNmMax = Math.max(tunedNmMin, estimatedNm - 10);
 
   return {
     stockHp: engine.hp,
     stockNm: engine.nm,
-    tunedHp: hp,
-    tunedNm: nm,
-    gainHp: hp - engine.hp,
-    gainNm: nm - engine.nm,
+    tunedHp: tunedHpMax,
+    tunedNm: tunedNmMax,
+    tunedHpMin,
+    tunedHpMax,
+    tunedNmMin,
+    tunedNmMax,
+    gainHp: tunedHpMax - engine.hp,
+    gainNm: tunedNmMax - engine.nm,
+    gainHpMin: tunedHpMin - engine.hp,
+    gainHpMax: tunedHpMax - engine.hp,
+    gainNmMin: tunedNmMin - engine.nm,
+    gainNmMax: tunedNmMax - engine.nm,
   };
 }
