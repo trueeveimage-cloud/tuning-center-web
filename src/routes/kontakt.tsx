@@ -223,12 +223,18 @@ function KontaktPage() {
                   <Phone /> Ring istället
                 </a>
               </Button>
+              <Button asChild type="button" variant="ghost" className="h-12">
+                <a href={`mailto:${SITE.email}`}>
+                  <Mail /> {SITE.email}
+                </a>
+              </Button>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
               {sent
                 ? `Öppnades inget e-postprogram? Mejla oss direkt på ${SITE.email} eller ring ${SITE.phoneDisplay}.`
-                : "Knappen öppnar ditt e-postprogram med uppgifterna ifyllda."}
+                : `Knappen öppnar ditt e-postprogram med uppgifterna ifyllda till ${SITE.email}.`}
             </p>
+
 
           </form>
         </section>
