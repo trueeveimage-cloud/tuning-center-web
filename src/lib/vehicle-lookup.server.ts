@@ -262,7 +262,7 @@ async function lookupBiluppgifter(
     registration: asString(attributes['regno']) ?? registration,
     make,
     model,
-    year: asNumber(basic['model']_year) ?? asNumber(basic['vehicle_year']),
+    year: asNumber(basic['model_year']) ?? asNumber(basic['vehicle_year']),
     hp:
       asNumber(technical['power_hp_1']) ??
       asNumber(technical['power_hp']) ??
