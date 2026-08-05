@@ -244,12 +244,12 @@ async function lookupBiluppgifter(
   if (!response.ok) throw new Error("Biluppgifter lookup failed");
 
   const payload = asRecord(await response.json());
-  const data = asRecord(payload.data);
-  const attributes = asRecord(data.attributes);
-  const basic = asRecord(asRecord(data.basic).data);
-  const technical = asRecord(asRecord(data.technical).data);
-  const make = asString(basic.make);
-  const model = asString(basic.model);
+  const data = asRecord(payload['data']);
+  const attributes = asRecord(data['attributes']);
+  const basic = asRecord(asRecord(data['basic'])['data']);
+  const technical = asRecord(asRecord(data['technical'])['data']);
+  const make = asString(basic['make']);
+  const model = asString(basic['model']);
 
   if (!make || !model) throw new Error("Biluppgifter response was incomplete");
 
@@ -259,13 +259,13 @@ async function lookupBiluppgifter(
       firstValue(basic, ["fuel", "fuel_type"]),
   );
   return {
-    registration: asString(attributes.regno) ?? registration,
+    registration: asString(attributes['regno']) ?? registration,
     make,
     model,
-    year: asNumber(basic.model_year) ?? asNumber(basic.vehicle_year),
+    year: asNumber(basic['model']_year) ?? asNumber(basic['vehicle_year']),
     hp:
-      asNumber(technical.power_hp_1) ??
-      asNumber(technical.power_hp) ??
+      asNumber(technical['power_hp_1']) ??
+      asNumber(technical['power_hp']) ??
       (powerKw ? Math.round(powerKw * 1.35962) : null),
     fuel: parseFuel(fuelLabel),
     fuelLabel,
@@ -333,7 +333,7 @@ function buildRegistryEngine(vehicle: RegistrationVehicle): Engine | null {
 }
 
 export async function lookupAndEstimateRegistration(registration: string, stage: Stage) {
-  const apiKey = process.env.BILUPPGIFTER_API_KEY?.trim();
+  const apiKey = process.env['BILUPPGIFTER_API_KEY']?.trim();
   let vehicle: RegistrationVehicle;
 
   if (apiKey) {
