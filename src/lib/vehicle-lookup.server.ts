@@ -348,13 +348,14 @@ export async function lookupAndEstimateRegistration(registration: string, stage:
 
   const match = matchCatalog(vehicle);
   const registryEngine = buildRegistryEngine(vehicle);
+  const capabilities = await resolveVehicleCapabilities(vehicle);
 
   if (!registryEngine) {
     const reason =
       vehicle.fuel === "electric"
         ? "Elbilar kräver en separat effektanalys och kan inte beräknas med motoroptimeringens stegmodell."
         : "Fordonets effekt eller drivmedel saknas i fordonsregistret. Ring oss så identifierar vi motorn direkt.";
-    return { vehicle, match: null, estimate: null, reason };
+    return { vehicle, match: null, estimate: null, capabilities, reason };
   }
 
   const exactCatalogMatch = match?.confidence === "exact";
@@ -370,6 +371,7 @@ export async function lookupAndEstimateRegistration(registration: string, stage:
           confidence: match.confidence,
         }
       : null,
+    capabilities,
     estimate: {
       brand: vehicle.make,
       model: vehicle.model,
@@ -382,3 +384,4 @@ export async function lookupAndEstimateRegistration(registration: string, stage:
     reason: null,
   };
 }
+
