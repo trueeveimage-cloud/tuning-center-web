@@ -195,8 +195,8 @@ function Index() {
         </section>
 
 
-        <section className="scroll-reveal border-y border-border bg-surface">
-          <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6">
+        <section className="scroll-reveal bg-surface">
+          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
             <div className="grid items-end gap-6 lg:grid-cols-[1fr_0.8fr]">
               <div>
                 <p className="section-kicker">
@@ -213,24 +213,25 @@ function Index() {
                 programmering och motoroptimering steg 1–3.
               </p>
             </div>
-            <div className="mt-10 grid auto-rows-[16rem] gap-3 md:grid-cols-3 md:auto-rows-[18rem]">
+            <div className="mt-10 grid auto-rows-[15rem] gap-4 md:auto-rows-[18rem] md:grid-cols-3">
               {workshopPhotos.map((photo) => (
                 <figure
                   key={photo.src}
-                  className={`group relative overflow-hidden border border-border bg-background ${photo.className}`}
+                  className={`group relative overflow-hidden rounded-xl border border-border bg-background shadow-[0_20px_48px_-38px_rgba(41,32,24,.7)] ${photo.className}`}
                 >
                   <img
                     src={photo.src}
                     alt={photo.alt}
                     loading="lazy"
-                    className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    className="size-full object-cover contrast-[1.08] saturate-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-70" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-75" />
                 </figure>
               ))}
             </div>
           </div>
         </section>
+
 
         <section className="scroll-reveal mx-auto max-w-7xl px-4 py-24 sm:px-6">
           <div className="flex flex-wrap items-end justify-between gap-6">
