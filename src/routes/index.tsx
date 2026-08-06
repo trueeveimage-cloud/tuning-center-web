@@ -109,7 +109,7 @@ function Index() {
 
           <div className="mx-auto flex min-h-[calc(100svh-4.5rem)] max-w-7xl items-center px-4 py-20 sm:px-6">
             <div className="max-w-3xl reveal-up">
-              <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-border bg-background/85 px-4 py-2.5 shadow-sm backdrop-blur">
+              <div className="mb-7 flex w-fit items-center gap-3 rounded-full border border-border bg-background/85 px-4 py-2.5 shadow-sm backdrop-blur">
                 <BrandMark className="size-9" />
                 <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                   Service · Programmering · Optimering
