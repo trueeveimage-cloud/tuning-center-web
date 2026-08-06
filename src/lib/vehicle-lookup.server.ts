@@ -7,6 +7,8 @@ import {
   type Model,
   type Stage,
 } from "./tuning-data";
+import { resolveVehicleCapabilities } from "./vehicle-capabilities.server";
+
 
 type UnknownRecord = Record<string, unknown>;
 
