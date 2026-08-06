@@ -1,6 +1,6 @@
 import { TuningCalculator } from "@/components/site/TuningCalculator";
 
-const drFileLicense = import.meta.env.VITE_DR_FILE_LICENSE?.trim();
+const drFileLicense = import.meta.env['VITE_DR_FILE_LICENSE']?.trim();
 
 export function EffectCalculator() {
   if (!drFileLicense) return <TuningCalculator />;
