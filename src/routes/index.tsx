@@ -22,6 +22,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ParallaxHeroImage } from "@/components/site/ParallaxHeroImage";
 import { EffectCalculator } from "@/components/site/EffectCalculator";
+import { BrandMark } from "@/components/site/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
@@ -102,12 +103,18 @@ function Index() {
       <main>
         <section className="relative isolate min-h-[calc(100svh-4.5rem)] overflow-hidden">
           <ParallaxHeroImage src={heroImg} alt="Sportbil i verkstad hos Tuning Center Örebro" />
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(20,18,15,.98)_0%,rgba(20,18,15,.84)_43%,rgba(20,18,15,.25)_100%)]" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(250,247,239,.98)_0%,rgba(250,247,239,.88)_44%,rgba(250,247,239,.18)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-background to-transparent" />
           <div className="absolute -right-24 top-10 -z-10 h-[32rem] w-[10rem] rotate-12 bg-primary/10 blur-3xl" />
 
           <div className="mx-auto flex min-h-[calc(100svh-4.5rem)] max-w-7xl items-center px-4 py-20 sm:px-6">
             <div className="max-w-3xl reveal-up">
+              <div className="mb-7 inline-flex items-center gap-3 border border-border bg-background/80 px-4 py-3 shadow-sm backdrop-blur">
+                <BrandMark className="size-10" />
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Service · Programmering · Optimering
+                </span>
+              </div>
               <p className="section-kicker">
                 <span className="h-px w-8 bg-primary" /> Motoroptimering i Kumla
               </p>
@@ -134,10 +141,10 @@ function Index() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="h-12 border-white/20 bg-black/20 px-7 backdrop-blur hover:-translate-y-0.5"
+                  className="h-12 border-foreground/20 bg-background/75 px-7 backdrop-blur hover:-translate-y-0.5"
                 >
-                  <a href={`tel:${SITE.phone}`}>
-                    <Phone /> {SITE.phoneDisplay}
+                  <a href={`mailto:${SITE.email}`}>
+                    <Mail /> Skicka ett mail
                   </a>
                 </Button>
               </div>
@@ -155,7 +162,7 @@ function Index() {
             </div>
           </div>
 
-          <div className="absolute bottom-0 right-0 hidden border-l border-t border-white/10 bg-background/75 backdrop-blur md:block">
+          <div className="absolute bottom-0 right-0 hidden border-l border-t border-border bg-background/85 backdrop-blur md:block">
             <div className="flex items-center gap-5 px-8 py-5">
               <span className="font-display text-4xl text-primary">5.0</span>
               <span className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
@@ -202,8 +209,8 @@ function Index() {
                 </h2>
               </div>
               <p className="max-w-xl leading-7 text-muted-foreground">
-                Besök oss på {SITE.address} i Kumla. Här arbetar vi med allt från bromsar och
-                elsystem till programmering och motoroptimering steg 1–3.
+                Här arbetar vi med allt från service, reparationer och stora mekaniska jobb till
+                programmering och motoroptimering steg 1–3.
               </p>
             </div>
             <div className="mt-10 grid auto-rows-[16rem] gap-3 md:grid-cols-3 md:auto-rows-[18rem]">
@@ -258,8 +265,8 @@ function Index() {
           </div>
         </section>
 
-        <section className="scroll-reveal grid-lines relative overflow-hidden border-y border-border bg-[#181613]">
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/45 to-background/90" />
+        <section className="scroll-reveal grid-lines relative overflow-hidden border-y border-border bg-surface-2/45">
+          <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/35 to-background/85" />
           <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6">
             <div className="max-w-2xl">
               <p className="section-kicker">
@@ -326,8 +333,8 @@ function Index() {
               </div>
               <div>
                 <p className="max-w-xl leading-7 text-muted-foreground">
-                  Ring, mejla eller besök verkstaden i Kumla. Berätta gärna registreringsnummer och
-                  vad du vill ha hjälp med så kan vi ge ett tydligare svar direkt.
+                  Skicka ett mail med registreringsnummer och vad du vill ha hjälp med. Du är också
+                  välkommen att ringa eller besöka verkstaden i Kumla.
                 </p>
                 <Button
                   asChild
@@ -342,16 +349,16 @@ function Index() {
             </div>
             <div className="mt-10 grid border-l border-t border-border md:grid-cols-3">
               <ContactCard
+                icon={Mail}
+                label="Skicka ett mail"
+                value={SITE.email}
+                href={`mailto:${SITE.email}`}
+              />
+              <ContactCard
                 icon={Phone}
                 label="Telefon"
                 value={SITE.phoneDisplay}
                 href={`tel:${SITE.phone}`}
-              />
-              <ContactCard
-                icon={Mail}
-                label="E-post"
-                value={SITE.email}
-                href={`mailto:${SITE.email}`}
               />
               <ContactCard
                 icon={MapPin}

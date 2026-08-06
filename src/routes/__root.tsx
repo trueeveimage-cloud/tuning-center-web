@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "Motoroptimering, bilservice och programmering i Kumla nära Örebro.",
       },
       { name: "author", content: "Tuning Center Örebro" },
-      { name: "theme-color", content: "#171512" },
+      { name: "theme-color", content: "#faf7ef" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "Tuning Center Örebro" },
@@ -106,6 +106,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/tuning-center-mark.svg", type: "image/svg+xml" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

@@ -1,18 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Instagram, Facebook, Mail, Phone, MapPin } from "lucide-react";
 import { SITE } from "@/lib/site";
+import { BrandLogo } from "@/components/site/BrandLogo";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-[#12110f]">
+    <footer className="border-t border-border bg-surface">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-3">
-            <span className="h-8 w-1.5 -skew-x-12 bg-heat" />
-            <h2 className="text-2xl">
-              Tuning Center <span className="text-primary">Örebro</span>
-            </h2>
-          </div>
+          <BrandLogo />
           <p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground">
             Skräddarsydd motoroptimering för mer effekt, bättre respons och en körkänsla som märks
             direkt.
@@ -75,7 +71,7 @@ export function Footer() {
           </a>
         </div>
       </div>
-      <div className="border-t border-white/8">
+      <div className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-2 px-4 py-5 text-xs text-muted-foreground sm:px-6">
           <span>
             © {new Date().getFullYear()} {SITE.name}

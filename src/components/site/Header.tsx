@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu, MessageSquareText, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { BrandLogo } from "@/components/site/BrandLogo";
 import { SITE } from "@/lib/site";
 
 const links = [
@@ -40,7 +41,7 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-white/8 bg-background/88 backdrop-blur-xl transition-shadow duration-500 ${scrolled ? "shadow-xl shadow-black/25" : ""}`}
+      className={`sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl transition-shadow duration-500 ${scrolled ? "shadow-[0_16px_40px_-28px_rgba(41,32,24,.35)]" : ""}`}
     >
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
@@ -48,12 +49,7 @@ export function Header() {
           className="group flex items-center gap-3"
           aria-label={`${SITE.name}, startsida`}
         >
-          <span className="relative grid size-9 place-items-center border border-primary/50 bg-primary/10">
-            <span className="h-5 w-1.5 -skew-x-12 bg-heat transition-transform group-hover:scale-y-110" />
-          </span>
-          <span className="font-display text-xl leading-none tracking-[0.04em] sm:text-2xl">
-            Tuning Center <span className="text-primary">Örebro</span>
-          </span>
+          <BrandLogo className="transition-transform duration-300 group-hover:scale-[1.02]" />
         </Link>
 
         <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Huvudnavigation">

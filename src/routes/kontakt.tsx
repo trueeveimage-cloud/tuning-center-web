@@ -9,7 +9,7 @@ import { SITE } from "@/lib/site";
 
 const title = "Kontakta oss | Tuning Center Örebro";
 const description =
-  "Besök Tuning Center på Ymergatan 3A i Kumla eller ring 079 079 00 07 för bokning, service och motoroptimering.";
+  "Skicka ett mail till Tuning Center Örebro för bokning, service och motoroptimering eller besök oss på Ymergatan 3A i Kumla.";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
@@ -81,22 +81,23 @@ function KontaktPage() {
 
         <section className="scroll-reveal mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
-            <h2 className="text-3xl">Direktkontakt</h2>
+            <h2 className="text-3xl">Skicka ett mail</h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Ring för snabbast hjälp, eller skicka en förfrågan när det passar dig.
+              Maila registreringsnummer och vad du vill ha hjälp med så återkommer vi så snart vi
+              kan.
             </p>
             <div className="mt-7 border-t border-border">
+              <ContactLink
+                icon={Mail}
+                label="Skicka ett mail"
+                value={SITE.email}
+                href={`mailto:${SITE.email}`}
+              />
               <ContactLink
                 icon={Phone}
                 label="Telefon"
                 value={SITE.phoneDisplay}
                 href={`tel:${SITE.phone}`}
-              />
-              <ContactLink
-                icon={Mail}
-                label="E-post"
-                value={SITE.email}
-                href={`mailto:${SITE.email}`}
               />
               <a
                 href={SITE.mapUrl}
@@ -219,8 +220,8 @@ function KontaktPage() {
                 Skicka förfrågan <ArrowRight />
               </Button>
               <Button asChild type="button" variant="outline" className="h-12 sm:px-8">
-                <a href={`tel:${SITE.phone}`}>
-                  <Phone /> Ring istället
+                <a href={`mailto:${SITE.email}`}>
+                  <Mail /> Skicka ett mail
                 </a>
               </Button>
             </div>

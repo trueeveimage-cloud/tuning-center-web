@@ -70,7 +70,7 @@ export function TuningCalculator() {
   };
 
   return (
-    <div className="card-sheen grid overflow-hidden border border-border bg-surface shadow-2xl shadow-black/20 lg:grid-cols-[0.92fr_1.08fr]">
+    <div className="card-sheen grid overflow-hidden border border-border bg-surface shadow-[0_24px_70px_-45px_rgba(41,32,24,.35)] lg:grid-cols-[0.92fr_1.08fr]">
       <div className="border-b border-border p-6 sm:p-8 lg:border-b-0 lg:border-r">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
