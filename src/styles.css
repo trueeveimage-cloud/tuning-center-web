@@ -48,6 +48,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
   --font-sans: "Barlow", sans-serif;
+  --color-cta-panel: var(--cta-panel);
+  --color-cta-panel-foreground: var(--cta-panel-foreground);
 }
 
 :root {
@@ -89,6 +91,8 @@
   --sidebar-ring: oklch(0.64 0.19 43);
   --gradient-heat: linear-gradient(135deg, oklch(0.74 0.18 58), oklch(0.64 0.22 34));
   --shadow-heat: 0 18px 50px -20px color-mix(in oklab, var(--primary) 75%, transparent);
+  --cta-panel: oklch(0.24 0.014 55);
+  --cta-panel-foreground: oklch(0.965 0.008 78);
 }
 
 @layer base {
@@ -100,6 +104,8 @@
   }
   body {
     min-width: 320px;
+    overflow-x: hidden;
+
     background:
       radial-gradient(
         circle at 85% 5%,
@@ -205,6 +211,28 @@
   filter: drop-shadow(0 0 0.55rem color-mix(in oklab, var(--primary) 35%, transparent));
   transform: translateY(0);
   opacity: 1;
+}
+
+@utility card-premium {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+  box-shadow: 0 16px 40px -34px color-mix(in oklab, var(--foreground) 55%, transparent);
+  transition:
+    border-color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@utility card-premium-hover {
+  &:hover {
+    border-color: color-mix(in oklab, var(--primary) 55%, transparent);
+    box-shadow: 0 26px 55px -34px color-mix(in oklab, var(--primary) 55%, transparent);
+    transform: translateY(-3px);
+  }
 }
 
 @utility text-heat {

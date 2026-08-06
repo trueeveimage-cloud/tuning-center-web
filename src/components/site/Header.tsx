@@ -41,26 +41,30 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl transition-shadow duration-500 ${scrolled ? "shadow-[0_16px_40px_-28px_rgba(41,32,24,.35)]" : ""}`}
+      className={`sticky top-0 z-50 border-b border-border/80 bg-background/75 backdrop-blur-2xl transition-shadow duration-500 ${scrolled ? "shadow-[0_14px_36px_-26px_rgba(41,32,24,.45)]" : ""}`}
     >
-      <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+      <div
+        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 transition-[height] duration-500 sm:px-6 ${scrolled ? "h-16" : "h-[4.5rem]"}`}
+      >
         <Link
           to="/"
-          className="group flex items-center gap-3"
+          className="group flex min-w-0 items-center gap-3"
           aria-label={`${SITE.name}, startsida`}
         >
-          <BrandLogo className="transition-transform duration-300 group-hover:scale-[1.02]" />
+          <BrandLogo className="max-w-[13rem] transition-transform duration-300 group-hover:scale-[1.02] sm:max-w-none" />
         </Link>
 
-        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Huvudnavigation">
+        <nav
+          className="hidden items-center gap-1 rounded-full border border-border/70 bg-surface/70 px-1.5 py-1 shadow-[0_10px_28px_-26px_rgba(41,32,24,.6)] lg:flex"
+          aria-label="Huvudnavigation"
+        >
           {links.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className="relative px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground transition-colors after:absolute after:inset-x-4 after:-bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:text-foreground hover:after:scale-x-100"
+              className="rounded-full px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:bg-surface-2/70 hover:text-foreground"
               activeProps={{
-                className:
-                  "text-foreground after:absolute after:inset-x-4 after:-bottom-[1.1rem] after:h-0.5 after:bg-primary",
+                className: "bg-primary/12 text-primary hover:bg-primary/12 hover:text-primary",
               }}
               activeOptions={{ exact: link.to === "/" }}
             >
@@ -69,8 +73,12 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <Button asChild size="sm" className="hidden bg-heat font-semibold shadow-heat sm:inline-flex">
+        <div className="flex shrink-0 items-center gap-2">
+          <Button
+            asChild
+            size="sm"
+            className="hidden rounded-full bg-heat px-5 font-semibold shadow-heat sm:inline-flex"
+          >
             <Link to="/kontakt">
               <MessageSquareText /> Kontakta oss
             </Link>
@@ -80,7 +88,7 @@ export function Header() {
             aria-label={open ? "Stäng meny" : "Öppna meny"}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
-            className="inline-flex size-10 items-center justify-center border border-border bg-surface text-foreground lg:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-surface text-foreground transition-colors hover:border-primary/50 hover:text-primary lg:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -106,7 +114,7 @@ export function Header() {
                 <span className="text-sm">↗</span>
               </Link>
             ))}
-            <Button asChild className="mt-4 w-full bg-heat font-semibold">
+            <Button asChild className="mt-4 w-full rounded-full bg-heat font-semibold">
               <Link to="/kontakt">
                 <MessageSquareText /> Kontakta oss
               </Link>

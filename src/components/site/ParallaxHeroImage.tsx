@@ -37,7 +37,7 @@ export function ParallaxHeroImage({ src, alt }: ParallaxHeroImageProps) {
       alt={alt}
       width={1920}
       height={1088}
-      className="absolute inset-0 -z-20 size-full origin-center object-cover object-center opacity-55 will-change-transform"
+      className="absolute inset-0 -z-20 size-full origin-center object-cover object-[62%_center] opacity-90 contrast-[1.05] saturate-[1.05] will-change-transform"
     />
   );
 }

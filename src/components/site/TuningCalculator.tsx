@@ -346,6 +346,69 @@ export function TuningCalculator() {
   );
 }
 
+type CapabilityStatus =
+  | "Tillgänglig"
+  | "Ej tillämplig"
+  | "Kräver kontroll"
+  | "Provider-verifierad";
+
+type Capabilities = {
+  source: "provider" | "fallback";
+  sourceLabel: string;
+  ecu: { label: string; status: CapabilityStatus };
+  items: { key: string; label: string; status: CapabilityStatus }[];
+  disclaimer: string;
+};
+
+const STATUS_STYLES: Record<CapabilityStatus, string> = {
+  "Tillgänglig": "border-primary/40 bg-primary/10 text-primary",
+  "Provider-verifierad": "border-primary/50 bg-primary/12 text-primary",
+  "Kräver kontroll": "border-border bg-surface-2/70 text-muted-foreground",
+  "Ej tillämplig": "border-border bg-background text-muted-foreground/80",
+};
+
+function CapabilityPanel({ capabilities }: { capabilities: Capabilities }) {
+  return (
+    <div className="mt-4 rounded-lg border border-border bg-surface/70 p-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Styrenhet & lösningar
+        </p>
+        <span className="text-[0.65rem] uppercase tracking-[0.12em] text-primary">
+          {capabilities.sourceLabel}
+        </span>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+        <span className="font-semibold text-foreground">ECU / styrenhet:</span>
+        <span className="text-muted-foreground">{capabilities.ecu.label}</span>
+        <span
+          className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider ${STATUS_STYLES[capabilities.ecu.status]}`}
+        >
+          {capabilities.ecu.status}
+        </span>
+      </div>
+      <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+        {capabilities.items.map((item) => (
+          <li
+            key={item.key}
+            className="flex items-center justify-between gap-2 rounded-md border border-border/70 bg-background px-3 py-2"
+          >
+            <span className="text-xs font-semibold text-foreground">{item.label}</span>
+            <span
+              className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider ${STATUS_STYLES[item.status]}`}
+            >
+              {item.status}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-3 text-[0.7rem] leading-5 text-muted-foreground">
+        {capabilities.disclaimer}
+      </p>
+    </div>
+  );
+}
+
 function RegistrationMatch({
   data,
 }: {
@@ -368,14 +431,15 @@ function RegistrationMatch({
       engine: string;
       confidence: "exact" | "suggested";
     } | null;
+    capabilities?: Capabilities;
     estimate: unknown;
     reason: string | null;
   };
 }) {
   return (
-    <div className="animate-in fade-in slide-in-from-top-1 border border-border bg-background p-4 duration-300">
+    <div className="animate-in fade-in slide-in-from-top-1 rounded-lg border border-border bg-background p-4 duration-300">
       <div className="flex items-start gap-3">
-        <span className="grid size-9 shrink-0 place-items-center bg-primary/12 text-primary">
+        <span className="grid size-9 shrink-0 place-items-center rounded-md bg-primary/12 text-primary">
           <BadgeCheck className="size-5" />
         </span>
         <div className="min-w-0">
@@ -413,9 +477,11 @@ function RegistrationMatch({
           )}
         </div>
       </div>
+      {data.capabilities && <CapabilityPanel capabilities={data.capabilities} />}
     </div>
   );
 }
+
 
 function getErrorMessage(error: unknown) {
   return error instanceof Error
