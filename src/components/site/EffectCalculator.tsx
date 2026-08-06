@@ -1,8 +1,40 @@
-import { Database, ShieldCheck } from "lucide-react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { ArrowRight, Database, ShieldCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const BYTEFLASH_WIDGET_URL = "https://widget.byteflash.dev/";
 
 export function EffectCalculator() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+
+  if (pathname !== "/kalkylator") {
+    return (
+      <div className="rounded-2xl border border-border bg-surface p-6 shadow-[0_24px_70px_-48px_rgba(41,32,24,.55)] sm:p-8">
+        <p className="section-kicker">
+          <Database className="size-4" /> En gemensam kalkylator
+        </p>
+        <div className="mt-3 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <h3 className="text-3xl sm:text-4xl">Aktuella värden på ett ställe.</h3>
+            <p className="mt-2 max-w-2xl leading-7 text-muted-foreground">
+              Öppna Tuning Centers effektkalkylator och välj bil och motor för Stage 1-data direkt
+              från ByteFLASH.
+            </p>
+          </div>
+          <Button
+            asChild
+            size="lg"
+            className="h-12 rounded-full bg-heat px-7 font-semibold shadow-heat"
+          >
+            <Link to="/kalkylator">
+              Öppna kalkylatorn <ArrowRight />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_28px_80px_-48px_rgba(41,32,24,.55)]">
       <div className="grid gap-5 border-b border-border px-5 py-5 sm:px-7 lg:grid-cols-[1fr_auto] lg:items-center">
