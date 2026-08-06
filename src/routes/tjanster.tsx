@@ -129,11 +129,11 @@ function TjansterPage() {
         </section>
 
         <section className="scroll-reveal mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
-          <div className="grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
               <article
                 key={service.title}
-                className="card-sheen group relative min-h-80 overflow-hidden border-b border-r border-border bg-surface/55 p-7 transition-colors hover:bg-surface-2/55"
+                className="card-premium card-premium-hover card-sheen group min-h-72 p-7"
               >
                 <div className="flex items-start justify-between">
                   <service.icon className="size-8 text-primary" />
@@ -144,10 +144,10 @@ function TjansterPage() {
                 </p>
                 <h2 className="mt-3 text-2xl">{service.title}</h2>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{service.text}</p>
-                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-heat transition-all duration-300 group-hover:w-full" />
               </article>
             ))}
           </div>
+
         </section>
 
         <section className="scroll-reveal border-y border-border bg-surface">
