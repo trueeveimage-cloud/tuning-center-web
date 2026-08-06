@@ -233,7 +233,7 @@ function Index() {
         </section>
 
 
-        <section className="scroll-reveal mx-auto max-w-7xl px-4 py-24 sm:px-6">
+        <section className="scroll-reveal mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="section-kicker">
@@ -250,17 +250,16 @@ function Index() {
             </Button>
           </div>
 
-          <div className="mt-10 grid border-l border-t border-border sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((service) => (
               <article
                 key={service.title}
-                className="card-sheen group relative min-h-72 overflow-hidden border-b border-r border-border bg-surface/50 p-6 transition-colors hover:bg-surface-2/60"
+                className="card-premium card-premium-hover card-sheen group min-h-64 p-6"
               >
                 <span className="font-display text-sm text-muted-foreground">{service.number}</span>
-                <service.icon className="mt-8 size-8 text-primary transition-transform group-hover:-translate-y-1" />
+                <service.icon className="mt-7 size-8 text-primary transition-transform group-hover:-translate-y-1" />
                 <h3 className="mt-6 text-2xl">{service.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{service.text}</p>
-                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-heat transition-all duration-300 group-hover:w-full" />
               </article>
             ))}
           </div>
@@ -268,7 +267,7 @@ function Index() {
 
         <section className="scroll-reveal grid-lines relative overflow-hidden border-y border-border bg-surface-2/45">
           <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/35 to-background/85" />
-          <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6">
+          <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
             <div className="max-w-2xl">
               <p className="section-kicker">
                 <Zap className="size-4" /> Direkt uppskattning
@@ -287,7 +286,7 @@ function Index() {
           </div>
         </section>
 
-        <section className="scroll-reveal mx-auto max-w-7xl px-4 py-24 sm:px-6">
+        <section className="scroll-reveal mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
           <div className="flex items-end justify-between gap-4">
             <div>
               <p className="section-kicker">
@@ -300,9 +299,12 @@ function Index() {
               <span className="font-display text-2xl">5.0</span>
             </div>
           </div>
-          <div className="mt-10 grid gap-px bg-border md:grid-cols-3">
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
             {reviews.map((review) => (
-              <figure key={review.name} className="card-sheen bg-surface p-7">
+              <figure
+                key={review.name}
+                className="card-premium card-premium-hover card-sheen p-7"
+              >
                 <div className="flex gap-1 text-primary">
                   {Array.from({ length: 5 }).map((_, index) => (
                     <Star key={index} className="size-4 fill-current" />
@@ -318,6 +320,7 @@ function Index() {
             ))}
           </div>
         </section>
+
 
         <section className="scroll-reveal border-t border-border bg-background">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
