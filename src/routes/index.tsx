@@ -322,36 +322,39 @@ function Index() {
         </section>
 
 
-        <section className="scroll-reveal border-t border-border bg-background">
+        <section className="scroll-reveal bg-background">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
-            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-              <div>
-                <p className="section-kicker">
-                  <span className="h-px w-8 bg-primary" /> Kontakta oss
-                </p>
-                <h2 className="mt-3 text-4xl leading-none sm:text-5xl">
-                  Redo att prata
-                  <br />
-                  <span className="text-heat">om din bil?</span>
-                </h2>
-              </div>
-              <div>
-                <p className="max-w-xl leading-7 text-muted-foreground">
-                  Skicka ett mail med registreringsnummer och vad du vill ha hjälp med. Du är också
-                  välkommen att ringa eller besöka verkstaden i Kumla.
-                </p>
-                <Button
-                  asChild
-                  size="lg"
-                  className="mt-6 h-12 bg-heat px-8 font-semibold shadow-heat"
-                >
-                  <Link to="/kontakt">
-                    Kontakta oss <ArrowRight />
-                  </Link>
-                </Button>
+            <div className="grid-lines relative overflow-hidden rounded-2xl bg-cta-panel px-6 py-12 text-cta-panel-foreground shadow-[0_40px_90px_-50px_rgba(41,32,24,.9)] sm:px-12 sm:py-16">
+              <div className="absolute -right-16 -top-16 size-64 rounded-full bg-primary/25 blur-3xl" />
+              <div className="relative grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+                <div>
+                  <p className="section-kicker">
+                    <span className="h-px w-8 bg-primary" /> Kontakta oss
+                  </p>
+                  <h2 className="mt-3 text-4xl leading-none sm:text-5xl">
+                    Redo att prata
+                    <br />
+                    <span className="text-heat">om din bil?</span>
+                  </h2>
+                </div>
+                <div>
+                  <p className="max-w-xl leading-7 text-cta-panel-foreground/70">
+                    Skicka ett mail med registreringsnummer och vad du vill ha hjälp med. Du är
+                    också välkommen att ringa eller besöka verkstaden i Kumla.
+                  </p>
+                  <Button
+                    asChild
+                    size="lg"
+                    className="mt-6 h-12 rounded-full bg-heat px-8 font-semibold shadow-heat hover:-translate-y-0.5"
+                  >
+                    <Link to="/kontakt">
+                      Kontakta oss <ArrowRight />
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
-            <div className="mt-10 grid border-l border-t border-border md:grid-cols-3">
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
               <ContactCard
                 icon={Mail}
                 label="Skicka ett mail"
@@ -374,6 +377,7 @@ function Index() {
             </div>
           </div>
         </section>
+
 
         <section className="scroll-reveal border-t border-border bg-surface">
           <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_auto]">
