@@ -194,7 +194,6 @@ function Index() {
           </div>
         </section>
 
-
         <section className="scroll-reveal bg-surface">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
             <div className="grid items-end gap-6 lg:grid-cols-[1fr_0.8fr]">
@@ -231,7 +230,6 @@ function Index() {
             </div>
           </div>
         </section>
-
 
         <section className="scroll-reveal mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
           <div className="flex flex-wrap items-end justify-between gap-6">
@@ -301,10 +299,7 @@ function Index() {
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {reviews.map((review) => (
-              <figure
-                key={review.name}
-                className="card-premium card-premium-hover card-sheen p-7"
-              >
+              <figure key={review.name} className="card-premium card-premium-hover card-sheen p-7">
                 <div className="flex gap-1 text-primary">
                   {Array.from({ length: 5 }).map((_, index) => (
                     <Star key={index} className="size-4 fill-current" />
@@ -320,7 +315,6 @@ function Index() {
             ))}
           </div>
         </section>
-
 
         <section className="scroll-reveal bg-background">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
@@ -377,7 +371,6 @@ function Index() {
             </div>
           </div>
         </section>
-
 
         <section className="scroll-reveal border-t border-border bg-surface">
           <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_auto]">

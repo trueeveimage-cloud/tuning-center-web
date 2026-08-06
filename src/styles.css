@@ -50,7 +50,6 @@
   --font-sans: "Barlow", sans-serif;
   --color-cta-panel: var(--cta-panel);
   --color-cta-panel-foreground: var(--cta-panel-foreground);
-
 }
 
 :root {
@@ -95,7 +94,6 @@
   --cta-panel: oklch(0.24 0.014 55);
   --cta-panel-foreground: oklch(0.965 0.008 78);
 }
-
 
 @layer base {
   * {
@@ -238,7 +236,6 @@
 }
 
 @utility text-heat {
-
   background: var(--gradient-heat);
   -webkit-background-clip: text;
   background-clip: text;
