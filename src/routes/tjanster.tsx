@@ -114,13 +114,19 @@ function TjansterPage() {
               <p className="section-kicker">
                 <Wrench className="size-4" /> Mekaniskt arbete
               </p>
-              <h2 className="mt-3 text-3xl sm:text-4xl">För mekaniskt arbete, kontakta oss för offert.</h2>
+              <h2 className="mt-3 text-3xl sm:text-4xl">
+                För mekaniskt arbete, kontakta oss för offert.
+              </h2>
               <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">
                 Skicka registreringsnummer och en kort beskrivning av arbetet så återkommer vi med
                 bedömning och prisförslag.
               </p>
             </div>
-            <Button asChild size="lg" className="relative mt-6 h-12 bg-heat px-8 font-semibold shadow-heat lg:mt-0">
+            <Button
+              asChild
+              size="lg"
+              className="relative mt-6 h-12 bg-heat px-8 font-semibold shadow-heat lg:mt-0"
+            >
               <Link to="/kontakt">
                 Kontakta oss <ArrowRight />
               </Link>
@@ -147,7 +153,6 @@ function TjansterPage() {
               </article>
             ))}
           </div>
-
         </section>
 
         <section className="scroll-reveal border-y border-border bg-surface">

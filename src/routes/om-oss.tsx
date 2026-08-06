@@ -131,7 +131,6 @@ function OmOssPage() {
               >
                 <div className="flex items-start justify-between">
                   <span className="grid size-11 place-items-center rounded-lg bg-primary/10 text-primary">
-
                     <step.icon className="size-5" />
                   </span>
                   <span className="font-display text-3xl text-foreground/15">{step.number}</span>
@@ -159,7 +158,6 @@ function OmOssPage() {
                   key={item.title}
                   className="card-premium card-premium-hover card-sheen p-7 sm:p-8"
                 >
-
                   <item.icon className="size-7 text-primary" />
                   <h3 className="mt-6 text-2xl">{item.title}</h3>
                   <p className="mt-3 leading-7 text-muted-foreground">{item.text}</p>
