@@ -123,14 +123,15 @@ function OmOssPage() {
               tillsammans och att resultatet kontrolleras innan bilen lämnas tillbaka.
             </p>
           </div>
-          <div className="mt-12 grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {processSteps.map((step) => (
               <article
                 key={step.title}
-                className="card-sheen group min-h-72 overflow-hidden border-b border-r border-border bg-surface/55 p-7"
+                className="card-premium card-premium-hover card-sheen group min-h-64 p-7"
               >
                 <div className="flex items-start justify-between">
-                  <span className="grid size-11 place-items-center bg-primary/10 text-primary">
+                  <span className="grid size-11 place-items-center rounded-lg bg-primary/10 text-primary">
+
                     <step.icon className="size-5" />
                   </span>
                   <span className="font-display text-3xl text-foreground/15">{step.number}</span>
