@@ -48,6 +48,9 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
   --font-sans: "Barlow", sans-serif;
+  --color-cta-panel: var(--cta-panel);
+  --color-cta-panel-foreground: var(--cta-panel-foreground);
+
 }
 
 :root {
