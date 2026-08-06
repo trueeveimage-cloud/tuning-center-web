@@ -426,11 +426,12 @@ function ContactCard({
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
-      className="group flex min-h-36 items-center gap-4 border-b border-r border-border bg-surface/45 p-6 hover:bg-surface-2/60"
+      className="card-premium card-premium-hover group flex min-h-32 items-center gap-4 p-6"
     >
-      <span className="grid size-11 shrink-0 place-items-center bg-primary/10 text-primary">
+      <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
         <Icon className="size-5" />
       </span>
+
       <span className="min-w-0">
         <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           {label}
