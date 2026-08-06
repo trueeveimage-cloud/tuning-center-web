@@ -153,9 +153,13 @@ function OmOssPage() {
                 <span className="text-heat">Kontrollerade resultat.</span>
               </h2>
             </div>
-            <div className="mt-10 grid gap-px bg-border lg:grid-cols-3">
+            <div className="mt-10 grid gap-4 lg:grid-cols-3">
               {equipment.map((item) => (
-                <article key={item.title} className="card-sheen bg-background p-7 sm:p-8">
+                <article
+                  key={item.title}
+                  className="card-premium card-premium-hover card-sheen p-7 sm:p-8"
+                >
+
                   <item.icon className="size-7 text-primary" />
                   <h3 className="mt-6 text-2xl">{item.title}</h3>
                   <p className="mt-3 leading-7 text-muted-foreground">{item.text}</p>
