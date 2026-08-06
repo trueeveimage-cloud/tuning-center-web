@@ -89,7 +89,10 @@
   --sidebar-ring: oklch(0.64 0.19 43);
   --gradient-heat: linear-gradient(135deg, oklch(0.74 0.18 58), oklch(0.64 0.22 34));
   --shadow-heat: 0 18px 50px -20px color-mix(in oklab, var(--primary) 75%, transparent);
+  --cta-panel: oklch(0.24 0.014 55);
+  --cta-panel-foreground: oklch(0.965 0.008 78);
 }
+
 
 @layer base {
   * {
