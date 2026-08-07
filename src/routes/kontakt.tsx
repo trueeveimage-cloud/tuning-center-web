@@ -219,17 +219,13 @@ function KontaktPage() {
               <Button type="submit" className="h-12 bg-heat font-semibold shadow-heat sm:px-8">
                 Skicka förfrågan <ArrowRight />
               </Button>
-              <Button asChild type="button" variant="outline" className="h-12 sm:px-8">
-                <a href={`mailto:${SITE.email}`}>
-                  <Mail /> Skicka ett mail
-                </a>
-              </Button>
               <Button asChild type="button" variant="ghost" className="h-12">
                 <a href={`mailto:${SITE.email}`}>
                   <Mail /> {SITE.email}
                 </a>
               </Button>
             </div>
+
             <p className="mt-3 text-xs text-muted-foreground">
               {sent
                 ? `Öppnades inget e-postprogram? Mejla oss direkt på ${SITE.email} eller ring ${SITE.phoneDisplay}.`
