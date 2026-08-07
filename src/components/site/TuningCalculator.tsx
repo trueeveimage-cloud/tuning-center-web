@@ -5,14 +5,26 @@ import {
   ArrowRight,
   BadgeCheck,
   Car,
+  CheckCircle2,
+  CircleHelp,
+  CircleX,
+  Cpu,
   Gauge,
   Loader2,
   Phone,
   ScanLine,
   Search,
   TrendingUp,
+  TriangleAlert,
+  Wrench,
 } from "lucide-react";
 import { getTuningCatalog, estimateByRegistration, estimateTuning } from "@/lib/tuning.functions";
+import type {
+  CapabilityStatus,
+  VehicleCapabilities,
+  VehicleFeature,
+} from "@/lib/vehicle-capabilities.server";
+import type { RegistrationLookupResult } from "@/lib/vehicle-lookup.server";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,7 +38,7 @@ import { SITE } from "@/lib/site";
 
 type Stage = "stage1" | "stage2";
 
-export function TuningCalculator() {
+export function TuningCalculator({ onOpenDatabase }: { onOpenDatabase?: () => void }) {
   const catalogFn = useServerFn(getTuningCatalog);
   const estimateFn = useServerFn(estimateTuning);
   const registrationFn = useServerFn(estimateByRegistration);
@@ -56,6 +68,7 @@ export function TuningCalculator() {
     },
   });
   const result = registrationMutation.data?.estimate ?? manualMutation.data;
+  const usesDatabaseResults = Boolean(onOpenDatabase);
 
   const resetResult = () => {
     manualMutation.reset();
@@ -221,35 +234,44 @@ export function TuningCalculator() {
             </Select>
           </Field>
 
-          <Field label="Tuningsteg">
-            <div className="grid grid-cols-2 gap-2">
-              {(["stage1", "stage2"] as const).map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => {
-                    setStage(item);
-                    manualMutation.reset();
-                    if (registrationMutation.data) {
-                      registrationMutation.mutate(item);
-                    } else {
-                      registrationMutation.reset();
-                    }
-                  }}
-                  className={`h-11 border text-sm font-semibold uppercase tracking-wider ${stage === item ? "border-primary bg-primary/12 text-primary" : "border-border bg-background text-muted-foreground hover:border-foreground/30 hover:text-foreground"}`}
-                >
-                  {item === "stage1" ? "Steg 1" : "Steg 2"}
-                </button>
-              ))}
-            </div>
-          </Field>
+          {!usesDatabaseResults && (
+            <Field label="Tuningsteg">
+              <div className="grid grid-cols-2 gap-2">
+                {(["stage1", "stage2"] as const).map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => {
+                      setStage(item);
+                      manualMutation.reset();
+                      if (registrationMutation.data) {
+                        registrationMutation.mutate(item);
+                      } else {
+                        registrationMutation.reset();
+                      }
+                    }}
+                    className={`h-11 border text-sm font-semibold uppercase tracking-wider ${stage === item ? "border-primary bg-primary/12 text-primary" : "border-border bg-background text-muted-foreground hover:border-foreground/30 hover:text-foreground"}`}
+                  >
+                    {item === "stage1" ? "Steg 1" : "Steg 2"}
+                  </button>
+                ))}
+              </div>
+            </Field>
+          )}
 
           <Button
             className="h-12 w-full bg-heat font-semibold shadow-heat hover:-translate-y-0.5"
-            disabled={!engine || manualMutation.isPending}
-            onClick={() => manualMutation.mutate()}
+            disabled={!usesDatabaseResults && (!engine || manualMutation.isPending)}
+            onClick={() => {
+              if (onOpenDatabase) onOpenDatabase();
+              else manualMutation.mutate();
+            }}
           >
-            {manualMutation.isPending ? (
+            {usesDatabaseResults ? (
+              <>
+                Visa Stage 1-data <ArrowRight />
+              </>
+            ) : manualMutation.isPending ? (
               <>
                 <Loader2 className="animate-spin" /> Beräknar...
               </>
@@ -271,19 +293,45 @@ export function TuningCalculator() {
             </span>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                Uppskattat resultat
+                {usesDatabaseResults ? "Databasresultat" : "Uppskattat resultat"}
               </p>
-              <p className="mt-0.5 text-sm text-muted-foreground">Före och efter optimering</p>
+              <p className="mt-0.5 text-sm text-muted-foreground">
+                {usesDatabaseResults
+                  ? "Stage 1-data"
+                  : result
+                    ? result.source === "catalog"
+                      ? "Katalogvärde · försiktig uppskattning"
+                      : "Registreringsdata · försiktig uppskattning"
+                    : "Före och efter optimering"}
+              </p>
             </div>
           </div>
           <span className="font-display text-3xl text-foreground/15">02</span>
         </div>
 
-        {!result ? (
+        {usesDatabaseResults ? (
+          <div className="relative grid flex-1 place-items-center py-10 text-center">
+            <div className="max-w-md">
+              <BadgeCheck className="mx-auto size-14 stroke-1 text-primary/55" />
+              <h3 className="mt-5 text-2xl text-foreground">En källa för hk och Nm</h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Registreringssökningen identifierar bilen och visar verifierad ECU- och
+                funktionsdata när sådan finns. Alla trimmade effektvärden visas i kalkylatorn så att
+                du inte får två olika svar.
+              </p>
+              <Button className="mt-6 h-11 bg-heat px-6 shadow-heat" onClick={onOpenDatabase}>
+                Öppna Stage 1-data <ArrowRight />
+              </Button>
+              <p className="mt-4 text-xs leading-5 text-muted-foreground">
+                Välj samma bil och motor i kalkylatorn för att se uppskattade effektvärden.
+              </p>
+            </div>
+          </div>
+        ) : !result ? (
           <div className="relative grid flex-1 place-items-center py-10 text-center">
             <div className="max-w-sm">
               <Car className="mx-auto size-14 stroke-1 text-foreground/20" />
-              <h2 className="mt-5 text-2xl text-foreground/60">Din potential visas här</h2>
+              <h3 className="mt-5 text-2xl text-foreground/60">Din potential visas här</h3>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">
                 Sök på registreringsnumret eller välj märke, modell och motor för att se uppskattad
                 effekt och vridmoment.
@@ -296,7 +344,7 @@ export function TuningCalculator() {
               <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
                 {result.brand} {result.model}
               </p>
-              <h2 className="mt-1 text-3xl">{result.engine}</h2>
+              <h3 className="mt-1 text-3xl">{result.engine}</h3>
             </div>
             <div className="mt-8 space-y-7">
               <ResultRow
@@ -319,11 +367,19 @@ export function TuningCalculator() {
               />
             </div>
             <div className="mt-auto pt-8">
-              <p className="text-xs leading-5 text-muted-foreground">
-                Värdena är uppskattningar. För registerberäknade motorer uppskattas vridmomentet
-                från motortyp, slagvolym och registrerad effekt. Exakt resultat bekräftas alltid av
-                verkstaden.
-              </p>
+              <div className="border-l-2 border-amber-600 bg-amber-600/8 p-3">
+                <div className="flex items-center gap-2 text-amber-800">
+                  <TriangleAlert className="size-4 shrink-0" />
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.15em]">
+                    Viktigt om siffrorna
+                  </p>
+                </div>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                  Siffrorna är ungefärliga intervall och kan avvika från bilens verkliga resultat.
+                  Motorvariant, ECU-mjukvara, hårdvara, bränsle och bilens skick påverkar utfallet.
+                  Exakta hk- och Nm-värden kan bara bekräftas efter diagnos och mätning.
+                </p>
+              </div>
               <Button
                 asChild
                 variant="outline"
@@ -336,7 +392,7 @@ export function TuningCalculator() {
             </div>
           </div>
         )}
-        {manualMutation.isError && (
+        {!usesDatabaseResults && manualMutation.isError && (
           <p className="relative mt-4 text-sm text-destructive">
             Något gick fel. Försök igen eller ring oss så hjälper vi dig.
           </p>
@@ -346,100 +402,11 @@ export function TuningCalculator() {
   );
 }
 
-type CapabilityStatus =
-  | "Tillgänglig"
-  | "Ej tillämplig"
-  | "Kräver kontroll"
-  | "Provider-verifierad";
-
-type Capabilities = {
-  source: "provider" | "fallback";
-  sourceLabel: string;
-  ecu: { label: string; status: CapabilityStatus };
-  items: { key: string; label: string; status: CapabilityStatus }[];
-  disclaimer: string;
-};
-
-const STATUS_STYLES: Record<CapabilityStatus, string> = {
-  "Tillgänglig": "border-primary/40 bg-primary/10 text-primary",
-  "Provider-verifierad": "border-primary/50 bg-primary/12 text-primary",
-  "Kräver kontroll": "border-border bg-surface-2/70 text-muted-foreground",
-  "Ej tillämplig": "border-border bg-background text-muted-foreground/80",
-};
-
-function CapabilityPanel({ capabilities }: { capabilities: Capabilities }) {
+function RegistrationMatch({ data }: { data: RegistrationLookupResult }) {
   return (
-    <div className="mt-4 rounded-lg border border-border bg-surface/70 p-4">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          Styrenhet & lösningar
-        </p>
-        <span className="text-[0.65rem] uppercase tracking-[0.12em] text-primary">
-          {capabilities.sourceLabel}
-        </span>
-      </div>
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-        <span className="font-semibold text-foreground">ECU / styrenhet:</span>
-        <span className="text-muted-foreground">{capabilities.ecu.label}</span>
-        <span
-          className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider ${STATUS_STYLES[capabilities.ecu.status]}`}
-        >
-          {capabilities.ecu.status}
-        </span>
-      </div>
-      <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-        {capabilities.items.map((item) => (
-          <li
-            key={item.key}
-            className="flex items-center justify-between gap-2 rounded-md border border-border/70 bg-background px-3 py-2"
-          >
-            <span className="text-xs font-semibold text-foreground">{item.label}</span>
-            <span
-              className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider ${STATUS_STYLES[item.status]}`}
-            >
-              {item.status}
-            </span>
-          </li>
-        ))}
-      </ul>
-      <p className="mt-3 text-[0.7rem] leading-5 text-muted-foreground">
-        {capabilities.disclaimer}
-      </p>
-    </div>
-  );
-}
-
-function RegistrationMatch({
-  data,
-}: {
-  data: {
-    vehicle: {
-      registration: string;
-      make: string;
-      model: string;
-      year: number | null;
-      hp: number | null;
-      fuel: "diesel" | "bensin" | "electric" | "other" | null;
-      fuelLabel: string | null;
-      displacementCc: number | null;
-      transmission: string | null;
-      vehicleType: string | null;
-    };
-    match: {
-      brand: string;
-      model: string;
-      engine: string;
-      confidence: "exact" | "suggested";
-    } | null;
-    capabilities?: Capabilities;
-    estimate: unknown;
-    reason: string | null;
-  };
-}) {
-  return (
-    <div className="animate-in fade-in slide-in-from-top-1 rounded-lg border border-border bg-background p-4 duration-300">
+    <div className="animate-in fade-in slide-in-from-top-1 border border-border bg-background p-4 duration-300">
       <div className="flex items-start gap-3">
-        <span className="grid size-9 shrink-0 place-items-center rounded-md bg-primary/12 text-primary">
+        <span className="grid size-9 shrink-0 place-items-center bg-primary/12 text-primary">
           <BadgeCheck className="size-5" />
         </span>
         <div className="min-w-0">
@@ -477,11 +444,109 @@ function RegistrationMatch({
           )}
         </div>
       </div>
-      {data.capabilities && <CapabilityPanel capabilities={data.capabilities} />}
+      <VehicleCapabilitiesPanel capabilities={data.capabilities} />
     </div>
   );
 }
 
+function VehicleCapabilitiesPanel({ capabilities }: { capabilities: VehicleCapabilities }) {
+  return (
+    <div className="mt-4 border-t border-border pt-4">
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary">
+            ECU och funktioner
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Visas endast när datakällan kan verifiera uppgiften.
+          </p>
+        </div>
+        <span className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+          {capabilities.sourceLabel}
+        </span>
+      </div>
+
+      <div className="mt-3 space-y-3">
+        <div className="border border-border bg-surface-2/45 p-3">
+          <div className="flex items-center gap-2 text-primary">
+            <Cpu className="size-4" />
+            <span className="text-xs font-semibold uppercase tracking-[0.16em]">
+              ECU / styrenhet
+            </span>
+          </div>
+          <p className="mt-3 break-words font-display text-xl text-foreground">
+            {capabilities.ecu ?? "Kräver manuell kontroll"}
+          </p>
+          <CapabilityStatusPill status={capabilities.ecuStatus} />
+        </div>
+
+        <div className="grid gap-2 sm:grid-cols-2">
+          {capabilities.features.map((feature) => (
+            <CapabilityFeature key={feature.key} feature={feature} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CapabilityFeature({ feature }: { feature: VehicleFeature }) {
+  return (
+    <div className="border border-border bg-background/70 p-3">
+      <div className="flex items-center justify-between gap-2">
+        <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
+          <Wrench className="size-3.5 text-primary" />
+          {feature.label}
+        </span>
+        <CapabilityStatusPill status={feature.status} compact />
+      </div>
+      {feature.detail && (
+        <p className="mt-2 text-xs leading-5 text-muted-foreground">{feature.detail}</p>
+      )}
+    </div>
+  );
+}
+
+function CapabilityStatusPill({
+  status,
+  compact = false,
+}: {
+  status: CapabilityStatus;
+  compact?: boolean;
+}) {
+  const meta = {
+    provider_verified: {
+      label: "Provider-verifierad",
+      className: "border-primary/25 bg-primary/10 text-primary",
+      icon: CheckCircle2,
+    },
+    available: {
+      label: "Tillgänglig",
+      className: "border-emerald-600/20 bg-emerald-600/10 text-emerald-700",
+      icon: CheckCircle2,
+    },
+    not_applicable: {
+      label: "Ej tillämplig",
+      className: "border-border bg-surface-2 text-muted-foreground",
+      icon: CircleX,
+    },
+    manual_review: {
+      label: "Kräver kontroll",
+      className: "border-amber-600/25 bg-amber-600/10 text-amber-800",
+      icon: CircleHelp,
+    },
+  }[status];
+  const Icon = meta.icon;
+
+  return (
+    <span
+      className={`inline-flex items-center gap-1 border px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.1em] ${compact ? "max-w-[7.5rem] truncate" : "mt-2"} ${meta.className}`}
+    >
+      <Icon className="size-3 shrink-0" />
+      <span className="truncate">{meta.label}</span>
+    </span>
+  );
+}
 
 function getErrorMessage(error: unknown) {
   return error instanceof Error
