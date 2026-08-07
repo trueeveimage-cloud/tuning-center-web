@@ -8,6 +8,7 @@ import { SITE } from "@/lib/site";
 const links = [
   { to: "/", label: "Hem" },
   { to: "/tjanster", label: "Tjänster" },
+  { to: "/tjanster", hash: "a-traktor", label: "A-traktor" },
   { to: "/om-oss", label: "Om oss" },
   { to: "/kalkylator", label: "Beräkna effekt" },
   { to: "/kontakt", label: "Kontakt" },
@@ -41,30 +42,31 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-border/80 bg-background/75 backdrop-blur-2xl transition-shadow duration-500 ${scrolled ? "shadow-[0_14px_36px_-26px_rgba(41,32,24,.45)]" : ""}`}
+      className={`sticky top-0 z-50 border-b border-white/10 bg-[#1F2937]/[.97] text-white backdrop-blur-2xl transition-all duration-500 ${scrolled ? "shadow-[0_18px_55px_-32px_rgba(15,23,42,.8)]" : ""}`}
     >
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 transition-[height] duration-500 sm:px-6 ${scrolled ? "h-16" : "h-[4.5rem]"}`}
+        className={`mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 transition-[height] duration-500 sm:px-6 ${scrolled ? "h-[4.25rem]" : "h-[4.75rem]"}`}
       >
         <Link
           to="/"
-          className="group flex min-w-0 items-center gap-3"
+          className="group flex items-center gap-3"
           aria-label={`${SITE.name}, startsida`}
         >
-          <BrandLogo className="max-w-[13rem] transition-transform duration-300 group-hover:scale-[1.02] sm:max-w-none" />
+          <BrandLogo className="transition-transform duration-300 group-hover:scale-[1.02]" />
         </Link>
 
         <nav
-          className="hidden items-center gap-1 rounded-full border border-border/70 bg-surface/70 px-1.5 py-1 shadow-[0_10px_28px_-26px_rgba(41,32,24,.6)] lg:flex"
+          className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 shadow-sm lg:flex"
           aria-label="Huvudnavigation"
         >
           {links.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className="rounded-full px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:bg-surface-2/70 hover:text-foreground"
+              hash={"hash" in link ? link.hash : undefined}
+              className="relative rounded-full px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
               activeProps={{
-                className: "bg-primary/12 text-primary hover:bg-primary/12 hover:text-primary",
+                className: "bg-white text-[#111827] shadow-sm",
               }}
               activeOptions={{ exact: link.to === "/" }}
             >
@@ -73,11 +75,11 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex items-center gap-2">
           <Button
             asChild
             size="sm"
-            className="hidden rounded-full bg-heat px-5 font-semibold shadow-heat sm:inline-flex"
+            className="hidden bg-primary font-semibold shadow-heat hover:bg-blue-500 sm:inline-flex"
           >
             <Link to="/kontakt">
               <MessageSquareText /> Kontakta oss
@@ -88,7 +90,7 @@ export function Header() {
             aria-label={open ? "Stäng meny" : "Öppna meny"}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
-            className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-surface text-foreground transition-colors hover:border-primary/50 hover:text-primary lg:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-sm lg:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -97,7 +99,7 @@ export function Header() {
 
       {open && (
         <nav
-          className="animate-in slide-in-from-top-2 border-t border-border bg-surface px-4 py-4 duration-300 lg:hidden"
+          className="animate-in slide-in-from-top-2 border-t border-white/10 bg-[#1F2937] px-4 py-4 shadow-xl duration-300 lg:hidden"
           aria-label="Mobilnavigation"
         >
           <div className="mx-auto max-w-7xl">
@@ -105,16 +107,17 @@ export function Header() {
               <Link
                 key={link.to}
                 to={link.to}
+                hash={"hash" in link ? link.hash : undefined}
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-border/60 py-3 font-display text-xl uppercase tracking-wide text-muted-foreground"
-                activeProps={{ className: "text-primary" }}
+                className="flex items-center justify-between border-b border-white/10 py-3 font-display text-xl uppercase tracking-wide text-slate-200"
+                activeProps={{ className: "text-blue-300" }}
                 activeOptions={{ exact: link.to === "/" }}
               >
                 {link.label}
-                <span className="text-sm">↗</span>
+                <span aria-hidden="true" className="h-px w-7 bg-blue-400" />
               </Link>
             ))}
-            <Button asChild className="mt-4 w-full rounded-full bg-heat font-semibold">
+            <Button asChild className="mt-4 w-full bg-primary font-semibold hover:bg-blue-500">
               <Link to="/kontakt">
                 <MessageSquareText /> Kontakta oss
               </Link>
@@ -124,7 +127,7 @@ export function Header() {
       )}
       <span
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-[-1px] h-px origin-left bg-heat transition-transform duration-150"
+        className="absolute inset-x-0 bottom-[-1px] h-px origin-left bg-primary transition-transform duration-150"
         style={{ transform: `scaleX(${scrollProgress})` }}
       />
     </header>
