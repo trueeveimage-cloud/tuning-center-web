@@ -26,36 +26,42 @@ export const Route = createFileRoute("/kontakt")({
 });
 
 function KontaktPage() {
+  const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const buildMessage = (data: FormData) =>
-    `Namn: ${data.get("namn")}\nTelefon: ${data.get("telefon")}\nBil: ${data.get("bil") || "-"}\n\n${data.get("meddelande") || ""}`.trim();
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const body = buildMessage(new FormData(form));
-    const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent("Förfrågan från hemsidan")}&body=${encodeURIComponent(body)}`;
-
-    const link = document.createElement("a");
-    link.href = mailto;
-    link.rel = "noopener";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    setSent(true);
-    toast.success("Din förfrågan är förberedd", {
-      description: "Skicka mejlet i ditt e-postprogram – eller kopiera texten nedan.",
-      action: {
-        label: "Kopiera",
-        onClick: () => {
-          navigator.clipboard?.writeText(`${body}\n\nTill: ${SITE.email}`);
-          toast.success("Texten är kopierad");
-        },
-      },
-    });
+    const data = new FormData(form);
+    setSending(true);
+    try {
+      const response = await fetch("/api/public/kontakt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          namn: String(data.get("namn") ?? ""),
+          telefon: String(data.get("telefon") ?? ""),
+          epost: String(data.get("epost") ?? ""),
+          bil: String(data.get("bil") ?? ""),
+          meddelande: String(data.get("meddelande") ?? ""),
+          webbplats: String(data.get("webbplats") ?? ""),
+        }),
+      });
+      if (!response.ok) throw new Error("send failed");
+      setSent(true);
+      form.reset();
+      toast.success("Tack! Din förfrågan är skickad", {
+        description: "Vi återkommer så snart vi kan.",
+      });
+    } catch {
+      toast.error("Något gick fel", {
+        description: `Mejla oss direkt på ${SITE.email} eller ring ${SITE.phoneDisplay}.`,
+      });
+    } finally {
+      setSending(false);
+    }
   };
+
 
 
   return (
