@@ -8,6 +8,7 @@ import {
   Gauge,
   Settings2,
   ShieldOff,
+  Tractor,
   Wrench,
 } from "lucide-react";
 import { Header } from "@/components/site/Header";
@@ -26,41 +27,7 @@ export const Route = createFileRoute("/tjanster")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://tuningcenterorebro.se/tjanster" },
       { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://tuningcenterorebro.se/tjanster" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          name: "Tjänster – Tuning Center Örebro",
-          itemListElement: [
-            "Motoroptimering",
-            "Växellådsoptimering",
-            "Felsökning och diagnostik",
-            "Kodning och programmering",
-            "VAG- och BMW-kodning",
-            "FRM-reparation",
-          ].map((name, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            item: {
-              "@type": "Service",
-              name,
-              serviceType: name,
-              areaServed: ["Kumla", "Örebro"],
-              provider: {
-                "@type": "AutoRepair",
-                name: "Tuning Center Örebro",
-                url: "https://tuningcenterorebro.se/",
-              },
-            },
-          })),
-        }),
-      },
     ],
   }),
   component: TjansterPage,
@@ -71,7 +38,7 @@ const services = [
     icon: Gauge,
     number: "01",
     title: "Motoroptimering",
-    text: "Individuellt anpassad ECU-optimering för mer effekt, högre vridmoment och bättre respons med fokus på driftsäkerhet.",
+    text: "Individuellt anpassad ECU-optimering för mer effekt, högre vridmoment, bättre respons och potential till lägre bränsleförbrukning med fokus på driftsäkerhet.",
     note: "ECU · Steg 1–3",
   },
   {
@@ -116,6 +83,13 @@ const services = [
     text: "Diagnos och reparation av BMW:s Footwell Module vid fel på belysning, fönsterhissar och relaterade komfortfunktioner.",
     note: "BMW · Elektronik",
   },
+  {
+    icon: Tractor,
+    number: "08",
+    title: "A-traktor",
+    text: "Mjukvara och anpassningar för A-traktorer, utförda efter fordonets tekniska förutsättningar och gällande regler.",
+    note: "A-traktor · Mjukvara",
+  },
 ];
 
 function TjansterPage() {
@@ -148,19 +122,13 @@ function TjansterPage() {
               <p className="section-kicker">
                 <Wrench className="size-4" /> Mekaniskt arbete
               </p>
-              <h2 className="mt-3 text-3xl sm:text-4xl">
-                För mekaniskt arbete, kontakta oss för offert.
-              </h2>
+              <h2 className="mt-3 text-3xl sm:text-4xl">För mekaniskt arbete, kontakta oss för offert.</h2>
               <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">
                 Skicka registreringsnummer och en kort beskrivning av arbetet så återkommer vi med
                 bedömning och prisförslag.
               </p>
             </div>
-            <Button
-              asChild
-              size="lg"
-              className="relative mt-6 h-12 bg-heat px-8 font-semibold shadow-heat lg:mt-0"
-            >
+            <Button asChild size="lg" className="relative mt-6 h-12 bg-heat px-8 font-semibold shadow-heat lg:mt-0">
               <Link to="/kontakt">
                 Kontakta oss <ArrowRight />
               </Link>
@@ -169,11 +137,12 @@ function TjansterPage() {
         </section>
 
         <section className="scroll-reveal mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
               <article
                 key={service.title}
-                className="card-premium card-premium-hover card-sheen group min-h-72 p-7"
+                id={service.title === "A-traktor" ? "a-traktor" : undefined}
+                className="card-sheen group relative min-h-80 overflow-hidden border-b border-r border-border bg-surface/55 p-7 transition-colors hover:bg-surface-2/55"
               >
                 <div className="flex items-start justify-between">
                   <service.icon className="size-8 text-primary" />
@@ -184,6 +153,7 @@ function TjansterPage() {
                 </p>
                 <h2 className="mt-3 text-2xl">{service.title}</h2>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{service.text}</p>
+                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-heat transition-all duration-300 group-hover:w-full" />
               </article>
             ))}
           </div>
