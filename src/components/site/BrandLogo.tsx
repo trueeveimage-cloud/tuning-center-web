@@ -25,7 +25,12 @@ export function BrandMark({ className }: { className?: string }) {
   );
 }
 
-export function BrandLogo({ className }: { className?: string }) {
+export function BrandLogo({
+  className,
+}: {
+  className?: string;
+  variant?: "header" | "footer";
+}) {
   return (
     <span className={cn("inline-flex items-center gap-3", className)}>
       <BrandMark className="shrink-0" />
