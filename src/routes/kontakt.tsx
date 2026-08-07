@@ -198,6 +198,12 @@ function KontaktPage() {
                 type="tel"
                 required
               />
+              <FormField
+                name="epost"
+                label="E-post"
+                placeholder="din@epost.se"
+                type="email"
+              />
               <div className="sm:col-span-2">
                 <FormField
                   name="bil"
@@ -220,23 +226,31 @@ function KontaktPage() {
                   className="w-full resize-y border border-input bg-background px-4 py-3 text-sm outline-none placeholder:text-muted-foreground/55 focus:border-primary"
                 />
               </div>
+              <input
+                type="text"
+                name="webbplats"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button type="submit" className="h-12 bg-heat font-semibold shadow-heat sm:px-8">
-                Skicka förfrågan <ArrowRight />
-              </Button>
-              <Button asChild type="button" variant="ghost" className="h-12">
-                <a href={`mailto:${SITE.email}`}>
-                  <Mail /> {SITE.email}
-                </a>
+              <Button
+                type="submit"
+                disabled={sending}
+                className="h-12 bg-heat font-semibold shadow-heat sm:px-8"
+              >
+                {sending ? "Skickar…" : "Skicka förfrågan"} <ArrowRight />
               </Button>
             </div>
 
             <p className="mt-3 text-xs text-muted-foreground">
               {sent
-                ? `Öppnades inget e-postprogram? Mejla oss direkt på ${SITE.email} eller ring ${SITE.phoneDisplay}.`
-                : `Knappen öppnar ditt e-postprogram med uppgifterna ifyllda till ${SITE.email}.`}
+                ? `Tack! Vi har fått din förfrågan och hör av oss. Brådskande? Ring ${SITE.phoneDisplay}.`
+                : `Förfrågan mejlas direkt till ${SITE.email}.`}
             </p>
+
 
 
           </form>
