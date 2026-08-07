@@ -15,6 +15,8 @@ import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as OmOssRouteImport } from './routes/om-oss'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TjansterRouteImport } from './routes/tjanster'
+import { Route as ApiPublicKontaktRouteImport } from './routes/api/public/kontakt'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +48,17 @@ const TjansterRoute = TjansterRouteImport.update({
   path: '/tjanster',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicKontaktRoute = ApiPublicKontaktRouteImport.update({
+  id: '/api/public/kontakt',
+  path: '/api/public/kontakt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +67,8 @@ export interface FileRoutesByFullPath {
   '/om-oss': typeof OmOssRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tjanster': typeof TjansterRoute
+  '/api/public/kontakt': typeof ApiPublicKontaktRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +77,8 @@ export interface FileRoutesByTo {
   '/om-oss': typeof OmOssRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tjanster': typeof TjansterRoute
+  '/api/public/kontakt': typeof ApiPublicKontaktRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,14 +88,30 @@ export interface FileRoutesById {
   '/om-oss': typeof OmOssRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tjanster': typeof TjansterRoute
+  '/api/public/kontakt': typeof ApiPublicKontaktRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/kalkylator' | '/kontakt' | '/om-oss' | '/sitemap.xml' | '/tjanster'
+    | '/'
+    | '/kalkylator'
+    | '/kontakt'
+    | '/om-oss'
+    | '/sitemap.xml'
+    | '/tjanster'
+    | '/api/public/kontakt'
+    | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/kalkylator' | '/kontakt' | '/om-oss' | '/sitemap.xml' | '/tjanster'
+    | '/'
+    | '/kalkylator'
+    | '/kontakt'
+    | '/om-oss'
+    | '/sitemap.xml'
+    | '/tjanster'
+    | '/api/public/kontakt'
+    | '/lovable/email/transactional/preview'
   id:
     | '__root__'
     | '/'
@@ -87,6 +120,8 @@ export interface FileRouteTypes {
     | '/om-oss'
     | '/sitemap.xml'
     | '/tjanster'
+    | '/api/public/kontakt'
+    | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -96,6 +131,8 @@ export interface RootRouteChildren {
   OmOssRoute: typeof OmOssRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TjansterRoute: typeof TjansterRoute
+  ApiPublicKontaktRoute: typeof ApiPublicKontaktRoute
+  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -142,6 +179,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TjansterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/kontakt': {
+      id: '/api/public/kontakt'
+      path: '/api/public/kontakt'
+      fullPath: '/api/public/kontakt'
+      preLoaderRoute: typeof ApiPublicKontaktRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -152,6 +203,8 @@ const rootRouteChildren: RootRouteChildren = {
   OmOssRoute: OmOssRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TjansterRoute: TjansterRoute,
+  ApiPublicKontaktRoute: ApiPublicKontaktRoute,
+  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

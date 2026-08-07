@@ -8,7 +8,7 @@ import { SITE } from "@/lib/site";
 const links = [
   { to: "/", label: "Hem" },
   { to: "/tjanster", label: "Tjänster" },
-  { to: "/tjanster", hash: "a-traktor", label: "A-traktor" },
+  
   { to: "/om-oss", label: "Om oss" },
   { to: "/kalkylator", label: "Beräkna effekt" },
   { to: "/kontakt", label: "Kontakt" },
@@ -63,7 +63,6 @@ export function Header() {
             <Link
               key={link.to}
               to={link.to}
-              hash={"hash" in link ? link.hash : undefined}
               className="relative rounded-full px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
               activeProps={{
                 className: "bg-white text-[#111827] shadow-sm",
@@ -107,7 +106,6 @@ export function Header() {
               <Link
                 key={link.to}
                 to={link.to}
-                hash={"hash" in link ? link.hash : undefined}
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-between border-b border-white/10 py-3 font-display text-xl uppercase tracking-wide text-slate-200"
                 activeProps={{ className: "text-blue-300" }}

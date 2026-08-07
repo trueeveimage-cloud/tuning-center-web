@@ -26,36 +26,42 @@ export const Route = createFileRoute("/kontakt")({
 });
 
 function KontaktPage() {
+  const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const buildMessage = (data: FormData) =>
-    `Namn: ${data.get("namn")}\nTelefon: ${data.get("telefon")}\nBil: ${data.get("bil") || "-"}\n\n${data.get("meddelande") || ""}`.trim();
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const body = buildMessage(new FormData(form));
-    const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent("Förfrågan från hemsidan")}&body=${encodeURIComponent(body)}`;
-
-    const link = document.createElement("a");
-    link.href = mailto;
-    link.rel = "noopener";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    setSent(true);
-    toast.success("Din förfrågan är förberedd", {
-      description: "Skicka mejlet i ditt e-postprogram – eller kopiera texten nedan.",
-      action: {
-        label: "Kopiera",
-        onClick: () => {
-          navigator.clipboard?.writeText(`${body}\n\nTill: ${SITE.email}`);
-          toast.success("Texten är kopierad");
-        },
-      },
-    });
+    const data = new FormData(form);
+    setSending(true);
+    try {
+      const response = await fetch("/api/public/kontakt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          namn: String(data.get("namn") ?? ""),
+          telefon: String(data.get("telefon") ?? ""),
+          epost: String(data.get("epost") ?? ""),
+          bil: String(data.get("bil") ?? ""),
+          meddelande: String(data.get("meddelande") ?? ""),
+          webbplats: String(data.get("webbplats") ?? ""),
+        }),
+      });
+      if (!response.ok) throw new Error("send failed");
+      setSent(true);
+      form.reset();
+      toast.success("Tack! Din förfrågan är skickad", {
+        description: "Vi återkommer så snart vi kan.",
+      });
+    } catch {
+      toast.error("Något gick fel", {
+        description: `Mejla oss direkt på ${SITE.email} eller ring ${SITE.phoneDisplay}.`,
+      });
+    } finally {
+      setSending(false);
+    }
   };
+
 
 
   return (
@@ -192,6 +198,12 @@ function KontaktPage() {
                 type="tel"
                 required
               />
+              <FormField
+                name="epost"
+                label="E-post"
+                placeholder="din@epost.se"
+                type="email"
+              />
               <div className="sm:col-span-2">
                 <FormField
                   name="bil"
@@ -214,23 +226,31 @@ function KontaktPage() {
                   className="w-full resize-y border border-input bg-background px-4 py-3 text-sm outline-none placeholder:text-muted-foreground/55 focus:border-primary"
                 />
               </div>
+              <input
+                type="text"
+                name="webbplats"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button type="submit" className="h-12 bg-heat font-semibold shadow-heat sm:px-8">
-                Skicka förfrågan <ArrowRight />
-              </Button>
-              <Button asChild type="button" variant="ghost" className="h-12">
-                <a href={`mailto:${SITE.email}`}>
-                  <Mail /> {SITE.email}
-                </a>
+              <Button
+                type="submit"
+                disabled={sending}
+                className="h-12 bg-heat font-semibold shadow-heat sm:px-8"
+              >
+                {sending ? "Skickar…" : "Skicka förfrågan"} <ArrowRight />
               </Button>
             </div>
 
             <p className="mt-3 text-xs text-muted-foreground">
               {sent
-                ? `Öppnades inget e-postprogram? Mejla oss direkt på ${SITE.email} eller ring ${SITE.phoneDisplay}.`
-                : `Knappen öppnar ditt e-postprogram med uppgifterna ifyllda till ${SITE.email}.`}
+                ? `Tack! Vi har fått din förfrågan och hör av oss. Brådskande? Ring ${SITE.phoneDisplay}.`
+                : `Förfrågan mejlas direkt till ${SITE.email}.`}
             </p>
+
 
 
           </form>
