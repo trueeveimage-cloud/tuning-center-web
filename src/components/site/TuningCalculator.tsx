@@ -283,7 +283,7 @@ export function TuningCalculator() {
           <div className="relative grid flex-1 place-items-center py-10 text-center">
             <div className="max-w-sm">
               <Car className="mx-auto size-14 stroke-1 text-foreground/20" />
-              <h3 className="mt-5 text-2xl text-foreground/60">Din potential visas här</h3>
+              <h2 className="mt-5 text-2xl text-foreground/60">Din potential visas här</h2>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">
                 Sök på registreringsnumret eller välj märke, modell och motor för att se uppskattad
                 effekt och vridmoment.
@@ -296,7 +296,7 @@ export function TuningCalculator() {
               <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
                 {result.brand} {result.model}
               </p>
-              <h3 className="mt-1 text-3xl">{result.engine}</h3>
+              <h2 className="mt-1 text-3xl">{result.engine}</h2>
             </div>
             <div className="mt-8 space-y-7">
               <ResultRow

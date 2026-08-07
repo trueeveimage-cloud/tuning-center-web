@@ -26,7 +26,41 @@ export const Route = createFileRoute("/tjanster")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://tuningcenterorebro.se/tjanster" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://tuningcenterorebro.se/tjanster" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Tjänster – Tuning Center Örebro",
+          itemListElement: [
+            "Motoroptimering",
+            "Växellådsoptimering",
+            "Felsökning och diagnostik",
+            "Kodning och programmering",
+            "VAG- och BMW-kodning",
+            "FRM-reparation",
+          ].map((name, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            item: {
+              "@type": "Service",
+              name,
+              serviceType: name,
+              areaServed: ["Kumla", "Örebro"],
+              provider: {
+                "@type": "AutoRepair",
+                name: "Tuning Center Örebro",
+                url: "https://tuningcenterorebro.se/",
+              },
+            },
+          })),
+        }),
+      },
     ],
   }),
   component: TjansterPage,
