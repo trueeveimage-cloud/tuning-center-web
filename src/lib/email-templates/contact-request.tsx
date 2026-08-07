@@ -42,7 +42,7 @@ const Email = ({ namn, telefon, epost, bil, meddelande }: Props) => (
   </Html>
 )
 
-const Row = ({ label: l, value }: { label: string; value?: string }) => (
+const Row = ({ label: l, value }: { label: string; value?: string | undefined }) => (
   <Text style={row}>
     <span style={label}>{l}: </span>
     <span style={rowValue}>{value || '-'}</span>
