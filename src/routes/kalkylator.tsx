@@ -6,7 +6,7 @@ import { EffectCalculator } from "@/components/site/EffectCalculator";
 
 const title = "Beräkna effekt | Tuning Center Örebro";
 const description =
-  "Beräkna hästkrafter och vridmoment efter steg 1 eller steg 2 motoroptimering. Välj märke, modell och motor.";
+  "Se aktuella originalvärden, hästkrafter och vridmoment efter Stage 1 med Tuning Centers effektkalkylator.";
 
 export const Route = createFileRoute("/kalkylator")({
   head: () => ({
@@ -40,8 +40,8 @@ function KalkylatorPage() {
               </h1>
               <div>
                 <p className="leading-7 text-muted-foreground">
-                  Sök med registreringsnummer eller välj din bil för att se originaleffekt,
-                  vridmoment och möjlig effekt efter optimering.
+                  Välj märke, modell och motor i vår gemensamma kalkylator för att se
+                  originaleffekt, vridmoment och aktuell Stage 1-potential.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-4 text-xs uppercase tracking-wider text-foreground/65">
                   <span className="flex items-center gap-2">
