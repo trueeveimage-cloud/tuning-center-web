@@ -8,7 +8,7 @@ import { SITE } from "@/lib/site";
 const links = [
   { to: "/", label: "Hem" },
   { to: "/tjanster", label: "Tjänster" },
-  { to: "/tjanster", hash: "a-traktor", label: "A-traktor" },
+  
   { to: "/om-oss", label: "Om oss" },
   { to: "/kalkylator", label: "Beräkna effekt" },
   { to: "/kontakt", label: "Kontakt" },
