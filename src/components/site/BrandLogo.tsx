@@ -48,3 +48,4 @@ export function BrandLogo({
       style={fullLogoStyle}
     />
   );
+}
