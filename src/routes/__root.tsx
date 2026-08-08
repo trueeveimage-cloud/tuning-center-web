@@ -106,7 +106,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/tuning-center-mark.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/tuning-center-logo.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/tuning-center-logo.svg" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
