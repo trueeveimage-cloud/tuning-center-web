@@ -2,10 +2,3 @@
 BILUPPGIFTER_API_KEY=replace_with_your_api_key
 VEHICLE_CAPABILITY_API_URL=
 VEHICLE_CAPABILITY_API_KEY=
-# Server-only key from https://apidocs.biluppgifter.se/
-BILUPPGIFTER_API_KEY=replace_with_your_api_key
-
-# Optional server-only vehicle-capability provider (ECU/AdBlue/DPF/EGR).
-# Both must be set for provider-verified capability data.
-VEHICLE_CAPABILITY_API_URL=
-VEHICLE_CAPABILITY_API_KEY=
