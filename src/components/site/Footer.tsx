@@ -6,10 +6,10 @@ import { BrandLogo } from "@/components/site/BrandLogo";
 export function Footer() {
   return (
     <footer className="border-t border-slate-700 bg-[#1F2937] text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.4fr_.75fr_1fr_1fr] lg:py-16">
         <div>
           <BrandLogo variant="footer" />
-          <p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground">
+          <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">
             Skräddarsydd motoroptimering för mer effekt, bättre respons och en körkänsla som märks
             direkt.
           </p>
@@ -21,16 +21,38 @@ export function Footer() {
           </Link>
         </div>
 
+        <nav className="space-y-3 text-sm" aria-label="Sidfotsnavigation">
+          <h3 className="text-base text-white">Utforska</h3>
+          <Link
+            className="block text-slate-300 hover:translate-x-1 hover:text-white"
+            to="/tjanster"
+          >
+            Tjänster
+          </Link>
+          <Link className="block text-slate-300 hover:translate-x-1 hover:text-white" to="/om-oss">
+            Om oss
+          </Link>
+          <Link
+            className="block text-slate-300 hover:translate-x-1 hover:text-white"
+            to="/kalkylator"
+          >
+            Beräkna effekt
+          </Link>
+          <Link className="block text-slate-300 hover:translate-x-1 hover:text-white" to="/kontakt">
+            Kontakt
+          </Link>
+        </nav>
+
         <div className="space-y-3 text-sm">
           <h3 className="text-base text-white">Kontakt</h3>
           <a
-            className="flex items-center gap-3 text-slate-300 hover:text-white"
+            className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-slate-300 hover:border-white/20 hover:bg-white/10 hover:text-white"
             href={`tel:${SITE.phone}`}
           >
             <Phone className="size-4 text-blue-300" /> {SITE.phoneDisplay}
           </a>
           <a
-            className="flex items-center gap-3 text-slate-300 hover:text-white"
+            className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-slate-300 hover:border-white/20 hover:bg-white/10 hover:text-white"
             href={`mailto:${SITE.email}`}
           >
             <Mail className="size-4 text-blue-300" /> {SITE.email}
