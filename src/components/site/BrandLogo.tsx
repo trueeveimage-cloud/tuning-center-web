@@ -39,7 +39,7 @@ export function BrandLogo({
       role="img"
       aria-label="Tuning Center Örebro"
       className={cn(
-        "block shrink-0 overflow-hidden",
+        "logo-fade-in block shrink-0 overflow-hidden",
         variant === "header"
           ? "aspect-[2.12] w-[8.75rem] sm:w-[9.25rem]"
           : "aspect-[2.12] w-64 max-w-full",
