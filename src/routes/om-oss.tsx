@@ -127,10 +127,10 @@ function OmOssPage() {
             {processSteps.map((step) => (
               <article
                 key={step.title}
-                className="card-premium card-premium-hover card-sheen group min-h-64 p-7"
+                className="card-sheen premium-panel group min-h-72 overflow-hidden p-7"
               >
                 <div className="flex items-start justify-between">
-                  <span className="grid size-11 place-items-center rounded-lg bg-primary/10 text-primary">
+                  <span className="grid size-11 place-items-center bg-primary/10 text-primary">
                     <step.icon className="size-5" />
                   </span>
                   <span className="font-display text-3xl text-foreground/15">{step.number}</span>
@@ -154,10 +154,7 @@ function OmOssPage() {
             </div>
             <div className="mt-10 grid gap-4 lg:grid-cols-3">
               {equipment.map((item) => (
-                <article
-                  key={item.title}
-                  className="card-premium card-premium-hover card-sheen p-7 sm:p-8"
-                >
+                <article key={item.title} className="card-sheen premium-panel p-7 sm:p-8">
                   <item.icon className="size-7 text-primary" />
                   <h3 className="mt-6 text-2xl">{item.title}</h3>
                   <p className="mt-3 leading-7 text-muted-foreground">{item.text}</p>
@@ -168,7 +165,7 @@ function OmOssPage() {
         </section>
 
         <section className="scroll-reveal mx-auto max-w-7xl px-4 py-20 sm:px-6">
-          <div className="grid-lines flex flex-col items-start justify-between gap-7 border border-primary/30 bg-surface p-7 sm:p-10 lg:flex-row lg:items-center">
+          <div className="grid-lines premium-panel flex flex-col items-start justify-between gap-7 p-7 sm:p-10 lg:flex-row lg:items-center">
             <div>
               <p className="section-kicker">Nästa steg</p>
               <h2 className="mt-2 text-3xl sm:text-4xl">Vad vill du förbättra på din bil?</h2>
