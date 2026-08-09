@@ -115,20 +115,26 @@ function TjansterPage() {
           </div>
         </section>
 
-        <section className="scroll-reveal mx-auto max-w-7xl px-4 pb-20 sm:px-6 sm:pb-24">
-          <div className="grid-lines relative overflow-hidden border border-primary/30 bg-surface p-7 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10">
+        <section className="scroll-reveal mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
+          <div className="grid-lines premium-panel relative overflow-hidden p-7 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10">
             <div className="absolute -right-12 top-0 size-40 bg-primary/10 blur-3xl" />
             <div className="relative">
               <p className="section-kicker">
                 <Wrench className="size-4" /> Mekaniskt arbete
               </p>
-              <h2 className="mt-3 text-3xl sm:text-4xl">För mekaniskt arbete, kontakta oss för offert.</h2>
+              <h2 className="mt-3 text-3xl sm:text-4xl">
+                För mekaniskt arbete, kontakta oss för offert.
+              </h2>
               <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">
                 Skicka registreringsnummer och en kort beskrivning av arbetet så återkommer vi med
                 bedömning och prisförslag.
               </p>
             </div>
-            <Button asChild size="lg" className="relative mt-6 h-12 bg-heat px-8 font-semibold shadow-heat lg:mt-0">
+            <Button
+              asChild
+              size="lg"
+              className="relative mt-6 h-12 bg-heat px-8 font-semibold shadow-heat lg:mt-0"
+            >
               <Link to="/kontakt">
                 Kontakta oss <ArrowRight />
               </Link>
@@ -136,13 +142,13 @@ function TjansterPage() {
           </div>
         </section>
 
-        <section className="scroll-reveal mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
-          <div className="grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">
+        <section className="scroll-reveal mx-auto max-w-7xl px-4 pb-20 sm:px-6 sm:pb-24">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
               <article
                 key={service.title}
                 id={service.title === "A-traktor" ? "a-traktor" : undefined}
-                className="card-sheen group relative min-h-80 overflow-hidden border-b border-r border-border bg-surface/55 p-7 transition-colors hover:bg-surface-2/55"
+                className="card-sheen premium-panel group relative min-h-80 overflow-hidden p-7 transition-colors hover:border-primary/35"
               >
                 <div className="flex items-start justify-between">
                   <service.icon className="size-8 text-primary" />
@@ -160,7 +166,7 @@ function TjansterPage() {
         </section>
 
         <section className="scroll-reveal border-y border-border bg-surface">
-          <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-7 px-4 py-14 sm:px-6 lg:flex-row lg:items-center">
+          <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-7 px-4 py-16 sm:px-6 lg:flex-row lg:items-center">
             <div>
               <p className="section-kicker">Nyfiken på bilens potential?</p>
               <h2 className="mt-2 text-3xl sm:text-4xl">Beräkna möjlig effekt.</h2>
