@@ -101,14 +101,15 @@ function Index() {
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        <section className="relative isolate min-h-[calc(100svh-4.75rem)] overflow-hidden">
+        <section className="relative isolate min-h-[44rem] overflow-hidden sm:min-h-[calc(100svh-4.75rem)]">
           <ParallaxHeroImage src={heroImg} alt="Sportbil i verkstad hos Tuning Center Örebro" />
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(248,250,252,.99)_0%,rgba(248,250,252,.94)_34%,rgba(248,250,252,.58)_52%,rgba(248,250,252,.08)_78%)]" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(248,250,252,.35)_0%,rgba(248,250,252,.76)_52%,rgba(248,250,252,.97)_100%)] sm:hidden" />
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(248,250,252,.08)_0%,transparent_56%,rgba(248,250,252,.8)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-background to-transparent" />
           <div className="absolute -right-24 top-10 -z-10 h-[32rem] w-[10rem] rotate-12 bg-primary/10 blur-3xl" />
 
-          <div className="mx-auto flex min-h-[calc(100svh-4.75rem)] max-w-7xl items-center px-4 py-20 sm:px-6">
+          <div className="mx-auto flex min-h-[44rem] max-w-7xl items-center px-4 py-16 sm:min-h-[calc(100svh-4.75rem)] sm:px-6 sm:py-20">
             <div className="max-w-3xl reveal-up">
               <div className="mb-7 inline-flex items-center gap-3 border border-border/80 bg-background/76 px-4 py-3 shadow-[0_18px_45px_-30px_rgba(41,32,24,.6)] backdrop-blur-xl">
                 <BrandMark className="size-10" />
@@ -179,7 +180,7 @@ function Index() {
         </section>
 
         <section className="scroll-reveal relative z-10 mx-auto -mt-10 max-w-7xl px-4 sm:px-6">
-          <div className="grid grid-cols-2 overflow-hidden border border-border/80 bg-surface/95 shadow-[0_30px_80px_-45px_rgba(41,32,24,.55)] backdrop-blur lg:grid-cols-4">
+          <div className="grid grid-cols-2 overflow-hidden rounded-2xl border border-border/80 bg-surface/95 shadow-[0_30px_80px_-45px_rgba(41,32,24,.55)] backdrop-blur lg:grid-cols-4">
             {[
               ["1000+", "Optimerade bilar"],
               ["+25%", "Typisk effektökning"],
@@ -188,7 +189,7 @@ function Index() {
             ].map(([value, label], index) => (
               <div
                 key={label}
-                className={`relative px-4 py-7 sm:px-7 ${index > 0 ? "border-l border-border" : ""} ${index > 1 ? "border-t lg:border-t-0" : ""}`}
+                className={`relative px-4 py-7 sm:px-7 ${index % 2 === 1 ? "border-l border-border" : ""} ${index > 1 ? "border-t lg:border-t-0" : ""} ${index === 2 ? "lg:border-l" : ""}`}
               >
                 <p className="font-display text-3xl text-foreground sm:text-4xl">{value}</p>
                 <p className="mt-1 text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
@@ -257,7 +258,7 @@ function Index() {
             {services.map((service) => (
               <article
                 key={service.title}
-                className="card-sheen group relative min-h-72 overflow-hidden rounded-[0.75rem] border border-border/85 bg-surface/70 p-6 shadow-[0_20px_55px_-46px_rgba(41,32,24,.7)] transition-colors hover:border-primary/35 hover:bg-surface"
+                className="card-sheen premium-panel group relative min-h-72 overflow-hidden p-6 transition-colors hover:border-primary/35"
               >
                 <span className="font-display text-sm text-muted-foreground">{service.number}</span>
                 <service.icon className="mt-8 size-8 text-primary transition-transform group-hover:-translate-y-1" />
@@ -333,7 +334,7 @@ function Index() {
 
         <section className="scroll-reveal border-t border-border bg-background">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
-            <div className="grid-lines grid gap-8 overflow-hidden rounded-[0.9rem] border border-primary/25 bg-foreground px-6 py-10 text-background shadow-[0_30px_80px_-48px_rgba(41,32,24,.85)] sm:px-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <div className="grid-lines grid gap-8 overflow-hidden rounded-2xl border border-primary/25 bg-foreground px-6 py-10 text-background shadow-[0_30px_80px_-48px_rgba(41,32,24,.85)] sm:px-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
               <div>
                 <p className="section-kicker">
                   <span className="h-px w-8 bg-primary" /> Kontakta oss
@@ -360,7 +361,7 @@ function Index() {
                 </Button>
               </div>
             </div>
-            <div className="mt-10 grid overflow-hidden rounded-[0.75rem] border-l border-t border-border md:grid-cols-3">
+            <div className="mt-10 grid overflow-hidden rounded-2xl border-l border-t border-border shadow-[0_24px_65px_-52px_rgba(15,23,42,.5)] md:grid-cols-3">
               <ContactCard
                 icon={Mail}
                 label="Skicka ett mail"
