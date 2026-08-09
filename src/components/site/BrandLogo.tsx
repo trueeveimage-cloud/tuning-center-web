@@ -21,7 +21,7 @@ export function BrandMark({ className }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
-      className={cn("block size-11 shrink-0 overflow-hidden", className)}
+      className={cn("logo-fade-in block size-11 shrink-0 overflow-hidden", className)}
       style={markStyle}
     />
   );
