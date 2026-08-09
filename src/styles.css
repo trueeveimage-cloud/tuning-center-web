@@ -97,6 +97,7 @@
   }
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
   }
   body {
     min-width: 320px;
@@ -116,6 +117,14 @@
     font-family: var(--font-sans);
     text-rendering: optimizeLegibility;
     overflow-x: clip;
+  }
+  main {
+    position: relative;
+    isolation: isolate;
+  }
+  button,
+  [role="button"] {
+    cursor: pointer;
   }
   ::selection {
     background: color-mix(in oklab, var(--primary) 75%, transparent);
@@ -151,10 +160,12 @@
       box-shadow 360ms cubic-bezier(0.22, 1, 0.36, 1),
       transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  article:hover,
-  figure:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 26px 64px -42px color-mix(in oklab, var(--foreground) 48%, transparent);
+  @media (hover: hover) and (pointer: fine) {
+    article:hover,
+    figure:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 26px 64px -42px color-mix(in oklab, var(--foreground) 48%, transparent);
+    }
   }
   :focus-visible {
     outline: 2px solid color-mix(in oklab, var(--primary) 82%, white);
@@ -190,6 +201,20 @@
 .card-sheen:hover::after {
   opacity: 1;
   transform: translateX(18%);
+}
+
+.card-sheen > * {
+  position: relative;
+  z-index: 1;
+}
+
+.premium-panel {
+  border: 1px solid color-mix(in oklab, var(--border) 88%, white);
+  border-radius: 1rem;
+  background: linear-gradient(145deg, color-mix(in oklab, white 96%, var(--primary)), white 72%);
+  box-shadow:
+    0 1px 0 white inset,
+    0 24px 70px -52px color-mix(in oklab, var(--foreground) 55%, transparent);
 }
 
 .result-number {
@@ -264,12 +289,22 @@
 
 @keyframes section-reveal {
   from {
-    opacity: 0.18;
-    transform: translateY(36px);
+    opacity: 0.35;
+    transform: translateY(28px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 639px) {
+  .section-kicker {
+    letter-spacing: 0.16em;
+  }
+
+  .grid-lines {
+    background-size: 42px 42px;
   }
 }
 
