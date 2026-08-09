@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, MessageSquareText, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  const location = useRouterState({ select: (state) => state.location });
 
   useEffect(() => {
     let frame = 0;
@@ -40,6 +41,22 @@ export function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [open]);
+
   return (
     <header
       className={`sticky top-0 z-50 border-b border-white/10 bg-[#1F2937]/[.97] text-white backdrop-blur-2xl transition-all duration-500 ${scrolled ? "shadow-[0_18px_55px_-32px_rgba(15,23,42,.8)]" : ""}`}
@@ -59,20 +76,26 @@ export function Header() {
           className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 shadow-sm lg:flex"
           aria-label="Huvudnavigation"
         >
-          {links.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              hash={"hash" in link ? link.hash : undefined}
-              className="relative rounded-full px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
-              activeProps={{
-                className: "bg-white text-[#111827] shadow-sm",
-              }}
-              activeOptions={{ exact: link.to === "/" }}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {links.map((link) => {
+            const hash = "hash" in link ? link.hash : undefined;
+            const active = location.pathname === link.to && (!hash || location.hash === `#${hash}`);
+            return (
+              <Link
+                key={link.label}
+                to={link.to}
+                hash={hash}
+                activeOptions={{ exact: link.to === "/", includeHash: Boolean(hash) }}
+                aria-current={active ? "page" : undefined}
+                className={`relative rounded-full px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                  active
+                    ? "bg-white text-[#111827] shadow-sm"
+                    : "text-slate-300 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -90,7 +113,7 @@ export function Header() {
             aria-label={open ? "Stäng meny" : "Öppna meny"}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
-            className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-sm lg:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-sm hover:border-white/30 hover:bg-white/15 lg:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -99,24 +122,32 @@ export function Header() {
 
       {open && (
         <nav
-          className="animate-in slide-in-from-top-2 border-t border-white/10 bg-[#1F2937] px-4 py-4 shadow-xl duration-300 lg:hidden"
+          className="absolute inset-x-0 top-full animate-in slide-in-from-top-2 border-t border-white/10 bg-[#1F2937]/[.99] px-4 pb-6 pt-3 shadow-[0_30px_70px_-35px_rgba(15,23,42,.95)] backdrop-blur-2xl duration-300 lg:hidden"
           aria-label="Mobilnavigation"
         >
           <div className="mx-auto max-w-7xl">
-            {links.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                hash={"hash" in link ? link.hash : undefined}
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-white/10 py-3 font-display text-xl uppercase tracking-wide text-slate-200"
-                activeProps={{ className: "text-blue-300" }}
-                activeOptions={{ exact: link.to === "/" }}
-              >
-                {link.label}
-                <span aria-hidden="true" className="h-px w-7 bg-blue-400" />
-              </Link>
-            ))}
+            {links.map((link) => {
+              const hash = "hash" in link ? link.hash : undefined;
+              const active =
+                location.pathname === link.to && (!hash || location.hash === `#${hash}`);
+              return (
+                <Link
+                  key={link.label}
+                  to={link.to}
+                  hash={hash}
+                  activeOptions={{ exact: link.to === "/", includeHash: Boolean(hash) }}
+                  onClick={() => setOpen(false)}
+                  aria-current={active ? "page" : undefined}
+                  className={`flex items-center justify-between border-b border-white/10 py-3 font-display text-xl uppercase tracking-wide ${active ? "text-blue-300" : "text-slate-200 hover:text-white"}`}
+                >
+                  {link.label}
+                  <span
+                    aria-hidden="true"
+                    className={`h-px bg-blue-400 transition-all ${active ? "w-10" : "w-6 opacity-55"}`}
+                  />
+                </Link>
+              );
+            })}
             <Button asChild className="mt-4 w-full bg-primary font-semibold hover:bg-blue-500">
               <Link to="/kontakt">
                 <MessageSquareText /> Kontakta oss
