@@ -276,6 +276,11 @@
   animation-range: entry 5% cover 28%;
 }
 
+@utility logo-fade-in {
+  animation: logo-fade-in 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 120ms;
+}
+
 @keyframes reveal-up {
   from {
     opacity: 0;
