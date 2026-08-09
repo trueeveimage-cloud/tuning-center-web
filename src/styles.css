@@ -345,6 +345,12 @@
   .scroll-reveal {
     animation: none;
   }
+  .logo-fade-in {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
   * {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
