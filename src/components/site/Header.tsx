@@ -124,15 +124,12 @@ export function Header() {
         >
           <div className="mx-auto max-w-7xl">
             {links.map((link) => {
-              const hash = "hash" in link ? link.hash : undefined;
-              const active =
-                location.pathname === link.to && (!hash || location.hash === `#${hash}`);
+              const active = location.pathname === link.to;
               return (
                 <Link
                   key={link.label}
                   to={link.to}
-                  hash={hash}
-                  activeOptions={{ exact: link.to === "/", includeHash: Boolean(hash) }}
+                  activeOptions={{ exact: link.to === "/" }}
                   onClick={() => setOpen(false)}
                   aria-current={active ? "page" : undefined}
                   className={`flex items-center justify-between border-b border-white/10 py-3 font-display text-xl uppercase tracking-wide ${active ? "text-blue-300" : "text-slate-200 hover:text-white"}`}
