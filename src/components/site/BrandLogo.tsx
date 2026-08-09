@@ -1,28 +1,26 @@
-import brandLogo from "@/assets/tuning-center-logo.svg";
+import logoFull from "@/assets/logo-full.png";
+import logoMark from "@/assets/logo-mark.png";
 import { cn } from "@/lib/utils";
 
-const fullLogoStyle = {
-  backgroundImage: `url(${brandLogo})`,
-  backgroundPosition: "50% 42%",
-  backgroundRepeat: "no-repeat",
-  backgroundSize: "150% auto",
-  mixBlendMode: "screen" as const,
-};
-
-const markStyle = {
-  backgroundImage: `url(${brandLogo})`,
-  backgroundPosition: "50% 27%",
-  backgroundRepeat: "no-repeat",
-  backgroundSize: "480% auto",
-  mixBlendMode: "screen" as const,
-};
+const maskStyle = (url: string) =>
+  ({
+    WebkitMaskImage: `url(${url})`,
+    maskImage: `url(${url})`,
+    WebkitMaskRepeat: "no-repeat",
+    maskRepeat: "no-repeat",
+    WebkitMaskPosition: "center",
+    maskPosition: "center",
+    WebkitMaskSize: "contain",
+    maskSize: "contain",
+    backgroundColor: "currentColor",
+  }) as const;
 
 export function BrandMark({ className }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
-      className={cn("logo-fade-in block size-11 shrink-0 overflow-hidden", className)}
-      style={markStyle}
+      className={cn("logo-fade-in block aspect-[1.2] h-6 w-auto shrink-0", className)}
+      style={maskStyle(logoMark)}
     />
   );
 }
@@ -39,13 +37,11 @@ export function BrandLogo({
       role="img"
       aria-label="Tuning Center Örebro"
       className={cn(
-        "logo-fade-in block shrink-0 overflow-hidden",
-        variant === "header"
-          ? "aspect-[2.12] w-[8.75rem] sm:w-[9.25rem]"
-          : "aspect-[2.12] w-64 max-w-full",
+        "logo-fade-in block aspect-[2.14] shrink-0",
+        variant === "header" ? "w-[8.25rem] sm:w-[9.25rem]" : "w-56 max-w-full",
         className,
       )}
-      style={fullLogoStyle}
+      style={maskStyle(logoFull)}
     />
   );
 }
