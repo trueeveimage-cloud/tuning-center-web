@@ -19,6 +19,9 @@ import heroImg from "@/assets/hero-tuning.jpg";
 import workshopBmw from "@/assets/workshop-bmw.png";
 import workshopMercedes from "@/assets/workshop-mercedes.webp";
 import workshopVan from "@/assets/workshop-service-van.webp";
+import audiSvart from "@/assets/audi-a6-svart.jpg.asset.json";
+import audiVit from "@/assets/audi-allroad-vit.jpg.asset.json";
+import ecuKretskort from "@/assets/ecu-kretskort.jpg.asset.json";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ParallaxHeroImage } from "@/components/site/ParallaxHeroImage";
@@ -26,9 +29,10 @@ import { BrandLogo } from "@/components/site/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
-const title = "Tuning Center Örebro | Motoroptimering & chiptuning";
+const title = "Motoroptimering Örebro & Kumla | Tuning Center Örebro";
 const description =
-  "Professionell motoroptimering, bilservice och programmering i Kumla nära Örebro. Räkna ut din effektökning direkt med vår tuningkalkylator.";
+  "Motoroptimering, chiptuning, växellådsoptimering och bilservice i Kumla nära Örebro. Räkna ut din effektökning direkt med vår tuningkalkylator.";
+const ogImage = "https://tuningcenterorebro.se/__l5e/assets-v1/7277b88f-6126-4e4c-af65-0a47f169f9b5/audi-a6-svart.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,11 +42,16 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://tuningcenterorebro.se/" },
+      { property: "og:image", content: ogImage },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: ogImage },
     ],
+    links: [{ rel: "canonical", href: "https://tuningcenterorebro.se/" }],
   }),
   component: Index,
 });
+
 
 const services = [
   {
@@ -88,13 +97,29 @@ const reviews = [
 
 const workshopPhotos = [
   {
+    src: audiSvart.url,
+    alt: "Svart Audi A6 utanför Tuning Center Örebros verkstad i Kumla",
+    className: "md:col-span-2 md:row-span-2",
+  },
+  {
+    src: audiVit.url,
+    alt: "Vit Audi A6 Allroad efter motoroptimering hos Tuning Center Örebro",
+    className: "",
+  },
+  {
+    src: ecuKretskort.url,
+    alt: "Öppnad motorstyrenhet (ECU) med kretskort under programmering",
+    className: "",
+  },
+  {
     src: workshopBmw,
     alt: "BMW efter arbete hos Tuning Center i Kumla",
-    className: "md:col-span-2 md:row-span-2",
+    className: "md:col-span-2",
   },
   { src: workshopMercedes, alt: "Mercedes i Tuning Centers verkstad", className: "" },
   { src: workshopVan, alt: "Servicebil inne i Tuning Centers verkstad", className: "" },
 ];
+
 
 function Index() {
   return (

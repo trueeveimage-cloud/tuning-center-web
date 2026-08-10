@@ -19,43 +19,54 @@ export const Route = createFileRoute("/kontakt")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://tuningcenterorebro.se/kontakt" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://tuningcenterorebro.se/kontakt" }],
   }),
   component: KontaktPage,
 });
 
 function KontaktPage() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
 
-  const buildMessage = (data: FormData) =>
-    `Namn: ${data.get("namn")}\nTelefon: ${data.get("telefon")}\nBil: ${data.get("bil") || "-"}\n\n${data.get("meddelande") || ""}`.trim();
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const body = buildMessage(new FormData(form));
-    const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent("Förfrågan från hemsidan")}&body=${encodeURIComponent(body)}`;
+    const data = new FormData(form);
+    const payload = {
+      namn: String(data.get("namn") || ""),
+      telefon: String(data.get("telefon") || ""),
+      epost: String(data.get("epost") || ""),
+      regnummer: String(data.get("regnummer") || "").toUpperCase(),
+      bil: String(data.get("bil") || ""),
+      meddelande: String(data.get("meddelande") || ""),
+      webbplats: String(data.get("webbplats") || ""),
+    };
 
-    const link = document.createElement("a");
-    link.href = mailto;
-    link.rel = "noopener";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    setSent(true);
-    toast.success("Din förfrågan är förberedd", {
-      description: "Skicka mejlet i ditt e-postprogram – eller kopiera texten nedan.",
-      action: {
-        label: "Kopiera",
-        onClick: () => {
-          navigator.clipboard?.writeText(`${body}\n\nTill: ${SITE.email}`);
-          toast.success("Texten är kopierad");
-        },
-      },
-    });
+    setSending(true);
+    try {
+      const res = await fetch("/api/public/kontakt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("send failed");
+      setSent(true);
+      form.reset();
+      toast.success("Tack! Din förfrågan är skickad", {
+        description: "Vi återkommer så snart vi kan.",
+      });
+    } catch {
+      toast.error("Kunde inte skicka just nu", {
+        description: `Ring ${SITE.phoneDisplay} eller mejla ${SITE.email}.`,
+      });
+    } finally {
+      setSending(false);
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -166,6 +177,18 @@ function KontaktPage() {
                 type="tel"
                 required
               />
+              <FormField
+                name="epost"
+                label="E-post"
+                placeholder="din@mail.se"
+                type="email"
+              />
+              <FormField
+                name="regnummer"
+                label="Registreringsnummer *"
+                placeholder="ABC12X"
+                required
+              />
               <div className="sm:col-span-2">
                 <FormField
                   name="bil"
@@ -188,27 +211,35 @@ function KontaktPage() {
                   className="w-full resize-y border border-input bg-background px-4 py-3 text-sm outline-none placeholder:text-muted-foreground/55 focus:border-primary"
                 />
               </div>
+              <input
+                type="text"
+                name="webbplats"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button type="submit" className="h-12 bg-heat font-semibold shadow-heat sm:px-8">
-                Skicka förfrågan <ArrowRight />
-              </Button>
-              <Button asChild type="button" variant="outline" className="h-12 sm:px-8">
-                <a href={`mailto:${SITE.email}`}>
-                  <Mail /> Skicka ett mail
-                </a>
+              <Button
+                type="submit"
+                disabled={sending}
+                className="h-12 bg-heat font-semibold shadow-heat sm:px-8"
+              >
+                {sending ? "Skickar..." : "Skicka förfrågan"} <ArrowRight />
               </Button>
               <Button asChild type="button" variant="ghost" className="h-12">
-                <a href={`mailto:${SITE.email}`}>
-                  <Mail /> {SITE.email}
+                <a href={`tel:${SITE.phone}`}>
+                  <Phone /> {SITE.phoneDisplay}
                 </a>
               </Button>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
               {sent
-                ? `Öppnades inget e-postprogram? Mejla oss direkt på ${SITE.email} eller ring ${SITE.phoneDisplay}.`
-                : `Knappen öppnar ditt e-postprogram med uppgifterna ifyllda till ${SITE.email}.`}
+                ? `Tack! Din förfrågan är skickad till ${SITE.email}. Vi hör av oss.`
+                : `Registreringsnummer är obligatoriskt så vi kan ta fram rätt uppgifter för din bil.`}
             </p>
+
           </form>
         </section>
       </main>

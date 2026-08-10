@@ -16,11 +16,12 @@ interface Props {
   namn?: string
   telefon?: string
   epost?: string
+  regnummer?: string
   bil?: string
   meddelande?: string
 }
 
-const Email = ({ namn, telefon, epost, bil, meddelande }: Props) => (
+const Email = ({ namn, telefon, epost, regnummer, bil, meddelande }: Props) => (
   <Html lang="sv" dir="ltr">
     <Head />
     <Preview>{`Ny förfrågan från ${namn || 'hemsidan'}`}</Preview>
@@ -32,6 +33,7 @@ const Email = ({ namn, telefon, epost, bil, meddelande }: Props) => (
           <Row label="Namn" value={namn} />
           <Row label="Telefon" value={telefon} />
           <Row label="E-post" value={epost} />
+          <Row label="Regnummer" value={regnummer} />
           <Row label="Bil" value={bil} />
         </Section>
         <Hr style={hr} />
@@ -57,6 +59,7 @@ export const template = {
     namn: 'Anders Svensson',
     telefon: '070 000 00 00',
     epost: 'anders@example.com',
+    regnummer: 'ABC12X',
     bil: 'BMW 320d, 2018',
     meddelande: 'Hej! Jag vill boka steg 1 optimering.',
   },

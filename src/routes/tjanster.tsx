@@ -15,7 +15,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Button } from "@/components/ui/button";
 
-const title = "Tjänster | Bilservice & motoroptimering i Kumla";
+const title = "Tjänster | Motoroptimering & bilservice i Kumla, Örebro";
 const description =
   "Motor- och växellådsoptimering, felsökning, kodning, programmering, VAG- och BMW-kodning samt FRM-reparation i Kumla.";
 
@@ -28,7 +28,9 @@ export const Route = createFileRoute("/tjanster")({
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tuningcenterorebro.se/tjanster" },
     ],
+    links: [{ rel: "canonical", href: "https://tuningcenterorebro.se/tjanster" }],
   }),
   component: TjansterPage,
 });

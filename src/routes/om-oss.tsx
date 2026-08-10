@@ -15,7 +15,7 @@ import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { Button } from "@/components/ui/button";
 
-const title = "Om oss | Tuning Center Örebro";
+const title = "Om Tuning Center Örebro | Verkstad i Kumla";
 const description =
   "Så arbetar Tuning Center Örebro med hälsokontroll, motoroptimering, testning, loggning och kvalitetssäkring i Kumla.";
 
@@ -28,7 +28,9 @@ export const Route = createFileRoute("/om-oss")({
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tuningcenterorebro.se/om-oss" },
     ],
+    links: [{ rel: "canonical", href: "https://tuningcenterorebro.se/om-oss" }],
   }),
   component: OmOssPage,
 });
