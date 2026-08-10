@@ -4,7 +4,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { EffectCalculator } from "@/components/site/EffectCalculator";
 
-const title = "Beräkna effekt | Tuning Center Örebro";
+const title = "Tuningkalkylator | Räkna ut effekt efter motoroptimering";
 const description =
   "Se aktuella originalvärden, hästkrafter och vridmoment efter Stage 1 med Tuning Centers effektkalkylator.";
 
@@ -17,7 +17,9 @@ export const Route = createFileRoute("/kalkylator")({
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://tuningcenterorebro.se/kalkylator" },
     ],
+    links: [{ rel: "canonical", href: "https://tuningcenterorebro.se/kalkylator" }],
   }),
   component: KalkylatorPage,
 });
