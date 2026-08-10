@@ -22,7 +22,7 @@ import workshopVan from "@/assets/workshop-service-van.webp";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ParallaxHeroImage } from "@/components/site/ParallaxHeroImage";
-import { BrandMark } from "@/components/site/BrandLogo";
+import { BrandLogo } from "@/components/site/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
@@ -111,12 +111,11 @@ function Index() {
 
           <div className="mx-auto flex min-h-[44rem] max-w-7xl items-center px-4 py-16 sm:min-h-[calc(100svh-4.75rem)] sm:px-6 sm:py-20">
             <div className="max-w-3xl reveal-up">
-              <div className="mb-7 inline-flex items-center gap-3 border border-border/80 bg-background/76 px-4 py-3 shadow-[0_18px_45px_-30px_rgba(41,32,24,.6)] backdrop-blur-xl">
-                <BrandMark className="h-8 text-primary" />
-                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Service · Programmering · Optimering
-                </span>
-              </div>
+              <BrandLogo
+                variant="footer"
+                className="mb-7 w-[17rem] text-foreground sm:w-[26rem] lg:w-[30rem]"
+              />
+
               <p className="section-kicker">
                 <span className="h-px w-8 bg-primary" /> Motoroptimering i Kumla
               </p>

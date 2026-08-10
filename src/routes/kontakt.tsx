@@ -62,24 +62,22 @@ function KontaktPage() {
       <Header />
       <main>
         <section className="grid-lines border-b border-border">
-          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
             <p className="section-kicker">
               <span className="h-px w-8 bg-primary" /> Kontakt
             </p>
-            <h1 className="mt-4 max-w-4xl text-5xl leading-[0.9] sm:text-7xl">
-              Låt oss prata
-              <br />
-              <span className="text-heat">om din bil.</span>
+            <h1 className="mt-3 max-w-4xl text-4xl leading-[0.95] sm:text-5xl">
+              Låt oss prata <span className="text-heat">om din bil.</span>
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
+            <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
               Berätta vad du kör och vad du vill uppnå. Vi återkommer med ett tydligt förslag på
               nästa steg.
             </p>
           </div>
         </section>
 
-        <section className="scroll-reveal mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.78fr_1.22fr]">
-          <div>
+        <section className="scroll-reveal mx-auto grid max-w-7xl gap-12 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-[1.22fr_0.78fr]">
+          <div className="order-2">
             <h2 className="text-3xl">Skicka ett mail</h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
               Maila registreringsnummer och vad du vill ha hjälp med så återkommer vi så snart vi
@@ -132,29 +130,6 @@ function KontaktPage() {
               </div>
             </div>
 
-            <div className="premium-panel mt-8 p-5">
-              <h3 className="text-xl">Veckans öppettider</h3>
-              <dl className="mt-4 space-y-2 text-sm">
-                {SITE.hours.map(([day, hours]) => (
-                  <div
-                    key={day}
-                    className="flex justify-between gap-4 border-b border-border/60 pb-2 last:border-0 last:pb-0"
-                  >
-                    <dt className="text-muted-foreground">{day}</dt>
-                    <dd
-                      className={
-                        hours === "Stängt"
-                          ? "text-muted-foreground"
-                          : "font-semibold text-foreground"
-                      }
-                    >
-                      {hours}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
             <div className="mt-7 flex gap-3">
               <Button asChild variant="outline" size="icon">
                 <a href={SITE.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
@@ -172,7 +147,7 @@ function KontaktPage() {
           <form
             onSubmit={handleSubmit}
 
-            className="premium-panel relative overflow-hidden p-6 sm:p-8"
+            className="premium-panel relative order-1 overflow-hidden p-6 sm:p-8"
           >
             <span className="absolute left-0 top-0 h-1 w-20 bg-heat" />
             <div className="flex items-start justify-between gap-4">
