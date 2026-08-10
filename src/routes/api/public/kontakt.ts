@@ -5,6 +5,7 @@ const schema = z.object({
   namn: z.string().trim().min(1).max(120),
   telefon: z.string().trim().min(4).max(40),
   epost: z.string().trim().email().max(160).optional().or(z.literal('')),
+  regnummer: z.string().trim().min(2).max(12),
   bil: z.string().trim().max(160).optional().or(z.literal('')),
   meddelande: z.string().trim().max(4000).optional().or(z.literal('')),
   // honeypot
@@ -56,6 +57,7 @@ export const Route = createFileRoute('/api/public/kontakt')({
               namn: data.namn,
               telefon: data.telefon,
               epost: data.epost || '',
+              regnummer: data.regnummer.toUpperCase(),
               bil: data.bil || '',
               meddelande: data.meddelande || '',
             },
