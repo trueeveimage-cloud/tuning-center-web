@@ -22,7 +22,7 @@ import workshopVan from "@/assets/workshop-service-van.webp";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ParallaxHeroImage } from "@/components/site/ParallaxHeroImage";
-import { BrandMark } from "@/components/site/BrandLogo";
+import { BrandLogo } from "@/components/site/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
