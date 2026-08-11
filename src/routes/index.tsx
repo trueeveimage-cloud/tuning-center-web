@@ -15,10 +15,11 @@ import {
   Wrench,
   Zap,
 } from "lucide-react";
-import heroImg from "@/assets/hero-tuning.jpg";
-import workshopBmw from "@/assets/workshop-bmw.png";
-import workshopMercedes from "@/assets/workshop-mercedes.webp";
-import audiSvart from "@/assets/audi-a6-svart.jpg.asset.json";
+import heroImg from "@/assets/motoroptimering-verkstad-orebro-hero.jpg";
+import workshopBmw from "@/assets/bmw-kodning-verkstad-kumla.png";
+import workshopMercedes from "@/assets/mercedes-bilservice-verkstad-kumla.webp";
+import audiSvart from "@/assets/audi-a6-motoroptimering.jpg.asset.json";
+import { PhotoGallery } from "@/components/site/PhotoGallery";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ParallaxHeroImage } from "@/components/site/ParallaxHeroImage";
@@ -29,7 +30,7 @@ import { SITE } from "@/lib/site";
 const title = "Motoroptimering Örebro & Kumla | Tuning Center Örebro";
 const description =
   "Motoroptimering, chiptuning, växellådsoptimering och bilservice i Kumla nära Örebro. Räkna ut din effektökning direkt med vår tuningkalkylator.";
-const ogImage = "https://tuningcenterorebro.se/__l5e/assets-v1/7277b88f-6126-4e4c-af65-0a47f169f9b5/audi-a6-svart.jpg";
+const ogImage = "https://tuningcenterorebro.se/__l5e/assets-v1/60025641-e50f-43ba-81d8-84fd81c73819/audi-a6-motoroptimering-orebro-kumla.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
