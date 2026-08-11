@@ -147,7 +147,41 @@ function OmOssPage() {
           </div>
         </section>
 
+        <section className="scroll-reveal mx-auto max-w-7xl px-4 pb-4 sm:px-6">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              {
+                src: ecuKretskort.url,
+                alt: "Öppnad motorstyrenhet (ECU) med kretskort under programmering",
+                caption: "Styrenheter · Programmering & reparation",
+              },
+              {
+                src: workshopVan,
+                alt: "Servicebil inne i Tuning Centers verkstad i Kumla",
+                caption: "Verkstaden i Kumla",
+              },
+            ].map((photo) => (
+              <figure
+                key={photo.src}
+                className="group relative aspect-[4/3] overflow-hidden rounded-[0.75rem] border border-border shadow-[0_24px_60px_-42px_rgba(41,32,24,.7)] sm:aspect-[3/2]"
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  loading="lazy"
+                  className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent" />
+                <figcaption className="absolute inset-x-0 bottom-0 p-4 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-background/90">
+                  {photo.caption}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
         <section className="scroll-reveal border-y border-border bg-surface">
+
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24">
             <div className="max-w-3xl">
               <p className="section-kicker">Utrustning & kvalitet</p>
