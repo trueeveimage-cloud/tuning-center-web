@@ -147,20 +147,19 @@ function TjansterPage() {
         </section>
 
         <section className="scroll-reveal mx-auto max-w-7xl px-4 pb-14 sm:px-6">
-          <figure className="relative aspect-[16/9] overflow-hidden rounded-[0.75rem] border border-border shadow-[0_24px_60px_-42px_rgba(41,32,24,.7)] sm:aspect-[21/7]">
-            <img
-              src={audiVit.url}
-              alt="Vit Audi A6 Allroad efter motoroptimering hos Tuning Center Örebro"
-              loading="lazy"
-              className="size-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/25 to-transparent" />
-            <figcaption className="absolute inset-y-0 left-0 flex max-w-md items-center p-6 text-sm leading-6 text-foreground/80 sm:p-10">
-              Varje jobb utgår från bilens egna förutsättningar – mätning, loggning och kontroll
-              före leverans.
-            </figcaption>
-          </figure>
+          <PhotoGallery
+            className="grid gap-4"
+            figureClassName="aspect-[16/9] sm:aspect-[21/7]"
+            photos={[
+              {
+                src: audiVit.url,
+                alt: "Vit Audi A6 Allroad efter motoroptimering och växellådsoptimering hos Tuning Center Örebro i Kumla",
+                caption: "Audi A6 Allroad · Optimering med mätning och loggning",
+              },
+            ]}
+          />
         </section>
+
 
         <section className="scroll-reveal mx-auto max-w-7xl px-4 pb-20 sm:px-6 sm:pb-24">
 
