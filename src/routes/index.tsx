@@ -15,22 +15,21 @@ import {
   Wrench,
   Zap,
 } from "lucide-react";
-import heroImg from "@/assets/motoroptimering-verkstad-orebro-hero.jpg";
-import workshopBmw from "@/assets/bmw-kodning-verkstad-kumla.png";
-import workshopMercedes from "@/assets/mercedes-bilservice-verkstad-kumla.webp";
-import audiSvart from "@/assets/audi-a6-motoroptimering.jpg.asset.json";
-import { PhotoGallery } from "@/components/site/PhotoGallery";
+import heroImg from "@/assets/hero-tuning.jpg";
+import workshopBmw from "@/assets/workshop-bmw.png";
+import workshopMercedes from "@/assets/workshop-mercedes.webp";
+import workshopVan from "@/assets/workshop-service-van.webp";
+import ecuProgramming from "@/assets/ecu-programming.jpeg";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ParallaxHeroImage } from "@/components/site/ParallaxHeroImage";
-import { BrandLogo } from "@/components/site/BrandLogo";
+import { BrandMark } from "@/components/site/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
-const title = "Motoroptimering Örebro & Kumla | Tuning Center Örebro";
+const title = "Tuning Center Örebro | Motoroptimering & chiptuning";
 const description =
-  "Motoroptimering, chiptuning, växellådsoptimering och bilservice i Kumla nära Örebro. Räkna ut din effektökning direkt med vår tuningkalkylator.";
-const ogImage = "https://tuningcenterorebro.se/__l5e/assets-v1/60025641-e50f-43ba-81d8-84fd81c73819/audi-a6-motoroptimering-orebro-kumla.jpg";
+  "Professionell motoroptimering, bilservice och programmering i Kumla nära Örebro. Räkna ut din effektökning direkt med vår tuningkalkylator.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -40,16 +39,11 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://tuningcenterorebro.se/" },
-      { property: "og:image", content: ogImage },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: ogImage },
     ],
-    links: [{ rel: "canonical", href: "https://tuningcenterorebro.se/" }],
   }),
   component: Index,
 });
-
 
 const services = [
   {
@@ -95,24 +89,18 @@ const reviews = [
 
 const workshopPhotos = [
   {
-    src: audiSvart.url,
-    alt: "Svart Audi A6 efter steg 1 motoroptimering utanför Tuning Center Örebros verkstad i Kumla",
-    caption: "Audi A6 · Motoroptimering steg 1",
-  },
-  {
     src: workshopBmw,
-    alt: "BMW på verkstadsgolvet i Kumla efter motoroptimering och kodning hos Tuning Center Örebro",
-    caption: "BMW · Optimering & kodning",
+    alt: "BMW efter arbete hos Tuning Center i Kumla",
+    className: "md:col-span-2 md:row-span-2",
   },
+  { src: workshopMercedes, alt: "Mercedes i Tuning Centers verkstad", className: "" },
+  { src: workshopVan, alt: "Servicebil inne i Tuning Centers verkstad", className: "" },
   {
-    src: workshopMercedes,
-    alt: "Mercedes inne i Tuning Center Örebros verkstad i Kumla under service och felsökning",
-    caption: "Mercedes · Service & felsökning",
+    src: ecuProgramming,
+    alt: "Motorstyrenhet under programmering hos Tuning Center Örebro",
+    className: "md:col-span-1 md:row-span-2",
   },
 ];
-
-
-
 
 function Index() {
   return (
@@ -120,7 +108,7 @@ function Index() {
       <Header />
       <main>
         <section className="relative isolate min-h-[44rem] overflow-hidden sm:min-h-[calc(100svh-4.75rem)]">
-          <ParallaxHeroImage src={heroImg} alt="Sportbil i verkstaden hos Tuning Center Örebro i Kumla inför motoroptimering" />
+          <ParallaxHeroImage src={heroImg} alt="Sportbil i verkstad hos Tuning Center Örebro" />
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(248,250,252,.99)_0%,rgba(248,250,252,.94)_34%,rgba(248,250,252,.58)_52%,rgba(248,250,252,.08)_78%)]" />
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(248,250,252,.35)_0%,rgba(248,250,252,.76)_52%,rgba(248,250,252,.97)_100%)] sm:hidden" />
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(248,250,252,.08)_0%,transparent_56%,rgba(248,250,252,.8)_100%)]" />
@@ -129,11 +117,12 @@ function Index() {
 
           <div className="mx-auto flex min-h-[44rem] max-w-7xl items-center px-4 py-16 sm:min-h-[calc(100svh-4.75rem)] sm:px-6 sm:py-20">
             <div className="max-w-3xl reveal-up">
-              <BrandLogo
-                variant="footer"
-                className="mb-7 w-[17rem] text-foreground sm:w-[26rem] lg:w-[30rem]"
-              />
-
+              <div className="mb-7 inline-flex items-center gap-3 border border-border/80 bg-background/76 px-4 py-3 shadow-[0_18px_45px_-30px_rgba(41,32,24,.6)] backdrop-blur-xl">
+                <BrandMark className="size-10" />
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Service · Programmering · Optimering
+                </span>
+              </div>
               <p className="section-kicker">
                 <span className="h-px w-8 bg-primary" /> Motoroptimering i Kumla
               </p>
@@ -235,12 +224,22 @@ function Index() {
                 programmering och motoroptimering steg 1–3.
               </p>
             </div>
-            <PhotoGallery
-              photos={workshopPhotos}
-              className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            />
-
-
+            <div className="mt-10 grid auto-rows-[16rem] gap-4 md:grid-cols-3 md:auto-rows-[18rem]">
+              {workshopPhotos.map((photo) => (
+                <figure
+                  key={photo.src}
+                  className={`group relative overflow-hidden rounded-[0.75rem] border border-border bg-background shadow-[0_24px_60px_-42px_rgba(41,32,24,.7)] ${photo.className}`}
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    loading="lazy"
+                    className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-70" />
+                </figure>
+              ))}
+            </div>
           </div>
         </section>
 
