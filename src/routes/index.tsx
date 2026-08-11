@@ -95,11 +95,6 @@ const workshopPhotos = [
   },
   { src: workshopMercedes, alt: "Mercedes i Tuning Centers verkstad", className: "" },
   { src: workshopVan, alt: "Servicebil inne i Tuning Centers verkstad", className: "" },
-  {
-    src: ecuProgramming,
-    alt: "Motorstyrenhet under programmering hos Tuning Center Örebro",
-    className: "md:col-span-1 md:row-span-2",
-  },
 ];
 
 function Index() {
@@ -273,6 +268,55 @@ function Index() {
                 <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-heat transition-all duration-300 group-hover:w-full" />
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="scroll-reveal border-y border-border bg-surface-2/55">
+          <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:py-24">
+            <figure className="group relative min-h-[24rem] overflow-hidden rounded-2xl border border-border bg-foreground shadow-[0_30px_80px_-48px_rgba(15,23,42,.75)] sm:min-h-[30rem]">
+              <img
+                src={ecuProgramming}
+                alt="Motorstyrenhet under programmering hos Tuning Center Örebro"
+                loading="lazy"
+                className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/10 to-transparent" />
+              <figcaption className="absolute bottom-0 left-0 p-6 text-sm font-semibold text-white sm:p-8">
+                ECU-programmering på verkstadsgolvet
+              </figcaption>
+            </figure>
+
+            <div className="max-w-xl lg:pl-6">
+              <p className="section-kicker">
+                <Wrench className="size-4" /> ECU-programmering & kodning
+              </p>
+              <h2 className="mt-3 text-4xl leading-none sm:text-5xl">
+                Kontroll över <span className="text-heat">varje signal.</span>
+              </h2>
+              <p className="mt-6 leading-7 text-muted-foreground">
+                Vi arbetar direkt med bilens styrenheter för noggrann felsökning, programmering och
+                kodning. Varje jobb utgår från bilens faktiska förutsättningar och verifieras innan
+                leverans.
+              </p>
+              <ul className="mt-7 grid gap-3 text-sm font-semibold text-foreground sm:grid-cols-2">
+                {[
+                  "Avancerad diagnos & felsökning",
+                  "Kodning för VAG & BMW",
+                  "ECU-programmering",
+                  "FRM-reparation vid behov",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3">
+                    <CheckCircle2 className="size-4 shrink-0 text-primary" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Button asChild size="lg" className="mt-8 h-12 rounded-full px-7">
+                <Link to="/kontakt">
+                  Prata med oss om din bil <ArrowRight />
+                </Link>
+              </Button>
+            </div>
           </div>
         </section>
 
