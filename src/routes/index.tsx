@@ -96,20 +96,21 @@ const reviews = [
 const workshopPhotos = [
   {
     src: audiSvart.url,
-    alt: "Svart Audi A6 utanför Tuning Center Örebros verkstad i Kumla",
-    caption: "Audi A6 · Steg 1",
+    alt: "Svart Audi A6 efter steg 1 motoroptimering utanför Tuning Center Örebros verkstad i Kumla",
+    caption: "Audi A6 · Motoroptimering steg 1",
   },
   {
     src: workshopBmw,
-    alt: "BMW efter arbete hos Tuning Center i Kumla",
+    alt: "BMW på verkstadsgolvet i Kumla efter motoroptimering och kodning hos Tuning Center Örebro",
     caption: "BMW · Optimering & kodning",
   },
   {
     src: workshopMercedes,
-    alt: "Mercedes i Tuning Centers verkstad",
-    caption: "Mercedes · Verkstadsarbete",
+    alt: "Mercedes inne i Tuning Center Örebros verkstad i Kumla under service och felsökning",
+    caption: "Mercedes · Service & felsökning",
   },
 ];
+
 
 
 
