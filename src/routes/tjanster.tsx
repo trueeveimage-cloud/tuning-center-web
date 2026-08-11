@@ -15,6 +15,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Button } from "@/components/ui/button";
 import audiVit from "@/assets/audi-allroad-chiptuning.jpg.asset.json";
+import { PhotoGallery } from "@/components/site/PhotoGallery";
 
 
 const title = "Tjänster | Motoroptimering & bilservice i Kumla, Örebro";
