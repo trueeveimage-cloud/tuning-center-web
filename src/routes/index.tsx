@@ -18,10 +18,7 @@ import {
 import heroImg from "@/assets/hero-tuning.jpg";
 import workshopBmw from "@/assets/workshop-bmw.png";
 import workshopMercedes from "@/assets/workshop-mercedes.webp";
-import workshopVan from "@/assets/workshop-service-van.webp";
 import audiSvart from "@/assets/audi-a6-svart.jpg.asset.json";
-import audiVit from "@/assets/audi-allroad-vit.jpg.asset.json";
-import ecuKretskort from "@/assets/ecu-kretskort.jpg.asset.json";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ParallaxHeroImage } from "@/components/site/ParallaxHeroImage";
@@ -99,26 +96,20 @@ const workshopPhotos = [
   {
     src: audiSvart.url,
     alt: "Svart Audi A6 utanför Tuning Center Örebros verkstad i Kumla",
-    className: "md:col-span-2 md:row-span-2",
-  },
-  {
-    src: audiVit.url,
-    alt: "Vit Audi A6 Allroad efter motoroptimering hos Tuning Center Örebro",
-    className: "",
-  },
-  {
-    src: ecuKretskort.url,
-    alt: "Öppnad motorstyrenhet (ECU) med kretskort under programmering",
-    className: "",
+    caption: "Audi A6 · Steg 1",
   },
   {
     src: workshopBmw,
     alt: "BMW efter arbete hos Tuning Center i Kumla",
-    className: "md:col-span-2",
+    caption: "BMW · Optimering & kodning",
   },
-  { src: workshopMercedes, alt: "Mercedes i Tuning Centers verkstad", className: "" },
-  { src: workshopVan, alt: "Servicebil inne i Tuning Centers verkstad", className: "" },
+  {
+    src: workshopMercedes,
+    alt: "Mercedes i Tuning Centers verkstad",
+    caption: "Mercedes · Verkstadsarbete",
+  },
 ];
+
 
 
 function Index() {
@@ -242,11 +233,11 @@ function Index() {
                 programmering och motoroptimering steg 1–3.
               </p>
             </div>
-            <div className="mt-10 grid auto-rows-[16rem] gap-4 md:grid-cols-3 md:auto-rows-[18rem]">
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {workshopPhotos.map((photo) => (
                 <figure
                   key={photo.src}
-                  className={`group relative overflow-hidden rounded-[0.75rem] border border-border bg-background shadow-[0_24px_60px_-42px_rgba(41,32,24,.7)] ${photo.className}`}
+                  className="group relative aspect-[4/3] overflow-hidden rounded-[0.75rem] border border-border bg-background shadow-[0_24px_60px_-42px_rgba(41,32,24,.7)]"
                 >
                   <img
                     src={photo.src}
@@ -254,10 +245,14 @@ function Index() {
                     loading="lazy"
                     className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-70" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent" />
+                  <figcaption className="absolute inset-x-0 bottom-0 p-4 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-background/90">
+                    {photo.caption}
+                  </figcaption>
                 </figure>
               ))}
             </div>
+
           </div>
         </section>
 

@@ -14,6 +14,8 @@ import {
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Button } from "@/components/ui/button";
+import audiVit from "@/assets/audi-allroad-vit.jpg.asset.json";
+
 
 const title = "Tjänster | Motoroptimering & bilservice i Kumla, Örebro";
 const description =
@@ -144,7 +146,24 @@ function TjansterPage() {
           </div>
         </section>
 
+        <section className="scroll-reveal mx-auto max-w-7xl px-4 pb-14 sm:px-6">
+          <figure className="relative aspect-[16/9] overflow-hidden rounded-[0.75rem] border border-border shadow-[0_24px_60px_-42px_rgba(41,32,24,.7)] sm:aspect-[21/7]">
+            <img
+              src={audiVit.url}
+              alt="Vit Audi A6 Allroad efter motoroptimering hos Tuning Center Örebro"
+              loading="lazy"
+              className="size-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/25 to-transparent" />
+            <figcaption className="absolute inset-y-0 left-0 flex max-w-md items-center p-6 text-sm leading-6 text-foreground/80 sm:p-10">
+              Varje jobb utgår från bilens egna förutsättningar – mätning, loggning och kontroll
+              före leverans.
+            </figcaption>
+          </figure>
+        </section>
+
         <section className="scroll-reveal mx-auto max-w-7xl px-4 pb-20 sm:px-6 sm:pb-24">
+
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
               <article
