@@ -18,10 +18,7 @@ import {
 import heroImg from "@/assets/hero-tuning.jpg";
 import workshopBmw from "@/assets/workshop-bmw.png";
 import workshopMercedes from "@/assets/workshop-mercedes.webp";
-import workshopVan from "@/assets/workshop-service-van.webp";
 import audiSvart from "@/assets/audi-a6-svart.jpg.asset.json";
-import audiVit from "@/assets/audi-allroad-vit.jpg.asset.json";
-import ecuKretskort from "@/assets/ecu-kretskort.jpg.asset.json";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ParallaxHeroImage } from "@/components/site/ParallaxHeroImage";
@@ -249,7 +246,7 @@ function Index() {
                     className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent" />
-                  <figcaption className="absolute inset-x-0 bottom-0 p-4 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/85">
+                  <figcaption className="absolute inset-x-0 bottom-0 p-4 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-background/90">
                     {photo.caption}
                   </figcaption>
                 </figure>
