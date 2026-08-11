@@ -14,6 +14,9 @@ import {
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { Button } from "@/components/ui/button";
+import ecuKretskort from "@/assets/ecu-kretskort.jpg.asset.json";
+import workshopVan from "@/assets/workshop-service-van.webp";
+
 
 const title = "Om Tuning Center Örebro | Verkstad i Kumla";
 const description =
