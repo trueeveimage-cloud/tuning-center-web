@@ -99,26 +99,20 @@ const workshopPhotos = [
   {
     src: audiSvart.url,
     alt: "Svart Audi A6 utanför Tuning Center Örebros verkstad i Kumla",
-    className: "md:col-span-2 md:row-span-2",
-  },
-  {
-    src: audiVit.url,
-    alt: "Vit Audi A6 Allroad efter motoroptimering hos Tuning Center Örebro",
-    className: "",
-  },
-  {
-    src: ecuKretskort.url,
-    alt: "Öppnad motorstyrenhet (ECU) med kretskort under programmering",
-    className: "",
+    caption: "Audi A6 · Steg 1",
   },
   {
     src: workshopBmw,
     alt: "BMW efter arbete hos Tuning Center i Kumla",
-    className: "md:col-span-2",
+    caption: "BMW · Optimering & kodning",
   },
-  { src: workshopMercedes, alt: "Mercedes i Tuning Centers verkstad", className: "" },
-  { src: workshopVan, alt: "Servicebil inne i Tuning Centers verkstad", className: "" },
+  {
+    src: workshopMercedes,
+    alt: "Mercedes i Tuning Centers verkstad",
+    caption: "Mercedes · Verkstadsarbete",
+  },
 ];
+
 
 
 function Index() {
