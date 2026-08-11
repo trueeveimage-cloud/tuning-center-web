@@ -120,7 +120,7 @@ function Index() {
       <Header />
       <main>
         <section className="relative isolate min-h-[44rem] overflow-hidden sm:min-h-[calc(100svh-4.75rem)]">
-          <ParallaxHeroImage src={heroImg} alt="Sportbil i verkstad hos Tuning Center Örebro" />
+          <ParallaxHeroImage src={heroImg} alt="Sportbil i verkstaden hos Tuning Center Örebro i Kumla inför motoroptimering" />
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(248,250,252,.99)_0%,rgba(248,250,252,.94)_34%,rgba(248,250,252,.58)_52%,rgba(248,250,252,.08)_78%)]" />
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(248,250,252,.35)_0%,rgba(248,250,252,.76)_52%,rgba(248,250,252,.97)_100%)] sm:hidden" />
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(248,250,252,.08)_0%,transparent_56%,rgba(248,250,252,.8)_100%)]" />
