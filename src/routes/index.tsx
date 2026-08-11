@@ -235,25 +235,11 @@ function Index() {
                 programmering och motoroptimering steg 1–3.
               </p>
             </div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {workshopPhotos.map((photo) => (
-                <figure
-                  key={photo.src}
-                  className="group relative aspect-[4/3] overflow-hidden rounded-[0.75rem] border border-border bg-background shadow-[0_24px_60px_-42px_rgba(41,32,24,.7)]"
-                >
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    loading="lazy"
-                    className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent" />
-                  <figcaption className="absolute inset-x-0 bottom-0 p-4 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-background/90">
-                    {photo.caption}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
+            <PhotoGallery
+              photos={workshopPhotos}
+              className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            />
+
 
           </div>
         </section>
